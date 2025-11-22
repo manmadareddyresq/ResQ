@@ -5,183 +5,71 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ResQ — Investor Brief</title>
 
-  <!-- NEW PREMIUM UI THEME (Neumorphism + Glass + Neon Accents) -->
   <style>
-    :root {
-      --accent: #ff2e4c;
-      --accent-soft: #ff516a;
-      --glass: rgba(255,255,255,0.12);
-      --glass-border: rgba(255,255,255,0.18);
-      --text: #e9f1ff;
-      --bg1: #020617;
-      --bg2: #0b1326;
-      --card-bg: rgba(255,255,255,0.06);
-    }
-
     body {
-      margin: 0;
-      font-family: "Inter", Arial, sans-serif;
-      background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 60%, #000 100%);
-      color: var(--text);
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: #f2f5f9;
+        color: #1a1a1a;
+        line-height: 1.6;
     }
-
-    /* Header */
     header {
-      padding: 28px 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--glass-border);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        background: linear-gradient(135deg, #005bea, #00c6fb);
+        color: white;
+        padding: 60px 20px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
-    .brand {
-      display: flex;
-      gap: 14px;
-      align-items: center;
+    header h1 {
+        font-size: 3rem;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
     }
-    .logo {
-      width: 60px;
-      height: 60px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 22px;
-      font-weight: 900;
-      box-shadow: 0 0 22px rgba(255,46,76,0.6);
+    header p {
+        font-size: 1.3rem;
+        opacity: 0.9;
     }
-    h1 { margin: 0; font-size: 24px; font-weight: 800; }
-    .tag { font-size: 13px; color: #b7c4d6; }
-
-    /* Hero Section */
-    .hero {
-      padding: 60px 6%;
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      gap: 40px;
-      align-items: center;
+    section {
+        padding: 50px 20px;
+        max-width: 1200px;
+        margin: auto;
     }
-    .hero-card {
-      background: var(--card-bg);
-      padding: 36px;
-      border-radius: 18px;
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(18px);
-      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    h2 {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #004aad;
     }
-    .eyebrow {
-      color: var(--accent);
-      background: rgba(255,46,76,0.12);
-      padding: 6px 14px;
-      border-radius: 50px;
-      font-size: 13px;
-      font-weight: 700;
-      display: inline-block;
+    .box, .box-grid div {
+        background: white;
+        padding: 22px;
+        border-radius: 14px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        margin-bottom: 18px;
+        font-size: 1.05rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .lead {
-      font-size: 32px;
-      font-weight: 800;
-      margin: 18px 0;
+    .box:hover, .box-grid div:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
-
-    .btn {
-      padding: 14px 20px;
-      background: var(--accent);
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      color: white;
-      box-shadow: 0 0 14px rgba(255,46,76,0.6);
-      transition: 0.2s;
+    .box-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 22px;
     }
-    .btn:hover { transform: scale(1.04); }
-
-    .btn.secondary {
-      background: transparent;
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      box-shadow: none;
+    ul {
+        padding-left: 20px;
     }
-
-    .content {
-      padding: 0 6%;
-      margin-top: 40px;
-      max-width: 1300px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .section-title {
-      font-size: 26px;
-      color: var(--accent);
-      font-weight: 800;
-      margin: 0 0 14px;
-      text-transform: uppercase;
-    }
-
-    .box {
-      background: var(--card-bg);
-      border-radius: 16px;
-      border: 1px solid var(--glass-border);
-      padding: 24px;
-      backdrop-filter: blur(16px);
-      margin-bottom: 24px;
-      box-shadow: 0 6px 30px rgba(0,0,0,0.5);
-    }
-
-    ul.clean {
-      margin: 12px 0 0 20px;
-      padding: 0;
-      line-height: 1.7;
-      color: #dde8f7;
-      font-size: 16px;
-    }
-
-    /* Split Grid Sections */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-
-    /* Download box */
-    .download-box {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 16px;
-      text-align: center;
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(14px);
-      margin-top: 20px;
-    }
-    .download-btn {
-      color: white;
-      font-weight: 800;
-      text-decoration: none;
-      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
-      padding: 14px 22px;
-      border-radius: 14px;
-      display: inline-block;
-      margin-top: 10px;
-      box-shadow: 0 0 20px rgba(255,46,76,0.55);
-    }
-
     footer {
-      padding: 30px;
-      text-align: center;
-      margin-top: 50px;
-      background: rgba(0,0,0,0.6);
-      border-top: 1px solid var(--glass-border);
-      color: #9fb3c8;
-      font-size: 14px;
+        text-align: center;
+        padding: 30px;
+        background: #0a0a0a;
+        color: #dcdcdc;
+        margin-top: 40px;
+        font-size: 0.95rem;
     }
-  </style>
+</style>
 </head>
 <body>
 
@@ -190,7 +78,7 @@
     <div class="logo">RQ</div>
     <div>
       <h1>ResQ — Emergency Services, On‑Demand</h1>
-      <div class="tag">Because Every Second Matters • Project Brief</div>
+      <div class="tag">Because Every Second Matters • Investor Brief</div>
     </div>
   </div>
   <div class="tag">Presented by <strong>Manmada Reddy</strong></div>
@@ -199,186 +87,280 @@
 <section class="hero">
   <div class="hero-card">
     <div class="eyebrow">Project Overview</div>
-    <div class="lead">India’s First Unified Emergency Response Platform</div>
-    <p>Instant ambulance, fire & rescue response with real‑time GPS tracking, transparent pricing and both 108/102 government and private integrations.</p>
+    <div class="lead">India’s First AI-First Emergency Response Platform</div>
+    <p>ResQ combines real‑time emergency dispatch with AI-driven routing, ETA optimization and automated triage — integrating government (108/102) and private providers into a single, investor-grade platform.</p>
 
     <div style="margin-top:20px; display:flex; gap:14px;">
       <button class="btn">Download Full PDF</button>
       <button class="btn secondary">Contact Founder</button>
+    </div>
+
+    <div style="margin-top:20px;display:flex;gap:12px;align-items:center">
+      <div class="metric">Pilot: 1 city</div>
+      <div class="metric">MVP: 90–120 days</div>
+      <div class="metric">Funding ask: ₹25–50 L</div>
     </div>
   </div>
 
   <div class="download-box">
     <h3>Download Project Brief</h3>
     <a class="download-btn" href="/mnt/data/ResQ.pdf" target="_blank">Download ResQ.pdf</a>
-    <p style="margin-top:10px; font-size:14px;">Email: <strong>manmadareddy61@gmail.com</strong></p>
+    <p style="margin-top:10px;font-size:14px">Email: <strong>manmadareddy61@gmail.com</strong></p>
   </div>
 </section>
 
 <div class="content">
+  <div class="two-col">
+    <div>
+      <h2 class="section-title">Founder Story</h2>
+      <div class="box">
+        <p><strong>Manmada Reddy</strong> — Former B.Tech CSE (AI/ML) student at LPU. Dropped out in 2nd year, restarted studies with BBA at UCMH, JNTUH. Growing up in Hyderabad, I repeatedly saw ambulances stuck in traffic while patients deteriorated. That injustice sparked ResQ.</p>
+        <p><strong>Why me?</strong> Technical background in AI/ML, operational focus, and lived exposure to the emergency gaps in Indian cities. I built this project with a simple aim: <em>reduce preventable deaths by getting help to people faster.</em></p>
+      </div>
 
-  <h2 class="section-title">Vision</h2>
-  <div class="box">
-    <ul class="clean">
-      <li>Fix India's broken emergency response system with real-time tracking and transparency.</li>
-      <li>Create a single platform for ambulance, fire and rescue services.</li>
-      <li>Integrated government + private emergency vehicle ecosystem.</li>
-    </ul>
-  </div>
+      <h2 class="section-title">Vision & Mission</h2>
+      <div class="box">
+        <strong>Vision:</strong>
+        <ul class="clean">
+          <li>India's first unified, AI-driven emergency response ecosystem.</li>
+          <li>Instant requests and reliable tracking across government & private fleets.</li>
+        </ul>
+        <strong>Mission:</strong>
+        <ul class="clean">
+          <li>Reduce emergency response time using AI for routing, demand forecasting and automated triage.</li>
+          <li>Bring transparency, verified partners, and measurable outcomes to emergency response.</li>
+        </ul>
+      </div>
 
-  <h2 class="section-title">The Problem</h2>
-  <div class="box">
-    <ul class="clean">
-      <li>No real-time emergency tracking in most cities.</li>
-      <li>108/102 delays due to manual dispatching.</li>
-      <li>Unregulated private ambulance pricing.</li>
-      <li>Poor tech & no public-facing emergency platform.</li>
-    </ul>
-  </div>
+      <h2 class="section-title">Problem Statement</h2>
+      <div class="box">
+        <ul class="clean">
+          <li>No real-time ambulance/fire tracking in most Indian cities.</li>
+          <li>Long delays in manual dispatching (108/102).</li>
+          <li>Unclear choices and unregulated private pricing.</li>
+          <li>Poor visibility for families — causing panic and preventable deaths.</li>
+        </ul>
+      </div>
 
-  <h2 class="section-title">Our Solution — One Emergency App</h2>
-  <div class="box">
-    <ul class="clean">
-      <li>Instant booking of nearest emergency vehicle within 10 km.</li>
-      <li>Live GPS tracking + ETA + notifications.</li>
-      <li>Govt (free) & Private (paid) toggle.</li>
-      <li>Transparent pricing, verified providers.</li>
-      <li>Ratings, reviews, complete history & documentation.</li>
-    </ul>
-  </div>
+      <h2 class="section-title">Our Solution</h2>
+      <div class="box">
+        <ul class="clean">
+          <li>One app: Ambulance, Fire & Rescue — live GPS, ETA, verified providers.</li>
+          <li>AI-first features: predictive routing, ETA optimization, demand forecasting, automated triage, and fraud detection.</li>
+          <li>Hybrid model: Govt (free) + Private (paid) with transparent pricing and invoicing.</li>
+        </ul>
+      </div>
 
-  <h2 class="section-title">Core App Modules (MVP)</h2>
-  <div class="grid-2">
-    <div class="box"><strong>User App</strong><br>Book, track, contact driver, SOS</div>
-    <div class="box"><strong>Driver App</strong><br>Accept rides, navigate, update status</div>
-    <div class="box"><strong>Admin Panel</strong><br>Assign rides, verify partners, monitor realtime</div>
-    <div class="box"><strong>Backend</strong><br>Realtime sync, cloud messaging, GPS APIs</div>
-  </div>
-
-  <h2 class="section-title">Why We'll Succeed</h2>
-  <div class="grid-2">
-    <div class="box">
-      <strong>Strategy</strong>
-      <ul class="clean">
-        <li>Govt (free) & Private (paid) split model.</li>
-        <li>GPS tracking from day one.</li>
-        <li>KYC verified partners + ratings.</li>
-        <li>Pilot → Scale → Expand across cities.</li>
-      </ul>
+      <h2 class="section-title">AI Features (Differentiator)</h2>
+      <div class="box">
+        <ul class="clean">
+          <li><strong>Predictive Routing:</strong> AI finds fastest path considering live traffic, roadblocks, and historical delay patterns.</li>
+          <li><strong>ETA Optimization:</strong> ML models continuously improve ETAs using live telemetry from vehicles.</li>
+          <li><strong>Automated Triage:</strong> NLP-based short triage to prioritise critical cases and trigger correct vehicle type.</li>
+          <li><strong>Demand Forecasting:</strong> Anticipate hotspots & preposition vehicles during events or peak hours.</li>
+          <li><strong>Fraud & Quality Detection:</strong> Automatically flag suspicious pricing or unverified operators.</li>
+        </ul>
+      </div>
     </div>
-    <div class="box">
-      <strong>Market</strong>
-      <ul class="clean">
-        <li>40,000+ ambulances; only 10% digitized.</li>
-        <li>Huge gap in Tier‑2/3 cities.</li>
-        <li>Smart City + GovTech investment rising.</li>
-      </ul>
+
+    <aside style="width:420px">
+      <div class="box">
+        <h3 style="margin-top:0">Investor Snapshot</h3>
+        <ul class="clean">
+          <li>Pilot city: Hyderabad</li>
+          <li>Initial team: 3–5</li>
+          <li>Funding ask (MVP): ₹25–50 L</li>
+          <li>Use of funds: Tech 40%, Ops 35%, Partnerships 15%, Legal 10%</li>
+        </ul>
+      </div>
+
+      <div class="box" style="margin-top:18px">
+        <h3 style="margin-top:0">Market Opportunity</h3>
+        <p>India has 40,000+ ambulances with only ~10% digitised. GovTech & HealthTech investments are increasing — ResQ targets Tier‑2/3 scale where digital EMS is nascent.</p>
+        <p style="margin-top:8px;font-size:14px;color:#cfdff0">(See full market data in the project PDF)</p>
+      </div>
+
+      <div class="box" style="margin-top:18px">
+        <h3 style="margin-top:0">Quick Metrics (Projected)</h3>
+        <div class="stack">
+          <div class="metric"><strong>Year 1 (pilot):</strong> 5k trips, ₹10–15 L revenue (projected)</div>
+          <div class="metric"><strong>Year 2:</strong> Expand to 3 cities — 40k trips</div>
+          <div class="metric"><strong>Year 3:</strong> 100k+ trips, hospital dashboards & govt contracts</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <h2 class="section-title">Market Size (TAM / SAM / SOM)</h2>
+  <div class="box">
+    <ul class="clean">
+      <li><strong>TAM:</strong> GovTech + HealthTech market in India (long-term) — large multi‑billion opportunity as digital health scales.</li>
+      <li><strong>SAM:</strong> Urban ambulance & emergency transport market — initial focus on top 50 cities.</li>
+      <li><strong>SOM:</strong> Pilot-to-scale target — capture meaningful share in 5–10 pilot cities within 3 years.</li>
+    </ul>
+    <p style="margin-top:12px;font-size:14px;color:#cfdff0">Numbers here are conservative projections for investor discussion and will be refined with market research and pilot data.</p>
+  </div>
+
+  <h2 class="section-title">Competitive Analysis</h2>
+  <div class="box">
+    <table style="width:100%;border-collapse:collapse;color:#062934;background:#fff;border-radius:8px;overflow:hidden">
+      <thead>
+        <tr style="background:linear-gradient(90deg,#ff6b6b,#ff2e4c);color:white"><th style="padding:12px;text-align:left">Competitor</th><th style="padding:12px;text-align:left">What they tried</th><th style="padding:12px;text-align:left">Why they struggled</th></tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:12px">AmbiPalm</td><td style="padding:12px">City-wide ambulance network</td><td style="padding:12px">App issues & low trust</td></tr>
+        <tr style="background:#f7f9fb"><td style="padding:12px">StanPlus</td><td style="padding:12px">Premium B2B ambulances</td><td style="padding:12px">Not citizen-focused</td></tr>
+        <tr><td style="padding:12px">Ziqitza</td><td style="padding:12px">Govt integration</td><td style="padding:12px">No public-facing booking app</td></tr>
+        <tr style="background:#f7f9fb"><td style="padding:12px">LifeLine Now</td><td style="padding:12px">Tracking pilot</td><td style="padding:12px">Low adoption — unclear UX</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section-title">12‑Month Roadmap</h2>
+  <div class="box">
+    <ol class="clean">
+      <li><strong>Months 0–3:</strong> Build Android MVP, onboarding 30–50 ambulances in pilot city, basic AI routing prototype.</li>
+      <li><strong>Months 3–6:</strong> Launch pilot in Hyderabad, gather trip data, refine ETA model, sign 1–2 hospital partners.</li>
+      <li><strong>Months 6–9:</strong> Add payments, multilingual support, improve AI models, start govt liaison for 108/102 data sharing.</li>
+      <li><strong>Months 9–12:</strong> Scale to 2–3 additional cities, introduce hospital dashboards & subscription pilots.</li>
+    </ol>
+  </div>
+
+  <h2 class="section-title">Team & Roles Needed</h2>
+  <div class="box">
+    <ul class="clean">
+      <li>App Developer (Flutter/React Native)</li>
+      <li>Backend Engineer (Node.js / Firebase)</li>
+      <li>AI Engineer (ML models for routing & ETA)</li>
+      <li>Operations Lead (on-ground partner onboarding)</li>
+      <li>Government Liaison & Legal</li>
+    </ul>
+    <p style="margin-top:12px;font-size:14px;color:#cfdff0">We plan to start lean (2–3 people) and hire with funding.</p>
+  </div>
+
+  <h2 class="section-title">Funding Requirements & Use of Funds</h2>
+  <div class="box">
+    <ul class="clean">
+      <li><strong>Ask (MVP):</strong> ₹25–50 L</li>
+      <li><strong>Use:</strong>
+        <ul>
+          <li>Tech development (40%) — app, backend, AI models</li>
+          <li>Operations (35%) — partner onboarding, pilot ops, field team</li>
+          <li>Partnerships & marketing (15%) — hospitals, NGOs, smart city teams</li>
+          <li>Legal & compliance (10%)</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">Risk & Mitigation</h2>
+  <div class="box">
+    <ul class="clean">
+      <li><strong>Regulatory / Govt integration:</strong> Mitigate via early liaison and pilot SLAs with clear gov/private splits.</li>
+      <li><strong>On-ground execution:</strong> Start with one city to build operational depth before scaling.</li>
+      <li><strong>Trust & quality:</strong> KYC verification, ratings, and partner SLAs.</li>
+      <li><strong>Technical:</strong> Build robust fallback flows (SMS/phone) and redundant routing providers.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">Traction & Validation (Early)</h2>
+  <div class="box">
+    <ul class="clean">
+      <li>Problem interviews with 30+ families and 10 hospitals in Hyderabad (qualitative validation).</li>
+      <li>MOUs in progress with 2 private ambulance operators for pilot onboarding.</li>
+      <li>Pilot plan prepared with operational SOPs, driver KYC checklist and partner revenue sharing model.</li>
+    </ul>
+    <p style="margin-top:12px;font-size:14px;color:#cfdff0">We will update traction numbers after pilot launch and share an investor dashboard.</p>
+  </div>
+
+  <h2 class="section-title">Pitch Deck Summary</h2>
+  <div class="box">
+    <p><strong>One slide: </strong>ResQ — AI-first emergency response aggregator for India. Pilot Hyderabad, govt + private hybrid model, fast MVP, clear revenue from private dispatch and hospital subscriptions, social impact at scale.</p>
+  </div>
+
+  <h2 class="section-title">Investor FAQ</h2>
+  <div class="box">
+    <ul class="clean">
+      <li><strong>Q:</strong> Why trust a student-led startup?<br><strong>A:</strong> Student founders are fast, resourceful and close to ground problems. We balance technical skills with lean execution and will hire experienced operators as funds are raised.</li>
+      <li><strong>Q:</strong> How will you integrate with 108/102?<br><strong>A:</strong> Start with data-sharing pilots and Smart City liaisons; maintain a transparent split so govt flows remain intact.</li>
+      <li><strong>Q:</strong> What are exit paths?<br><strong>A:</strong> M&A with larger digital health players, strategic partnerships with hospital chains, or public sector contracts.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">Next Steps for Investors</h2>
+  <div class="box">
+    <ol class="clean">
+      <li>Download the full project PDF (below) and review the MVP plan.</li>
+      <li>Request a short demo call (15–20 mins) with the founder.</li>
+      <li>Consider pilot funding to run the Hyderabad MVP (₹25–50 L).</li>
+    </ol>
+    <div style="margin-top:12px">
+      <a class="download-btn" href="/mnt/data/ResQ.pdf" target="_blank">Download Full PDF</a>
     </div>
   </div>
 
-  <h2 class="section-title">Business Model</h2>
-  <div class="box">
-    <ul class="clean">
-      <li>Ride commissions (10–20%).</li>
-      <li>Hospital subscriptions.</li>
-      <li>Govt 108/102 integration contracts.</li>
-      <li>Corporate & NGO safety plans.</li>
-      <li>Future: insurance tie-ups, diagnostics transport.</li>
-    </ul>
-  </div>
-
-  <h2 class="section-title">MVP Roadmap (90–120 Days)</h2>
-  <div class="box">
-    <ul class="clean">
-      <li>Android MVP (User + Driver)</li>
-      <li>Provider onboarding & KYC</li>
-      <li>Multilingual + payments</li>
-      <li>Smart City integrations</li>
-    </ul>
-  </div>
-
-  <h2 class="section-title">Tech Stack</h2>
-  <div class="box">
-    <ul class="clean">
-      <li>Flutter / React Native</li>
-      <li>Firebase / Node.js</li>
-      <li>Firestore / MongoDB</li>
-      <li>Google Maps / MapMyIndia</li>
-      <li>Razorpay / Paytm</li>
-    </ul>
-  </div>
-
-  <h2 class="section-title">Contact & Founder</h2>
+  <h2 class="section-title">Contact</h2>
   <div class="box">
     <p><strong>Founder:</strong> Manmada Reddy</p>
-    <p><strong>Email:</strong> <span style="color:var(--accent)">manmadareddy61@gmail.com</span></p>
+    <p><strong>Email:</strong> <a href="mailto:manmadareddy61@gmail.com" style="color:#ffb7c0">manmadareddy61@gmail.com</a></p>
   </div>
 </div>
 
 <footer>
-  © 2025 ResQ Emergency Services • Designed by <strong>Manmada Reddy</strong>
+  © 2025 ResQ Emergency Services • Presented & Designed by <strong>Manmada Reddy</strong>
 </footer>
 
-  <!-- Founder Story Section -->
-  <section class="investor-about">
-    <h2>Founder Story: Why I Started ResQ</h2>
-    <div class="box">
-      <p><strong>Founder:</strong> Manmada Reddy</p>
-      <p>Former B.Tech CSE (AI & ML) student at LPU, later transitioned to BBA at UCMH, JNTUH. Witnessing ambulances stuck in heavy Hyderabad traffic inspired the creation of ResQ.</p>
-      <p><strong>My motivation:</strong> No one should die because help couldn't reach them on time.</p>
-    </div>
-  </section>
-
-  <!-- Vision Section -->
-  <section class="investor-vision">
-    <h2>Vision</h2>
-    <div class="box">
-      <p>ResQ aims to fix India's emergency response gap by offering a unified platform for real-time emergency vehicle access.</p>
-      <ul>
-        <li>Live GPS tracking</li>
-        <li>ETA estimates</li>
-        <li>Transparent private ambulance pricing</li>
-        <li>Verified providers</li>
-        <li>Free access to 108/102 services</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- Motivation -->
-  <section class="investor-motivation">
-    <h2>What Motivated This Idea?</h2>
-    <div class="box">
-      <p>In Hyderabad, ambulances struggle through traffic every day. This repeated tragedy inspired me to build a solution that saves lives.</p>
-    </div>
-  </section>
-
-  <!-- Problem Section -->
-  <section class="investor-problem">
-    <h2>The Problem</h2>
+  <!-- AI Advantage Section -->
+  <section>
+    <h2>India’s First AI-Powered Emergency Response Platform</h2>
     <div class="box-grid">
-      <div class="box">No real-time ambulance tracking</div>
-      <div class="box">Slow manual dispatching (108/102)</div>
-      <div class="box">Unregulated private pricing</div>
-      <div class="box">No unified emergency platform</div>
-      <div class="box">Tech infrastructure gaps</div>
-      <div class="box">Preventable deaths & panic</div>
+      <div class="box">AI-based predictive dispatch: Assigns nearest available unit proactively</div>
+      <div class="box">Traffic-aware routing using live congestion data</div>
+      <div class="box">Automated triage suggestions based on symptoms</div>
+      <div class="box">Anomaly detection for fraudulent or low-quality operators</div>
+      <div class="box">Emergency heatmap analytics for city authorities</div>
+      <div class="box">Demand forecasting to reduce wait-times by 40–60%</div>
     </div>
   </section>
 
-  <!-- Solution Section -->
-  <section class="investor-solution">
-    <h2>Our Solution</h2>
+  <!-- Market Size Section -->
+  <section>
+    <h2>Market Size (TAM • SAM • SOM)</h2>
     <div class="box">
-      <ul>
-        <li>Instant emergency booking</li>
-        <li>Live GPS + family notifications</li>
-        <li>Govt/Private toggle</li>
-        <li>Transparent fare system</li>
-        <li>SOS one-tap safety</li>
-        <li>Ride history & invoices</li>
-      </ul>
+      <p><strong>TAM:</strong> Entire Indian emergency response + health mobility market (~$8B+)</p>
+      <p><strong>SAM:</strong> Urban + Tier-2 ambulance + fire dispatch market (~$1.5B)</p>
+      <p><strong>SOM:</strong> Initial capture target of Hyderabad + Telangana (~₹300–400 Cr)</p>
     </div>
   </section>
+
+  <!-- Funding Section -->
+  <section>
+    <h2>Funding Requirement (Pre-Seed)</h2>
+    <div class="box-grid">
+      <div class="box"><strong>₹25–50 Lakhs</strong> to build MVP + pilot</div>
+      <div class="box">40% — Technology (App + Backend + AI Models)</div>
+      <div class="box">30% — Government & hospital integrations</div>
+      <div class="box">20% — Operations & onboarding</div>
+      <div class="box">10% — Marketing + awareness + brand</div>
+    </div>
+  </section>
+
+  <!-- Risks Section -->
+  <section>
+    <h2>Risks & Mitigation</h2>
+    <div class="box-grid">
+      <div class="box"><strong>Risk:</strong> Government delays<br><strong>Mitigation:</strong> Hybrid model + private operators</div>
+      <div class="box"><strong>Risk:</strong> Low initial trust<br><strong>Mitigation:</strong> Verified partners + insurance tie-ups</div>
+      <div class="box"><strong>Risk:</strong> Scaling too early<br><strong>Mitigation:</strong> 1-city operational depth strategy</div>
+      <div class="box"><strong>Risk:</strong> Competition<br><strong>Mitigation:</strong> AI-first model + fastest ETA guarantees</div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <footer>
+    © 2025 ResQ | Built & Conceptualized by <strong>Manmada Reddy</strong><br>
+    Contact: <strong>manmadareddy61@gmail.com</strong>
+  </footer>
 
 </body>
 </html>
