@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ResQ — Investor Brief</title>
+
+  <!-- NEW PREMIUM UI THEME (Neumorphism + Glass + Neon Accents) -->
+  <style>
+    :root {
+      --accent: #ff2e4c;
+      --accent-soft: #ff516a;
+      --glass: rgba(255,255,255,0.12);
+      --glass-border: rgba(255,255,255,0.18);
+      --text: #e9f1ff;
+      --bg1: #020617;
+      --bg2: #0b1326;
+      --card-bg: rgba(255,255,255,0.06);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", Arial, sans-serif;
+      background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 60%, #000 100%);
+      color: var(--text);
+    }
+
+    /* Header */
+    header {
+      padding: 28px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--glass-border);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    .brand {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 22px;
+      font-weight: 900;
+      box-shadow: 0 0 22px rgba(255,46,76,0.6);
+    }
+    h1 { margin: 0; font-size: 24px; font-weight: 800; }
+    .tag { font-size: 13px; color: #b7c4d6; }
+
+    /* Hero Section */
+    .hero {
+      padding: 60px 6%;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 40px;
+      align-items: center;
+    }
+    .hero-card {
+      background: var(--card-bg);
+      padding: 36px;
+      border-radius: 18px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    }
+    .eyebrow {
+      color: var(--accent);
+      background: rgba(255,46,76,0.12);
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 700;
+      display: inline-block;
+    }
+    .lead {
+      font-size: 32px;
+      font-weight: 800;
+      margin: 18px 0;
+    }
+
+    .btn {
+      padding: 14px 20px;
+      background: var(--accent);
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      color: white;
+      box-shadow: 0 0 14px rgba(255,46,76,0.6);
+      transition: 0.2s;
+    }
+    .btn:hover { transform: scale(1.04); }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      box-shadow: none;
+    }
+
+    .content {
+      padding: 0 6%;
+      margin-top: 40px;
+      max-width: 1300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .section-title {
+      font-size: 26px;
+      color: var(--accent);
+      font-weight: 800;
+      margin: 0 0 14px;
+      text-transform: uppercase;
+    }
+
+    .box {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      margin-bottom: 24px;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.5);
+    }
+
+    ul.clean {
+      margin: 12px 0 0 20px;
+      padding: 0;
+      line-height: 1.7;
+      color: #dde8f7;
+      font-size: 16px;
+    }
+
+    /* Split Grid Sections */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    /* Download box */
+    .download-box {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 16px;
+      text-align: center;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(14px);
+      margin-top: 20px;
+    }
+    .download-btn {
+      color: white;
+      font-weight: 800;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+      padding: 14px 22px;
+      border-radius: 14px;
+      display: inline-block;
+      margin-top: 10px;
+      box-shadow: 0 0 20px rgba(255,46,76,0.55);
+    }
+
+    footer {
+      padding: 30px;
+      text-align: center;
+      margin-top: 50px;
+      background: rgba(0,0,0,0.6);
+      border-top: 1px solid var(--glass-border);
+      color: #9fb3c8;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">RQ</div>
+    <div>
+      <h1>ResQ — Emergency Services, On‑Demand</h1>
+      <div class="tag">Because Every Second Matters • Project Brief</div>
+    </div>
+  </div>
+  <div class="tag">Presented by <strong>Manmada Reddy</strong></div>
+</header>
+
+<section class="hero">
+  <div class="hero-card">
+    <div class="eyebrow">Project Overview</div>
+    <div class="lead">India’s First Unified Emergency Response Platform</div>
+    <p>Instant ambulance, fire & rescue response with real‑time GPS tracking, transparent pricing and both 108/102 government and private integrations.</p>
+
+    <div style="margin-top:20px; display:flex; gap:14px;">
+      <button class="btn">Download Full PDF</button>
+      <button class="btn secondary">Contact Founder</button>
+    </div>
+  </div>
+
+  <div class="download-box">
+    <h3>Download Project Brief</h3>
+    <a class="download-btn" href="/mnt/data/ResQ.pdf" target="_blank">Download ResQ.pdf</a>
+    <p style="margin-top:10px; font-size:14px;">Email: <strong>manmadareddy61@gmail.com</strong></p>
+  </div>
+</section>
+
+<div class="content">
+
+  <h2 class="section-title">Vision</h2>
+  <div class="box">
+    <ul class="clean">
+      <li>Fix India's broken emergency response system with real-time tracking and transparency.</li>
+      <li>Create a single platform for ambulance, fire and rescue services.</li>
+      <li>Integrated government + private emergency vehicle ecosystem.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">The Problem</h2>
+  <div class="box">
+    <ul class="clean">
+      <li>No real-time emergency tracking in most cities.</li>
+      <li>108/102 delays due to manual dispatching.</li>
+      <li>Unregulated private ambulance pricing.</li>
+      <li>Poor tech & no public-facing emergency platform.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">Our Solution — One Emergency App</h2>
+  <div class="box">
+    <ul class="clean">
+      <li>Instant booking of nearest emergency vehicle within 10 km.</li>
+      <li>Live GPS tracking + ETA + notifications.</li>
+      <li>Govt (free) & Private (paid) toggle.</li>
+      <li>Transparent pricing, verified providers.</li>
+      <li>Ratings, reviews, complete history & documentation.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">Core App Modules (MVP)</h2>
+  <div class="grid-2">
+    <div class="box"><strong>User App</strong><br>Book, track, contact driver, SOS</div>
+    <div class="box"><strong>Driver App</strong><br>Accept rides, navigate, update status</div>
+    <div class="box"><strong>Admin Panel</strong><br>Assign rides, verify partners, monitor realtime</div>
+    <div class="box"><strong>Backend</strong><br>Realtime sync, cloud messaging, GPS APIs</div>
+  </div>
+
+  <h2 class="section-title">Why We'll Succeed</h2>
+  <div class="grid-2">
+    <div class="box">
+      <strong>Strategy</strong>
+      <ul class="clean">
+        <li>Govt (free) & Private (paid) split model.</li>
+        <li>GPS tracking from day one.</li>
+        <li>KYC verified partners + ratings.</li>
+        <li>Pilot → Scale → Expand across cities.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <strong>Market</strong>
+      <ul class="clean">
+        <li>40,000+ ambulances; only 10% digitized.</li>
+        <li>Huge gap in Tier‑2/3 cities.</li>
+        <li>Smart City + GovTech investment rising.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section-title">Business Model</h2>
+  <div class="box">
+    <ul class="clean">
+      <li>Ride commissions (10–20%).</li>
+      <li>Hospital subscriptions.</li>
+      <li>Govt 108/102 integration contracts.</li>
+      <li>Corporate & NGO safety plans.</li>
+      <li>Future: insurance tie-ups, diagnostics transport.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">MVP Roadmap (90–120 Days)</h2>
+  <div class="box">
+    <ul class="clean">
+      <li>Android MVP (User + Driver)</li>
+      <li>Provider onboarding & KYC</li>
+      <li>Multilingual + payments</li>
+      <li>Smart City integrations</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">Tech Stack</h2>
+  <div class="box">
+    <ul class="clean">
+      <li>Flutter / React Native</li>
+      <li>Firebase / Node.js</li>
+      <li>Firestore / MongoDB</li>
+      <li>Google Maps / MapMyIndia</li>
+      <li>Razorpay / Paytm</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">Contact & Founder</h2>
+  <div class="box">
+    <p><strong>Founder:</strong> Manmada Reddy</p>
+    <p><strong>Email:</strong> <span style="color:var(--accent)">manmadareddy61@gmail.com</span></p>
+  </div>
+</div>
+
+<footer>
+  © 2025 ResQ Emergency Services • Designed by <strong>Manmada Reddy</strong>
+</footer>
+
+</body>
+</html>
