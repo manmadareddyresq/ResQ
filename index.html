@@ -1,274 +1,897 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ResQ — Emergency Response Reinvented</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ResQ — Investor Brief</title>
+  <meta name="description" content="ResQ — AI-first emergency response aggregator for India. Investor brief and contact." />
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
-:root {
-  --dark-bg: #05070A;
-  --panel: #0B0F17;
-  --accent-red: #FF2E2E;
-  --accent-cyan: #00FFF0;
-  --text: #E7EFF5;
-  --glass: rgba(255,255,255,0.06);
-}
+    :root{
+      --bg-1:#04101a; /* deep midnight */
+      --bg-2:#071827; /* navy teal */
+      --tone:#d7f6f0; /* soft cyan text (not pure white) */
+      --accent:#00d1b2; /* vivid teal */
+      --accent-2:#ffd37a; /* warm gold */
+      --accent-danger:#ff4b5c; /* emergency red */
+      --muted:rgba(215,245,240,0.12);
+      --glass:rgba(255,255,255,0.03);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,Arial,sans-serif;
+      background:radial-gradient(1200px 600px at 10% 10%,var(--bg-2),var(--bg-1));
+      color:var(--tone);
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
 
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: radial-gradient(circle at 10% 10%, #111926, #05070A);
-  color: var(--text);
-  overflow-x: hidden;
-}
+    /* === SLIDE-IN SIDEBAR === */
+    .sidebar-toggle{
+      position:fixed;
+      top:18px;
+      left:18px;
+      z-index:1100;
+      width:46px;
+      height:46px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:radial-gradient(circle at 10% 0%,rgba(255,75,92,0.8),rgba(4,16,26,0.85));
+      box-shadow:0 10px 30px rgba(0,0,0,0.7);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      backdrop-filter:blur(12px);
+      transition:transform .25s ease,box-shadow .25s ease,background .25s ease;
+    }
+    .sidebar-toggle span{
+      display:block;
+      width:20px;
+      height:2px;
+      background:var(--tone);
+      position:relative;
+      transition:all .25s ease;
+    }
+    .sidebar-toggle span::before,
+    .sidebar-toggle span::after{
+      content:"";
+      position:absolute;
+      left:0;
+      width:20px;
+      height:2px;
+      background:var(--tone);
+      transition:all .25s ease;
+    }
+    .sidebar-toggle span::before{top:-6px}
+    .sidebar-toggle span::after{top:6px}
+    .sidebar-toggle.open{
+      background:radial-gradient(circle at 10% 0%,rgba(0,209,178,0.8),rgba(4,16,26,0.9));
+      box-shadow:0 0 30px rgba(0,209,178,0.4);
+    }
+    .sidebar-toggle.open span{background:transparent}
+    .sidebar-toggle.open span::before{
+      top:0;
+      transform:rotate(45deg);
+    }
+    .sidebar-toggle.open span::after{
+      top:0;
+      transform:rotate(-45deg);
+    }
 
-/* SIDEBAR */
-.sidebar-container {
-  position: fixed;
-  top: 0; left: 0;
-  width: 0;
-  height: 100vh;
-  overflow: hidden;
-  background: rgba(5, 8, 12, 0.92);
-  backdrop-filter: blur(12px);
-  border-right: 1px solid var(--accent-red);
-  transition: 0.4s ease;
-  z-index: 9999;
-}
-.sidebar-container.open { width: 300px; }
+    .sidebar-backdrop{
+      position:fixed;
+      inset:0;
+      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.09),rgba(0,0,0,0.75));
+      backdrop-filter:blur(3px);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .3s ease;
+      z-index:1050;
+    }
+    .sidebar-backdrop.open{
+      opacity:1;
+      pointer-events:auto;
+    }
 
-.sidebar-header {
-  padding: 24px;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--accent-cyan);
-}
+    .sidebar{
+      position:fixed;
+      top:0;
+      left:0;
+      height:100vh;
+      width:290px;
+      max-width:82%;
+      z-index:1200;
+      padding:18px 18px 20px;
+      background:linear-gradient(145deg,rgba(4,16,26,0.98),rgba(19,5,10,0.96));
+      border-right:1px solid rgba(255,255,255,0.08);
+      box-shadow:0 24px 60px rgba(0,0,0,0.9);
+      transform:translateX(-105%);
+      transition:transform .35s cubic-bezier(.19,1,.22,1);
+      display:flex;
+      flex-direction:column;
+    }
+    .sidebar.open{
+      transform:translateX(0);
+    }
+    .sidebar-header{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:14px;
+    }
+    .sidebar-logo{
+      width:40px;
+      height:40px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--accent-danger),var(--accent));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:18px;
+      font-weight:800;
+      color:#021719;
+      box-shadow:0 8px 22px rgba(255,75,92,0.6);
+    }
+    .sidebar-title{
+      font-size:15px;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      color:var(--accent-2);
+    }
+    .sidebar-sub{
+      font-size:11px;
+      color:rgba(215,245,240,0.7);
+    }
+    .sidebar-search{
+      margin:8px 0 12px;
+    }
+    .sidebar-search input{
+      width:100%;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.14);
+      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.1),rgba(4,16,26,0.9));
+      color:var(--tone);
+      font-size:12px;
+      outline:none;
+    }
+    .sidebar-search input::placeholder{
+      color:rgba(215,245,240,0.55);
+    }
 
-.search-box {
-  margin: 0 20px 10px;
-}
-.search-box input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid var(--glass);
-  background: var(--panel);
-  color: var(--text);
-}
+    .sidebar-nav{
+      flex:1;
+      overflow-y:auto;
+      padding-right:4px;
+      margin-top:4px;
+    }
+    .sidebar-section-label{
+      font-size:11px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:rgba(215,245,240,0.6);
+      margin:10px 4px 4px;
+    }
+    .sidebar-link{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 9px;
+      border-radius:10px;
+      font-size:13px;
+      color:rgba(215,245,240,0.8);
+      text-decoration:none;
+      cursor:pointer;
+      transition:background .2s ease,transform .15s ease,color .2s ease;
+    }
+    .sidebar-link-icon{
+      width:24px;
+      height:24px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+      background:rgba(255,75,92,0.12);
+    }
+    .sidebar-link span{
+      flex:1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .sidebar-link:hover{
+      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.28),rgba(0,0,0,0.3));
+      transform:translateX(2px);
+      color:var(--tone);
+    }
+    .sidebar-link.active{
+      background:radial-gradient(circle at 0 0,rgba(0,209,178,0.3),rgba(4,16,26,0.9));
+      box-shadow:0 0 18px rgba(0,209,178,0.35);
+      color:var(--tone);
+    }
 
-/* MENU */
-.sidebar-menu {
-  list-style: none;
-  padding: 0 20px;
-}
-.sidebar-menu li {
-  padding: 14px 10px;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  cursor: pointer;
-  border-radius: 10px;
-  transition: 0.2s;
-}
-.sidebar-menu li:hover {
-  background: var(--glass);
-}
-.sidebar-menu i {
-  font-size: 18px;
-  color: var(--accent-cyan);
-}
+    .sidebar-footer{
+      margin-top:8px;
+      border-top:1px solid rgba(255,255,255,0.08);
+      padding-top:10px;
+      font-size:11px;
+      color:rgba(215,245,240,0.7);
+    }
+    .sidebar-footer strong{color:var(--accent-2)}
+    .sidebar-cta{
+      margin-top:8px;
+      display:flex;
+      gap:8px;
+    }
+    .sidebar-cta a{
+      flex:1;
+      text-align:center;
+      text-decoration:none;
+      font-size:11px;
+      padding:7px 6px;
+      border-radius:999px;
+      border:1px solid rgba(0,209,178,0.6);
+      color:var(--tone);
+      background:radial-gradient(circle at 0 0,rgba(0,209,178,0.18),rgba(4,16,26,0.9));
+    }
+    .sidebar-cta a:last-child{
+      border-color:rgba(255,75,92,0.7);
+      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.25),rgba(4,16,26,0.9));
+    }
 
-/* SIDEBAR BUTTON */
-.menu-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background: var(--accent-red);
-  padding: 14px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 22px;
-  color: #fff;
-  z-index: 99999;
-  box-shadow: 0 0 12px var(--accent-red);
-}
+    /* header */
+    header.hero{
+      padding:72px 24px 56px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-bg{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 15% 0,rgba(255,75,92,0.3),transparent 55%),
+        radial-gradient(circle at 85% 20%,rgba(0,209,178,0.28),transparent 55%),
+        linear-gradient(90deg, rgba(0,209,178,0.06), rgba(255,211,122,0.03));
+      pointer-events:none;
+      mix-blend-mode:screen;
+      filter:blur(40px);
+      transform:translateZ(0);
+    }
+    .logo-wrap{display:inline-flex;align-items:center;gap:14px;position:relative;z-index:1}
+    .logo{
+      width:72px;
+      height:72px;
+      border-radius:16px;
+      background:conic-gradient(from 200deg, var(--accent-danger),var(--accent),#00a8c6,var(--accent-danger));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      color:#021719;
+      font-size:22px;
+      box-shadow:0 10px 30px rgba(255,75,92,0.7);
+      position:relative;
+      overflow:hidden;
+    }
+    .logo::after{
+      content:"";
+      position:absolute;
+      inset:12px;
+      border-radius:12px;
+      background:radial-gradient(circle at 0 0,rgba(255,255,255,0.9),rgba(0,209,178,0.4));
+      mix-blend-mode:screen;
+      opacity:0.7;
+    }
+    .logo span{
+      position:relative;
+      z-index:1;
+    }
+    h1{
+      margin:18px 0 6px;
+      font-size:34px;
+      letter-spacing:0.2px;
+      color:var(--accent-2);
+      text-shadow:0 6px 30px rgba(0,0,0,0.8);
+      position:relative;
+      z-index:1;
+    }
+    p.lead{
+      margin:0;
+      font-size:16px;
+      color:var(--tone);
+      opacity:0.95;
+      position:relative;
+      z-index:1;
+    }
+    .hero-chip{
+      margin-top:10px;
+      display:inline-flex;
+      gap:8px;
+      position:relative;
+      z-index:1;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      color:rgba(215,245,240,0.8);
+    }
+    .hero-chip span{
+      padding:5px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.14);
+      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.22),rgba(4,16,26,0.9));
+    }
 
-/* HEADER */
-.hero {
-  text-align: center;
-  padding: 120px 20px 60px;
-}
-.hero .logo {
-  font-size: 52px;
-  font-weight: 900;
-  color: var(--accent-red);
-  text-shadow: 0 0 18px var(--accent-red);
-}
+    /* main container */
+    main{max-width:1200px;margin:10px auto 40px;padding:0 20px}
+    .section{
+      position:relative;
+      padding:28px;
+      border-radius:14px;
+      margin-bottom:26px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.08));
+      border:1px solid var(--muted);
+      box-shadow:0 8px 30px rgba(2,8,12,0.6);
+      overflow:visible;
+    }
+    .section::after{
+      content:"";
+      position:absolute;
+      inset:1px;
+      border-radius:14px;
+      pointer-events:none;
+    }
+    h2.section-title{
+      margin:0 0 14px;
+      color:var(--accent);
+      font-size:22px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    h2.section-title span.badge{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.15em;
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.16);
+      color:var(--accent-2);
+      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.22),rgba(4,16,26,0.9));
+    }
+    p.small{color:rgba(215,245,240,0.86);font-size:14px;line-height:1.6}
 
-/* SECTIONS */
-.section {
-  max-width: 1100px;
-  margin: 30px auto;
-  padding: 24px;
-  border-radius: 16px;
-  background: var(--glass);
-  border: 1px solid rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.6);
-}
-.section h2 {
-  color: var(--accent-cyan);
-  font-size: 26px;
-}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:18px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      transition:transform .28s,box-shadow .28s,border-color .28s;
+    }
+    .card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 18px 40px rgba(0,0,0,0.7);
+      border-color:rgba(0,209,178,0.35);
+    }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 14px;
-}
+    /* AI icons */
+    .ai-list{display:flex;flex-direction:column;gap:12px}
+    .ai-item{display:flex;gap:12px;align-items:flex-start}
+    .ai-icon{
+      width:52px;
+      height:52px;
+      border-radius:10px;
+      background:linear-gradient(135deg,#2b050b,#003b2f);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--accent);
+      font-size:20px;
+      box-shadow:0 6px 18px rgba(0,209,178,0.12);
+    }
+    .ai-text strong{display:block;color:var(--accent-2);margin-bottom:4px;font-size:14px}
 
-/* PDF BUTTON */
-.pdf-btn {
-  display: inline-block;
-  margin-top: 14px;
-  padding: 14px 24px;
-  border-radius: 12px;
-  background: linear-gradient(90deg, var(--accent-red), var(--accent-cyan));
-  font-weight: 700;
-  font-size: 16px;
-  color: #05070A;
-  text-decoration: none;
-}
+    /* Founder card (bottom) */
+    .founder{display:flex;gap:18px;align-items:center}
+    .founder .photo{
+      width:110px;
+      height:110px;
+      border-radius:18px;
+      background:linear-gradient(180deg,#021f24,#052a2f);
+      border:2px solid rgba(0,209,178,0.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:var(--accent);
+      font-size:38px;
+    }
+    .founder .bio{color:var(--tone)}
 
-/* FOOTER */
-footer {
-  margin-top: 40px;
-  padding: 20px;
-  text-align: center;
-  font-size: 14px;
-  color: #bbb;
-}
-</style>
+    /* Contact form */
+    .contact-form{max-width:820px;margin:16px auto 0}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .form-row.full{grid-template-columns:1fr}
+    input,textarea{
+      width:100%;
+      padding:12px;
+      border-radius:10px;
+      background:radial-gradient(circle at 0 0,rgba(0,0,0,0.7),rgba(7,24,39,0.9));
+      border:1px solid rgba(255,255,255,0.08);
+      color:var(--tone);
+      font-size:15px;
+      outline:none;
+    }
+    textarea{min-height:120px;resize:vertical}
+    .submit{
+      display:inline-block;
+      padding:12px 20px;
+      border-radius:10px;
+      background:linear-gradient(90deg,var(--accent-danger),var(--accent));
+      color:#021719;
+      border:none;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 10px 26px rgba(255,75,92,0.5);
+    }
 
-<!-- ICONS -->
-<script src="https://kit.fontawesome.com/a7e1a92cbd.js" crossorigin="anonymous"></script>
+    /* particles & glow canvas */
+    #particle-canvas{
+      position:fixed;
+      right:-10%;
+      bottom:-10%;
+      width:600px;
+      height:600px;
+      pointer-events:none;
+      opacity:0.16;
+      mix-blend-mode:screen;
+      z-index:-1;
+    }
 
+    /* fade-in animation */
+    .fade-up{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
+    .fade-up.visible{opacity:1;transform:none}
+
+    /* footer */
+    footer{
+      padding:30px 20px;
+      text-align:center;
+      color:rgba(200,220,230,0.9);
+      font-size:14px;
+    }
+
+    @media(max-width:800px){
+      .founder{flex-direction:row}
+      .form-row{grid-template-columns:1fr}
+      header.hero{padding-top:88px}
+    }
+  </style>
 </head>
 <body>
 
-<!-- MENU BUTTON -->
-<div class="menu-btn" onclick="toggleSidebar()">☰</div>
-
-<!-- SIDEBAR -->
-<div class="sidebar-container" id="sidebar">
-  <div class="sidebar-header">RESQ Navigation</div>
-
-  <div class="search-box">
-    <input id="search" type="text" placeholder="Search section..." onkeyup="filterMenu()">
-  </div>
-
-  <ul class="sidebar-menu" id="menu">
-    <li onclick="goTo('overview')"><i class="fas fa-bolt"></i> Executive Summary</li>
-    <li onclick="goTo('problem')"><i class="fas fa-triangle-exclamation"></i> Problem</li>
-    <li onclick="goTo('solution')"><i class="fas fa-shield-heart"></i> Solution</li>
-    <li onclick="goTo('ai')"><i class="fas fa-brain"></i> AI Differentiators</li>
-    <li onclick="goTo('market')"><i class="fas fa-chart-line"></i> Market Opportunity</li>
-    <li onclick="goTo('model')"><i class="fas fa-money-bill-trend-up"></i> Business Model</li>
-    <li onclick="goTo('impact')"><i class="fas fa-heart-pulse"></i> Impact</li>
-    <li onclick="goTo('traction')"><i class="fas fa-rocket"></i> Traction</li>
-    <li onclick="goTo('team')"><i class="fas fa-users"></i> Team</li>
-    <li onclick="goTo('contact')"><i class="fas fa-envelope"></i> Contact</li>
-  </ul>
+<!-- SIDEBAR TOGGLE BUTTON -->
+<div class="sidebar-toggle" id="sidebarToggle">
+  <span></span>
 </div>
 
-<!-- HERO -->
+<!-- SIDEBAR BACKDROP -->
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<!-- SLIDE-IN SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">RQ</div>
+    <div>
+      <div class="sidebar-title">ResQ • Investor View</div>
+      <div class="sidebar-sub">AI-first emergency response for India</div>
+    </div>
+  </div>
+
+  <div class="sidebar-search">
+    <input
+      type="text"
+      id="navSearch"
+      placeholder="Search sections… (problem, AI, team, etc.)" />
+  </div>
+
+  <div class="sidebar-nav" id="sidebarNav">
+    <div class="sidebar-section-label">Overview</div>
+    <a class="sidebar-link" data-target="overview">
+      <div class="sidebar-link-icon">📌</div>
+      <span>Executive Summary</span>
+    </a>
+    <a class="sidebar-link" data-target="problem">
+      <div class="sidebar-link-icon">🚨</div>
+      <span>Problem</span>
+    </a>
+    <a class="sidebar-link" data-target="solution">
+      <div class="sidebar-link-icon">🛟</div>
+      <span>Solution & Product</span>
+    </a>
+    <a class="sidebar-link" data-target="ai">
+      <div class="sidebar-link-icon">🤖</div>
+      <span>AI Differentiators</span>
+    </a>
+
+    <div class="sidebar-section-label">Market & Strategy</div>
+    <a class="sidebar-link" data-target="market">
+      <div class="sidebar-link-icon">📊</div>
+      <span>Market Opportunity</span>
+    </a>
+    <a class="sidebar-link" data-target="competition">
+      <div class="sidebar-link-icon">⚔️</div>
+      <span>Competitive Landscape</span>
+    </a>
+    <a class="sidebar-link" data-target="roadmap">
+      <div class="sidebar-link-icon">📍</div>
+      <span>12-Month Roadmap</span>
+    </a>
+    <a class="sidebar-link" data-target="traction">
+      <div class="sidebar-link-icon">✅</div>
+      <span>Early Validation</span>
+    </a>
+
+    <div class="sidebar-section-label">Team & Contact</div>
+    <a class="sidebar-link" data-target="team">
+      <div class="sidebar-link-icon">👥</div>
+      <span>Team & Roles</span>
+    </a>
+    <a class="sidebar-link" data-target="founder">
+      <div class="sidebar-link-icon">🧑‍💻</div>
+      <span>Founder — Manmada Reddy</span>
+    </a>
+    <a class="sidebar-link" data-target="contact">
+      <div class="sidebar-link-icon">✉️</div>
+      <span>Contact & Connect</span>
+    </a>
+  </div>
+
+  <div class="sidebar-footer">
+    <div><strong>ResQ</strong> — Because every second matters.</div>
+    <div style="margin-top:4px;">Built as India’s first AI-driven emergency response layer unifying 108/102 + private fleet.</div>
+    <div class="sidebar-cta">
+      <a href="#contact">Invest / Partner</a>
+      <a href="ResQ.pdf" download>Download Brief</a>
+    </div>
+  </div>
+</aside>
+
 <header class="hero">
-  <div class="logo">RESQ</div>
-  <h1>India’s Fastest Emergency Response Platform</h1>
-  <p>AI • Real-Time Tracking • Verified Responders 🚑</p>
+  <div class="hero-bg" aria-hidden></div>
+  <div class="logo-wrap">
+    <div class="logo" aria-hidden><span>RQ</span></div>
+  </div>
+  <h1>ResQ — India's Emergency Response Revolution</h1>
+  <p class="lead">AI-powered routing • Real-time tracking • Verified responders</p>
+  <div class="hero-chip">
+    <span>Emergency • HealthTech • GovTech</span>
+    <span>Student-led • AI-first</span>
+  </div>
 </header>
 
-<!-- SECTIONS -->
-<section id="overview" class="section">
-  <h2>Executive Summary</h2>
-  <p>ResQ is an AI-powered emergency response network unifying government (108/102) and private ambulance ecosystems. Our mission: reduce emergency response time from 18–45 minutes to **under 8 minutes** across urban India.</p>
-</section>
+<canvas id="particle-canvas" aria-hidden></canvas>
 
-<section id="problem" class="section">
-  <h2>The Problem</h2>
-  <p>❗ 8 out of 10 ambulances arrive late in India — WHO says delays beyond 8 mins increase mortality by **44%**.</p>
-  <p>❗ No unified system between Govt + private fleets.</p>
-  <p>❗ No transparency, no ETA tracking, no standard pricing.</p>
-</section>
+<main>
+  <section class="section fade-up" id="overview">
+    <h2 class="section-title">
+      Executive Summary
+      <span class="badge">Investor View</span>
+    </h2>
+    <p class="small">
+      ResQ is an AI-first emergency response aggregation platform that unifies government (108/102)
+      and private ambulance, fire and rescue units on a single real-time interface.
+      We prioritise speed, reliability and transparency through predictive routing, ETA optimisation
+      and verified provider networks.
+    </p>
+  </section>
 
-<section id="solution" class="section">
-  <h2>Our Solution</h2>
-  <p>An integrated platform: Request → AI route optimization → Live tracking → Hospital coordination → Automated billing.</p>
-</section>
+  <section class="section fade-up" id="problem">
+    <h2 class="section-title">Problem</h2>
+    <div class="grid">
+      <div class="card">Urban ambulance response lacks real-time visibility — families and hospitals have no clear ETA.</div>
+      <div class="card">Manual dispatching in government systems leads to long delays and misallocation.</div>
+      <div class="card">Unregulated private pricing and poor operator verification reduce trust.</div>
+      <div class="card">Traffic and route inefficiencies cause critical time loss in dense cities like Hyderabad.</div>
+    </div>
+  </section>
 
-<section id="ai" class="section">
-  <h2>AI Differentiators</h2>
-  <ul>
-    <li>Predictive routing based on congestion heatmaps</li>
-    <li>Demand forecasting & resource placement</li>
-    <li>Automated emergency triage via NLP</li>
-    <li>Smart fleet allocation reducing response time</li>
-  </ul>
-</section>
+  <section class="section fade-up" id="solution">
+    <h2 class="section-title">Solution</h2>
+    <p class="small">
+      A single app that handles emergency requests end-to-end: instant booking, AI-optimised routing,
+      live GPS tracking, automated family notifications, and a verified provider marketplace.
+      The system is designed to be government-friendly while enabling private operator efficiency.
+    </p>
 
-<section id="market" class="section">
-  <h2>Market Opportunity</h2>
-  <p>India operates 40,000+ ambulances; <b>only 12% digitally tracked</b>. TAM: $3.4B healthcare mobility industry.</p>
-</section>
+    <div class="grid" style="margin-top:14px">
+      <div class="card">
+        <h3 style="color:var(--accent-2)">Core Features</h3>
+        <ul>
+          <li>Instant booking across ambulance, fire, rescue</li>
+          <li>Govt/Private toggle with transparent invoicing</li>
+          <li>Live GPS + ETA + family notifications</li>
+          <li>Ratings, KYC and operator verification</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--accent-2)">Operational Modules</h3>
+        <ul>
+          <li>User app (request, track, SOS)</li>
+          <li>Driver app (accept, navigate, status)</li>
+          <li>Admin dashboard (assign, monitor, analytics)</li>
+          <li>Backend & APIs (realtime sync, messaging)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-<section id="model" class="section">
-  <h2>Business Model</h2>
-  <ul>
-    <li>Commission per booking (10–18%)</li>
-    <li>B2B hospital subscriptions</li>
-    <li>AI analytics dashboard licensing</li>
-    <li>Govt contract integrations</li>
-  </ul>
-</section>
+  <section class="section fade-up" id="ai">
+    <h2 class="section-title">AI Differentiators</h2>
+    <div class="ai-list">
+      <div class="ai-item card">
+        <div class="ai-icon">🤖</div>
+        <div class="ai-text">
+          <strong>Predictive Routing</strong>
+          <span class="small">Dynamic pathing using live traffic + historical delay patterns to minimise transit time.</span>
+        </div>
+      </div>
+      <div class="ai-item card">
+        <div class="ai-icon">⏱️</div>
+        <div class="ai-text">
+          <strong>ETA Optimisation</strong>
+          <span class="small">Continuous ML model updates improve ETA accuracy with telemetry data.</span>
+        </div>
+      </div>
+      <div class="ai-item card">
+        <div class="ai-icon">🩺</div>
+        <div class="ai-text">
+          <strong>Automated Triage</strong>
+          <span class="small">Short NLP questionnaire to prioritise critical cases and dispatch appropriate resources.</span>
+        </div>
+      </div>
+      <div class="ai-item card">
+        <div class="ai-icon">📊</div>
+        <div class="ai-text">
+          <strong>Demand Forecasting</strong>
+          <span class="small">Anticipate hotspots and preposition assets during events or peak hours.</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<section id="impact" class="section">
-  <h2>Impact</h2>
-  <p>1 minute saved = lives saved. ResQ reduces time by **34–52%** in pilot simulations.</p>
-</section>
+  <section class="section fade-up" id="market">
+    <h2 class="section-title">Market Opportunity</h2>
+    <p class="small">
+      India operates 40,000+ ambulances, of which a minority are digitally managed.
+      The immediate opportunity is digitising urban emergency transport and partnering with
+      hospitals, municipal bodies and NGOs to modernise response systems.
+    </p>
+    <div class="grid" style="margin-top:14px">
+      <div class="card"><strong>TAM:</strong> National emergency + health mobility ecosystems.</div>
+      <div class="card"><strong>SAM:</strong> Urban ambulance & emergency dispatch market.</div>
+      <div class="card"><strong>SOM:</strong> Initial focus: Hyderabad & Telangana urban areas.</div>
+    </div>
+  </section>
 
-<section id="traction" class="section">
-  <h2>Early Traction</h2>
-  <p>30+ interviews | Operator onboarding pipeline | Hyderabad pilot preparation underway.</p>
-</section>
+  <section class="section fade-up" id="competition">
+    <h2 class="section-title">Competitive Landscape</h2>
+    <div class="card">
+      <table style="width:100%;border-collapse:collapse;color:var(--tone)">
+        <thead style="text-align:left;color:var(--accent-2)">
+          <tr>
+            <th>Competitor</th>
+            <th>Approach</th>
+            <th>Gap</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>AmbiPalm</td><td>City-wide networks</td><td>Poor trust & tech issues</td></tr>
+          <tr><td>StanPlus</td><td>Premium B2B ambulances</td><td>Not citizen-focused</td></tr>
+          <tr><td>Ziqitza</td><td>Govt-level operations</td><td>No consumer app focus</td></tr>
+          <tr><td>LifeLine Now</td><td>Tracking pilot</td><td>Low adoption, unclear UX</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-<section id="team" class="section">
-  <h2>Founder</h2>
-  <p><b>Manmada Reddy</b> — B.Tech CSE (AI/ML), BBA (Entrepreneurship), driven by personal experience witnessing emergency system failure in Hyderabad.</p>
-</section>
+  <section class="section fade-up" id="roadmap">
+    <h2 class="section-title">12-Month Roadmap</h2>
+    <div class="grid">
+      <div class="card"><strong>0–3 months:</strong> Build core Android app, basic AI routing prototype, onboarding 30–50 operators for pilot.</div>
+      <div class="card"><strong>3–6 months:</strong> Pilot in Hyderabad, collect telemetry, refine ETA models, sign 1–2 hospital pilots.</div>
+      <div class="card"><strong>6–12 months:</strong> Add payments, multilingual support and scale to adjacent cities; begin government liaison for data-sharing.</div>
+    </div>
+  </section>
 
-<section id="contact" class="section">
-  <h2>Contact & Investor Deck</h2>
-  <a class="pdf-btn" href="ResQ.pdf" download>📄 Download Pitch Deck PDF</a>
-</section>
+  <section class="section fade-up" id="team">
+    <h2 class="section-title">Team & Roles</h2>
+    <div class="grid">
+      <div class="card">App Developer — mobile (Flutter / React Native)</div>
+      <div class="card">Backend & APIs — Node.js / Firebase</div>
+      <div class="card">AI / ML Engineer — routing, ETA, triage</div>
+      <div class="card">Operations Lead — onboarding & SLAs</div>
+      <div class="card">Government Liaison / Legal</div>
+    </div>
+  </section>
 
-<footer>© 2025 RESQ • Designed & Presented by <b>Manmada Reddy</b></footer>
+  <section class="section fade-up" id="traction">
+    <h2 class="section-title">Early Validation</h2>
+    <div class="grid">
+      <div class="card">30+ qualitative interviews with families & hospitals in Hyderabad.</div>
+      <div class="card">MOUs in progress with private ambulance operators for pilot onboarding.</div>
+      <div class="card">Operational SOPs, driver KYC checklist and partner revenue-sharing draft prepared.</div>
+    </div>
+  </section>
+
+  <!-- Contact & Founder (founder last) -->
+  <section class="section fade-up" id="contact">
+    <h2 class="section-title">Contact & Connect</h2>
+    <div class="card">
+      <p class="small">
+        For investor conversations, pilot partnerships, or data access requests — reach out directly.
+      </p>
+      <div class="contact-form">
+        <form action="https://formsubmit.co/manmadareddy61@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="Investor inquiry — ResQ" />
+          <input type="hidden" name="_captcha" value="false" />
+          <div class="form-row">
+            <input name="name" placeholder="Your name" required />
+            <input name="email" type="email" placeholder="Your email" required />
+          </div>
+          <div class="form-row full">
+            <input name="organization" placeholder="Organization / Role (optional)" />
+          </div>
+          <div class="form-row full">
+            <textarea name="message" placeholder="Message — quick intro, interest, or ask" required></textarea>
+          </div>
+          <div style="text-align:left;margin-top:10px">
+            <button type="submit" class="submit">Send message</button>
+          </div>
+        </form>
+      </div>
+      <p style="margin-top:12px;color:rgba(215,245,240,0.7)">
+        Or download the full project brief:
+        <a href="ResQ.pdf" download style="color:var(--accent-2);text-decoration:underline;">ResQ Project Brief (PDF)</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section fade-up" id="founder">
+    <h2 class="section-title">Founder</h2>
+    <div class="founder card">
+      <div class="photo">MR</div>
+      <div class="bio">
+        <p><strong>Manmada Reddy</strong></p>
+        <p class="small">
+          Previous B.Tech CSE (AI/ML) student at LPU. Transitioned studies to BBA at UCMH, JNTUH.
+          Lived experience in Hyderabad—observing critical delays for ambulances—shaped ResQ's mission.
+          Technical foundation in AI/ML and a resolve to operationalise solutions at scale.
+        </p>
+        <p class="small">
+          Contact:
+          <a href="mailto:manmadareddy61@gmail.com" style="color:var(--accent-2)">manmadareddy61@gmail.com</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2025 ResQ • Presented by <strong>Manmada Reddy</strong>
+</footer>
 
 <script>
-function toggleSidebar(){ document.getElementById("sidebar").classList.toggle("open"); }
-function goTo(id){ document.getElementById(id).scrollIntoView({behavior:"smooth"}); toggleSidebar(); }
-function filterMenu(){
-  let input=document.getElementById("search").value.toLowerCase();
-  document.querySelectorAll("#menu li").forEach(li=>{
-    li.style.display = li.innerText.toLowerCase().includes(input) ? "flex" : "none";
+// particles (simple floating blobs) for subtle AI glow
+const canvas = document.getElementById('particle-canvas');
+if(canvas){
+  canvas.width = 600; canvas.height = 600;
+  const ctx = canvas.getContext('2d');
+  const particles = [];
+  for(let i=0;i<12;i++){
+    particles.push({
+      x:Math.random()*600,
+      y:Math.random()*600,
+      r:40+Math.random()*80,
+      dx:(Math.random()-0.5)*0.2,
+      dy:(Math.random()-0.5)*0.2
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,600,600);
+    particles.forEach(p=>{
+      p.x+=p.dx;
+      p.y+=p.dy;
+      if(p.x<-200) p.x=800;
+      if(p.x>800) p.x=-200;
+      if(p.y<-200)p.y=800;
+      if(p.y>800)p.y=-200;
+      const g=ctx.createRadialGradient(p.x,p.y,p.r*0.1,p.x,p.y,p.r);
+      g.addColorStop(0,'rgba(0,209,178,0.18)');
+      g.addColorStop(0.4,'rgba(0,160,210,0.09)');
+      g.addColorStop(1,'rgba(8,14,20,0)');
+      ctx.fillStyle=g;
+      ctx.fillRect(p.x-p.r,p.y-p.r,p.r*2,p.r*2);
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// fade-in on scroll
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+    }
+  });
+},{threshold:0.12});
+document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+
+// smooth scroll for in-page links (if any)
+if('scrollBehavior' in document.documentElement.style){
+  document.documentElement.style.scrollBehavior='smooth';
+}
+
+// sidebar logic
+const sidebar = document.getElementById('sidebar');
+const sidebarToggle = document.getElementById('sidebarToggle');
+const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+const navSearch = document.getElementById('navSearch');
+const navLinks = Array.from(document.querySelectorAll('.sidebar-link'));
+
+function toggleSidebar(force){
+  const shouldOpen = typeof force === 'boolean' ? force : !sidebar.classList.contains('open');
+  if(shouldOpen){
+    sidebar.classList.add('open');
+    sidebarBackdrop.classList.add('open');
+    sidebarToggle.classList.add('open');
+  }else{
+    sidebar.classList.remove('open');
+    sidebarBackdrop.classList.remove('open');
+    sidebarToggle.classList.remove('open');
+  }
+}
+
+sidebarToggle.addEventListener('click',()=>toggleSidebar());
+sidebarBackdrop.addEventListener('click',()=>toggleSidebar(false));
+
+// nav click -> scroll to section
+navLinks.forEach(link=>{
+  link.addEventListener('click',()=>{
+    const targetId = link.getAttribute('data-target');
+    const section = document.getElementById(targetId);
+    if(section){
+      section.scrollIntoView({behavior:'smooth',block:'start'});
+      toggleSidebar(false);
+      navLinks.forEach(l=>l.classList.remove('active'));
+      link.classList.add('active');
+    }
+  });
+});
+
+// search filter
+if(navSearch){
+  navSearch.addEventListener('input',()=>{
+    const q = navSearch.value.toLowerCase();
+    navLinks.forEach(link=>{
+      const text = link.innerText.toLowerCase();
+      link.style.display = text.includes(q) ? 'flex' : 'none';
+    });
   });
 }
 </script>
 
 </body>
 </html>
+
 
 
 
