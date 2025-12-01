@@ -12,14 +12,16 @@
     :root{
       --bg-1:#04101a; /* deep midnight */
       --bg-2:#071827; /* navy teal */
-      --tone:#d7f6f0; /* soft cyan text (not pure white) */
+      --tone:#d7f6f0; /* soft cyan text */
       --accent:#00d1b2; /* vivid teal */
       --accent-2:#ffd37a; /* warm gold */
       --accent-danger:#ff4b5c; /* emergency red */
       --muted:rgba(215,245,240,0.12);
-      --glass:rgba(255,255,255,0.03);
+      --glass:rgba(255,255,255,0.04);
     }
-    *{box-sizing:border-box}
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
     body{
       margin:0;
       font-family:Inter,system-ui,Arial,sans-serif;
@@ -29,569 +31,701 @@
       overflow-x:hidden;
     }
 
-    /* === TOP NAVBAR / TASKBAR === */
-    .top-nav{
+    a{color:var(--accent-2);text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* ====== GLOBAL LAYOUT ====== */
+    .app-shell{
+      min-height:100vh;
+      padding:70px 16px 24px;
+      max-width:1200px;
+      margin:0 auto;
+      position:relative;
+    }
+
+    header.app-header{
       position:fixed;
       top:0;
       left:0;
       right:0;
-      z-index:999;
-      padding:10px 18px;
+      height:64px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      z-index:20;
+    }
+    .app-header-inner{
+      width:100%;
+      max-width:1200px;
+      padding:8px 60px 8px 60px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      background:linear-gradient(90deg,rgba(4,16,26,0.92),rgba(10,29,45,0.98));
-      border-bottom:1px solid rgba(255,255,255,0.1);
-      backdrop-filter:blur(10px);
+      pointer-events:auto;
     }
-    .top-nav-left{
+    .logo-block{
       display:flex;
       align-items:center;
-      gap:10px;
+      gap:8px;
     }
-    .nav-logo{
-      width:34px;
-      height:34px;
-      border-radius:12px;
+    .logo-symbol{
+      width:38px;
+      height:38px;
+      border-radius:14px;
       background:conic-gradient(from 210deg,var(--accent-danger),var(--accent),#00a8c6,var(--accent-danger));
       display:flex;
       align-items:center;
       justify-content:center;
-      font-size:16px;
       font-weight:800;
       color:#021719;
-      box-shadow:0 6px 18px rgba(0,0,0,0.6);
+      font-size:18px;
+      box-shadow:0 8px 24px rgba(255,75,92,0.7);
+      position:relative;
+      overflow:hidden;
     }
-    .nav-title{
+    .logo-symbol::after{
+      content:"";
+      position:absolute;
+      inset:9px;
+      border-radius:10px;
+      background:radial-gradient(circle at 0 0,rgba(255,255,255,0.85),rgba(0,209,178,0.45));
+      mix-blend-mode:screen;
+      opacity:0.7;
+    }
+    .logo-symbol span{
+      position:relative;
+      z-index:1;
+    }
+    .logo-text{
+      display:flex;
+      flex-direction:column;
+    }
+    .logo-text-main{
       font-size:15px;
       font-weight:700;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
       color:var(--accent-2);
     }
-    .nav-sub{
+    .logo-text-sub{
       font-size:11px;
       color:rgba(215,245,240,0.7);
     }
-    .top-nav-right{
+
+    .header-pill{
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.18);
+      font-size:11px;
+      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.3),rgba(4,16,26,0.95));
       display:flex;
       align-items:center;
       gap:6px;
+    }
+    .header-dot{
+      width:8px;height:8px;border-radius:999px;
+      background:radial-gradient(circle, #2cff9c,#0bffea);
+      box-shadow:0 0 12px rgba(0,255,204,0.8);
+    }
+
+    /* ====== FLOATING NAV BUBBLE ====== */
+    .nav-bubble-wrapper{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:30;
+    }
+    .nav-bubble-main{
+      width:58px;
+      height:58px;
+      border-radius:999px;
+      background:radial-gradient(circle at 30% 0%,rgba(255,75,92,0.9),rgba(4,16,26,0.9));
+      border:1px solid rgba(255,255,255,0.2);
+      box-shadow:0 16px 40px rgba(0,0,0,0.9);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      backdrop-filter:blur(10px);
+      transition:transform .2s ease, box-shadow .2s ease, background .25s ease;
+    }
+    .nav-bubble-main:hover{
+      transform:translateY(-2px) scale(1.02);
+      box-shadow:0 20px 50px rgba(0,0,0,0.95);
+    }
+    .nav-bubble-icon{
+      position:relative;
+      width:24px;
+      height:24px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.42);
+      display:flex;
+      align-items:center;
+      justify-content:center;
       font-size:13px;
     }
-    .nav-links{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .nav-link{
-      font-size:12px;
+    .nav-bubble-main::after{
+      content:"Tap for Sections";
+      position:absolute;
+      right:60px;
+      top:50%;
+      transform:translateY(-50%);
+      white-space:nowrap;
+      font-size:11px;
       color:rgba(215,245,240,0.78);
-      text-decoration:none;
-      padding:4px 7px;
+      padding:4px 9px;
       border-radius:999px;
-      border:1px solid transparent;
-      transition:all .2s ease;
+      background:rgba(4,16,26,0.9);
+      border:1px solid rgba(255,255,255,0.16);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .25s ease, transform .25s ease;
     }
-    .nav-link:hover{
-      border-color:rgba(0,209,178,0.4);
-      background:radial-gradient(circle at 0 0,rgba(0,209,178,0.18),transparent);
-      color:var(--tone);
+    .nav-bubble-main.show-hint::after{
+      opacity:1;
+      transform:translateY(-50%) translateX(-4px);
     }
-    .nav-link.active{
-      border-color:rgba(255,211,122,0.55);
-      background:radial-gradient(circle at 0 0,rgba(255,211,122,0.22),rgba(4,16,26,0.95));
+
+    .nav-bubble-menu{
+      position:absolute;
+      bottom:70px;
+      right:0;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      opacity:0;
+      pointer-events:none;
+      transform:translateY(10px);
+      transition:opacity .25s ease, transform .25s ease;
+    }
+    .nav-bubble-wrapper.open .nav-bubble-menu{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateY(0);
+    }
+    .nav-chip{
+      padding:7px 12px;
+      border-radius:999px;
+      background:radial-gradient(circle at 0 0,rgba(0,209,178,0.3),rgba(4,16,26,0.96));
+      border:1px solid rgba(0,209,178,0.5);
+      font-size:11px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      min-width:120px;
+      justify-content:flex-end;
+      box-shadow:0 10px 24px rgba(0,0,0,0.9);
+    }
+    .nav-chip span.icon{font-size:13px}
+    .nav-chip span.label{text-align:right}
+    .nav-chip.active{
+      border-color:rgba(255,255,255,0.9);
+      box-shadow:0 0 18px rgba(0,209,178,0.8);
+    }
+
+    /* ====== PAGE CONTAINERS ====== */
+    .page{
+      display:none;
+      min-height:calc(100vh - 90px);
+      padding:18px 6px 40px;
+    }
+    .page.active{
+      display:block;
+      animation:pageFade .35s ease;
+    }
+    @keyframes pageFade{
+      from{opacity:0;transform:translateY(8px)}
+      to{opacity:1;transform:none}
+    }
+
+    .page-inner{
+      border-radius:18px;
+      padding:24px 20px 26px;
+      background:linear-gradient(145deg,rgba(255,255,255,0.02),rgba(0,0,0,0.7));
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow:0 20px 60px rgba(0,0,0,0.9);
+      position:relative;
+      overflow:hidden;
+    }
+    .page-inner::before{
+      content:"";
+      position:absolute;
+      inset:-80px;
+      background:
+        radial-gradient(circle at 0 0,rgba(255,75,92,0.18),transparent 55%),
+        radial-gradient(circle at 100% 0,rgba(0,209,178,0.15),transparent 60%);
+      opacity:0.5;
+      pointer-events:none;
+    }
+    .page-inner-content{
+      position:relative;
+      z-index:1;
+    }
+
+    .page-tag{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.18em;
+      color:rgba(215,245,240,0.7);
+      margin-bottom:6px;
+    }
+    .page-title{
+      font-size:26px;
+      font-weight:700;
+      color:var(--accent-2);
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:6px;
+    }
+    .page-subtitle{
+      font-size:13px;
+      color:rgba(215,245,240,0.8);
+      margin-bottom:18px;
+    }
+
+    .badge-pill{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.2);
+      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.25),rgba(4,16,26,0.95));
       color:var(--accent-2);
     }
-    .nav-cta{
-      padding:5px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,75,92,0.7);
-      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.26),rgba(4,16,26,0.9));
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:16px;
+    }
+
+    .card{
+      padding:16px 14px;
+      border-radius:14px;
+      background:radial-gradient(circle at 0 0,rgba(6,20,32,0.96),rgba(1,6,10,0.98));
+      border:1px solid rgba(255,255,255,0.06);
+      font-size:13px;
+      line-height:1.5;
+      position:relative;
+      overflow:hidden;
+      transform:translateY(0);
+      transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .card:hover{
+      transform:translateY(-4px);
+      border-color:rgba(0,209,178,0.6);
+      box-shadow:0 16px 40px rgba(0,0,0,0.95);
+    }
+    .card-label{
       font-size:11px;
-      text-decoration:none;
-      color:var(--tone);
+      text-transform:uppercase;
+      letter-spacing:0.18em;
+      color:rgba(215,245,240,0.7);
+      margin-bottom:6px;
+    }
+    .card-title{
+      font-size:14px;
+      font-weight:600;
+      color:var(--accent-2);
+      margin-bottom:4px;
+    }
+    .muted{
+      color:rgba(215,245,240,0.78);
+      font-size:13px;
+    }
+
+    /* ====== OVERVIEW PAGE SPECIALS ====== */
+    .hero-metrics{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:14px;
+      margin-top:16px;
+    }
+    .metric-main{
+      font-size:22px;
+      font-weight:700;
+      color:var(--accent);
+    }
+    .metric-label{
+      font-size:11px;
+      letter-spacing:0.13em;
+      text-transform:uppercase;
+      color:rgba(215,245,240,0.7);
+    }
+    .metric-sub{
+      font-size:12px;
+      color:rgba(215,245,240,0.8);
+    }
+
+    .how-it-works{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns:minmax(0,1.3fr) minmax(0,1.1fr);
+      gap:16px;
+      align-items:center;
+    }
+    @media(max-width:800px){
+      .how-it-works{
+        grid-template-columns:1fr;
+      }
+    }
+
+    .flow-steps{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .flow-step{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      font-size:13px;
+    }
+    .flow-badge{
+      width:22px;height:22px;border-radius:999px;
+      background:radial-gradient(circle,var(--accent-danger),#ffb37a);
+      display:flex;align-items:center;justify-content:center;
+      font-size:12px;
+      color:#021719;
+      font-weight:700;
+      box-shadow:0 0 12px rgba(255,75,92,0.8);
+    }
+
+    /* animated ambulance path */
+    .demo-scene{
+      position:relative;
+      border-radius:16px;
+      padding:18px 12px;
+      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.22),rgba(1,8,14,0.98));
+      border:1px solid rgba(255,255,255,0.12);
+      overflow:hidden;
+      min-height:180px;
+    }
+    .scene-road{
+      position:absolute;
+      inset:20px 18px;
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,0.1);
+    }
+    .scene-node{
+      position:absolute;
+      width:12px;height:12px;border-radius:999px;
+      background:radial-gradient(circle,#ffb37a,#ff4b5c);
+      box-shadow:0 0 12px rgba(255,75,92,0.7);
+    }
+    .scene-node.user{left:10%;bottom:14%}
+    .scene-node.hospital{right:8%;top:12%}
+    .scene-label{
+      position:absolute;
+      font-size:11px;
+      background:rgba(0,0,0,0.7);
+      border-radius:999px;
+      padding:3px 7px;
+      border:1px solid rgba(255,255,255,0.2);
+    }
+    .scene-label.user{left:12%;bottom:5%}
+    .scene-label.hospital{right:10%;top:4%}
+    .scene-ambulance{
+      position:absolute;
+      width:32px;height:18px;
+      border-radius:6px;
+      background:linear-gradient(90deg,#ffffff,#ffe1e4);
+      border:1px solid rgba(0,0,0,0.5);
+      display:flex;align-items:center;justify-content:center;
+      font-size:11px;
+      color:#111;
+      box-shadow:0 0 15px rgba(255,255,255,0.9);
+      animation:ambulanceMove 7s linear infinite;
+      transform-origin:center;
+    }
+    .scene-ambulance::after{
+      content:"";
+      position:absolute;
+      top:-5px;
+      left:4px;
+      width:8px;height:8px;
+      border-radius:2px;
+      background:radial-gradient(circle,var(--accent-danger),#ffb37a);
+      box-shadow:0 0 12px rgba(255,75,92,0.9);
+      animation:sirenPulse 0.8s infinite alternate;
+    }
+    @keyframes ambulanceMove{
+      0%{left:12%;bottom:16%;transform:translate(-50%,50%) rotate(10deg);}
+      25%{left:40%;bottom:50%;transform:translate(-50%,50%) rotate(0deg);}
+      50%{left:60%;bottom:60%;transform:translate(-50%,50%) rotate(-10deg);}
+      75%{left:82%;bottom:45%;transform:translate(-50%,50%) rotate(-5deg);}
+      100%{left:88%;bottom:25%;transform:translate(-50%,50%) rotate(0deg);}
+    }
+    @keyframes sirenPulse{
+      from{opacity:0.4;transform:scale(0.9);}
+      to{opacity:1;transform:scale(1.1);}
+    }
+
+    .scene-caption{
+      position:absolute;
+      left:14px;
+      bottom:14px;
+      font-size:11px;
+      color:rgba(215,245,240,0.82);
+    }
+
+    /* ====== CHARTS ====== */
+    .chart-row{
+      display:grid;
+      grid-template-columns:2fr 1.4fr;
+      gap:18px;
+      margin-top:10px;
+    }
+    @media(max-width:900px){
+      .chart-row{grid-template-columns:1fr}
+    }
+
+    .chart-card{
+      border-radius:14px;
+      padding:16px 14px 16px;
+      background:radial-gradient(circle at 0 0,rgba(0,0,0,0.85),rgba(5,20,34,0.95));
+      border:1px solid rgba(255,255,255,0.1);
+      font-size:12px;
+    }
+    .chart-title{
+      font-size:13px;
+      font-weight:600;
+      color:var(--accent-2);
+      margin-bottom:6px;
+    }
+    .chart-sub{font-size:11px;color:rgba(215,245,240,0.7);margin-bottom:8px;}
+
+    /* bar chart */
+    .bar-chart{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:10px;
+      height:150px;
+      margin-top:6px;
+    }
+    .bar{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-end;
+      gap:4px;
+    }
+    .bar-inner{
+      width:100%;
+      max-width:42px;
+      border-radius:999px 999px 4px 4px;
+      background:linear-gradient(180deg,var(--accent),var(--accent-danger));
+      box-shadow:0 8px 16px rgba(0,0,0,0.65);
+      transform-origin:bottom;
+      transform:scaleY(0.1);
+      transition:transform .8s cubic-bezier(.22,1.1,.32,1);
+    }
+    .bar-label{
+      font-size:10px;
+      color:rgba(215,245,240,0.8);
+      text-align:center;
+    }
+    .bar-value{font-size:11px;color:var(--accent-2);}
+
+    .chart-card.active .bar-inner[data-h="40"]{transform:scaleY(0.4);}
+    .chart-card.active .bar-inner[data-h="65"]{transform:scaleY(0.65);}
+    .chart-card.active .bar-inner[data-h="85"]{transform:scaleY(0.85);}
+    .chart-card.active .bar-inner[data-h="95"]{transform:scaleY(0.95);}
+
+    /* mini donut */
+    .donut{
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      background:
+        conic-gradient(
+          rgba(255,75,92,0.9) 0 40%,
+          rgba(0,209,178,0.9) 40% 70%,
+          rgba(255,211,122,0.9) 70% 100%
+        );
+      position:relative;
+      margin:6px auto;
+      box-shadow:0 12px 30px rgba(0,0,0,0.9);
+      transform:scale(0.8);
+      transition:transform .5s ease;
+    }
+    .donut-inner{
+      position:absolute;
+      inset:24px;
+      border-radius:50%;
+      background:radial-gradient(circle at 0 0,rgba(0,0,0,0.95),rgba(5,20,34,0.98));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:11px;
+      color:var(--accent-2);
+    }
+    .chart-card.active .donut{transform:scale(1);}
+
+    .legend{
+      margin-top:8px;
+      font-size:11px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .legend-item{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .legend-dot{
+      width:10px;height:10px;border-radius:999px;
+    }
+
+    /* ===== IMPACT COUNTERS ===== */
+    .impact-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:14px;
+      margin-top:12px;
+    }
+    .impact-tile{
+      border-radius:14px;
+      padding:14px 12px;
+      background:radial-gradient(circle at 0 0,rgba(0,0,0,0.85),rgba(7,24,39,0.96));
+      border:1px solid rgba(255,255,255,0.12);
+      font-size:12px;
+    }
+    .impact-number{
+      font-size:22px;
+      font-weight:700;
+      color:var(--accent);
+    }
+    .impact-unit{font-size:11px;color:rgba(215,245,240,0.7);}
+    .impact-caption{font-size:12px;color:rgba(215,245,240,0.83);margin-top:4px;}
+
+    /* ===== RISK & LEARNINGS ===== */
+    .risk-badge{
+      padding:3px 7px;
+      font-size:10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.25);
+      color:var(--accent-2);
+      background:rgba(255,255,255,0.04);
       display:inline-flex;
       align-items:center;
       gap:4px;
     }
 
-    /* SIDEBAR TOGGLE BUTTON (BUBBLE) */
-    .sidebar-toggle{
-      position:fixed;
-      bottom:22px;
-      right:20px;
-      z-index:1100;
-      display:flex;
-      align-items:center;
-      gap:8px;
-      cursor:pointer;
+    /* ===== TEAM ===== */
+    .team-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+      gap:16px;
+      margin-top:10px;
     }
-    .sidebar-toggle-bubble{
-      width:52px;
-      height:52px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.14);
-      background:radial-gradient(circle at 10% 0%,rgba(255,75,92,0.8),rgba(4,16,26,0.9));
-      box-shadow:0 10px 30px rgba(0,0,0,0.7);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      backdrop-filter:blur(12px);
-      transition:transform .25s ease,box-shadow .25s ease,background .25s ease;
+    .team-card{
+      perspective:800px;
     }
-    .sidebar-toggle-label{
-      font-size:11px;
-      padding:6px 9px;
-      border-radius:999px;
-      background:rgba(0,0,0,0.6);
-      border:1px solid rgba(255,255,255,0.2);
-      color:rgba(215,245,240,0.88);
-    }
-    .sidebar-toggle.open .sidebar-toggle-bubble{
-      background:radial-gradient(circle at 10% 0%,rgba(0,209,178,0.9),rgba(4,16,26,0.95));
-      box-shadow:0 0 28px rgba(0,209,178,0.6);
-      transform:translateY(-2px);
-    }
-    .sidebar-toggle-icon{
-      width:22px;
-      height:2px;
-      background:var(--tone);
+    .team-inner{
       position:relative;
-      transition:all .25s ease;
+      transform-style:preserve-3d;
+      transition:transform .5s;
     }
-    .sidebar-toggle-icon::before,
-    .sidebar-toggle-icon::after{
-      content:"";
-      position:absolute;
-      left:0;
-      width:22px;
-      height:2px;
-      background:var(--tone);
-      transition:all .25s ease;
+    .team-card:hover .team-inner{
+      transform:rotateY(13deg) translateY(-4px);
     }
-    .sidebar-toggle-icon::before{top:-6px}
-    .sidebar-toggle-icon::after{top:6px}
-    .sidebar-toggle.open .sidebar-toggle-icon{
-      background:transparent;
+    .team-face{
+      border-radius:16px;
+      padding:16px 14px;
+      background:radial-gradient(circle at 0 0,rgba(0,0,0,0.85),rgba(5,20,34,0.98));
+      border:1px solid rgba(255,255,255,0.1);
     }
-    .sidebar-toggle.open .sidebar-toggle-icon::before{
-      top:0;
-      transform:rotate(45deg);
-    }
-    .sidebar-toggle.open .sidebar-toggle-icon::after{
-      top:0;
-      transform:rotate(-45deg);
-    }
-
-    .sidebar-backdrop{
-      position:fixed;
-      inset:0;
-      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.09),rgba(0,0,0,0.75));
-      backdrop-filter:blur(3px);
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .3s ease;
-      z-index:1050;
-    }
-    .sidebar-backdrop.open{
-      opacity:1;
-      pointer-events:auto;
-    }
-
-    .sidebar{
-      position:fixed;
-      bottom:90px;
-      right:20px;
-      width:260px;
-      max-width:80vw;
-      z-index:1200;
-      padding:14px 14px 12px;
-      background:linear-gradient(145deg,rgba(4,16,26,0.98),rgba(19,5,10,0.96));
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.18);
-      box-shadow:0 24px 60px rgba(0,0,0,0.9);
-      transform:translateY(18px) scale(0.9);
-      opacity:0;
-      pointer-events:none;
-      transition:all .25s cubic-bezier(.19,1,.22,1);
-    }
-    .sidebar.open{
-      transform:translateY(0) scale(1);
-      opacity:1;
-      pointer-events:auto;
-    }
-    .sidebar-header{
-      font-size:12px;
-      font-weight:600;
-      margin-bottom:6px;
-      color:var(--accent-2);
-    }
-    .sidebar-sub{
-      font-size:10px;
-      color:rgba(215,245,240,0.7);
+    .avatar{
+      width:56px;height:56px;border-radius:18px;
+      background:linear-gradient(135deg,#021f24,#052a2f);
+      border:2px solid rgba(0,209,178,0.5);
+      display:flex;align-items:center;justify-content:center;
+      font-size:26px;font-weight:700;color:var(--accent);
       margin-bottom:8px;
     }
-    .sidebar-nav{
-      max-height:220px;
-      overflow-y:auto;
-      padding-right:4px;
-    }
-    .sidebar-link{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 7px;
-      border-radius:9px;
-      font-size:11px;
-      color:rgba(215,245,240,0.85);
-      text-decoration:none;
-      cursor:pointer;
-      transition:background .2s ease,transform .15s ease,color .2s ease;
-    }
-    .sidebar-link-icon{
-      width:22px;
-      height:22px;
-      border-radius:999px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:13px;
-      background:rgba(255,75,92,0.12);
-    }
-    .sidebar-link:hover{
-      background:radial-gradient(circle at 0 0,rgba(0,209,178,0.25),rgba(0,0,0,0.3));
-      transform:translateX(1px);
-      color:var(--tone);
-    }
-    .sidebar-link strong{
-      font-weight:500;
-    }
 
-    .sidebar-footer{
-      border-top:1px solid rgba(255,255,255,0.08);
-      margin-top:6px;
-      padding-top:6px;
-      font-size:10px;
-      color:rgba(215,245,240,0.7);
-    }
-    .sidebar-footer a{
-      color:var(--accent-2);
-      text-decoration:underline;
-    }
-
-    /* header */
-    header.hero{
-      padding:100px 24px 56px;
-      text-align:center;
-      position:relative;
-      overflow:hidden;
-    }
-    .hero-bg{
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at 15% 0,rgba(255,75,92,0.35),transparent 55%),
-        radial-gradient(circle at 85% 20%,rgba(0,209,178,0.3),transparent 55%),
-        linear-gradient(90deg, rgba(0,209,178,0.06), rgba(255,211,122,0.03));
-      pointer-events:none;
-      mix-blend-mode:screen;
-      filter:blur(40px);
-      transform:translateZ(0);
-    }
-    .logo-wrap{display:inline-flex;align-items:center;gap:14px;position:relative;z-index:1}
-    .logo{
-      width:80px;
-      height:80px;
-      border-radius:18px;
-      background:conic-gradient(from 200deg, var(--accent-danger),var(--accent),#00a8c6,var(--accent-danger));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:800;
-      color:#021719;
-      font-size:24px;
-      box-shadow:0 10px 30px rgba(255,75,92,0.7);
-      position:relative;
-      overflow:hidden;
-    }
-    .logo::after{
-      content:"";
-      position:absolute;
-      inset:14px;
-      border-radius:14px;
-      background:radial-gradient(circle at 0 0,rgba(255,255,255,0.9),rgba(0,209,178,0.4));
-      mix-blend-mode:screen;
-      opacity:0.7;
-    }
-    .logo span{
-      position:relative;
-      z-index:1;
-    }
-    h1{
-      margin:18px 0 6px;
-      font-size:32px;
-      letter-spacing:0.2px;
-      color:var(--accent-2);
-      text-shadow:0 6px 30px rgba(0,0,0,0.8);
-      position:relative;
-      z-index:1;
-    }
-    p.lead{
-      margin:0;
-      font-size:16px;
-      color:var(--tone);
-      opacity:0.95;
-      position:relative;
-      z-index:1;
-    }
-    .hero-chip{
-      margin-top:12px;
-      display:inline-flex;
-      gap:8px;
-      position:relative;
-      z-index:1;
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      color:rgba(215,245,240,0.8);
-      flex-wrap:wrap;
-      justify-content:center;
-    }
-    .hero-chip span{
-      padding:5px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.14);
-      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.22),rgba(4,16,26,0.9));
-    }
-
-    /* main container */
-    main{max-width:1200px;margin:0 auto 40px;padding:0 20px}
-    .section{
-      position:relative;
-      padding:28px;
-      border-radius:14px;
-      margin-bottom:26px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.08));
-      border:1px solid var(--muted);
-      box-shadow:0 8px 30px rgba(2,8,12,0.6);
-      overflow:visible;
-    }
-    h2.section-title{
-      margin:0 0 14px;
-      color:var(--accent);
-      font-size:22px;
-      display:flex;
-      align-items:center;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-    h2.section-title span.badge{
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:0.15em;
-      padding:3px 8px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.16);
-      color:var(--accent-2);
-      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.22),rgba(4,16,26,0.9));
-    }
-    p.small{color:rgba(215,245,240,0.86);font-size:14px;line-height:1.6}
-
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      padding:18px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.03);
-      transition:transform .28s,box-shadow .28s,border-color .28s;
-    }
-    .card:hover{
-      transform:translateY(-4px);
-      box-shadow:0 18px 40px rgba(0,0,0,0.7);
-      border-color:rgba(0,209,178,0.35);
-    }
-
-    /* AI icons */
-    .ai-list{display:flex;flex-direction:column;gap:12px}
-    .ai-item{display:flex;gap:12px;align-items:flex-start}
-    .ai-icon{
-      width:52px;
-      height:52px;
-      border-radius:10px;
-      background:linear-gradient(135deg,#2b050b,#003b2f);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:var(--accent);
-      font-size:20px;
-      box-shadow:0 6px 18px rgba(0,209,178,0.12);
-    }
-    .ai-text strong{display:block;color:var(--accent-2);margin-bottom:4px;font-size:14px}
-
-    /* HOW IT WORKS TIMELINE */
-    .timeline{
+    /* ===== CONTACT ===== */
+    .contact-grid{
       display:grid;
-      gap:14px;
-    }
-    .timeline-step{
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-    }
-    .timeline-badge{
-      width:26px;
-      height:26px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.3);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:12px;
-      background:radial-gradient(circle at 0 0,rgba(0,209,178,0.3),rgba(4,16,26,0.9));
-    }
-    .timeline-content strong{
-      font-size:14px;
-      color:var(--accent-2);
-    }
-    .timeline-content p{
-      margin:3px 0 0;
-      font-size:13px;
-      color:rgba(215,245,240,0.85);
-    }
-
-    /* IMPACT BARS (simple graph style) */
-    .impact-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      grid-template-columns:minmax(0,1.3fr) minmax(0,1.1fr);
       gap:18px;
-      margin-top:10px;
+      margin-top:8px;
     }
-    .impact-bar{
-      margin-top:10px;
+    @media(max-width:900px){
+      .contact-grid{grid-template-columns:1fr}
     }
-    .impact-bar-label{
-      font-size:12px;
-      color:rgba(215,245,240,0.85);
-      margin-bottom:4px;
-    }
-    .impact-bar-track{
-      width:100%;
-      height:10px;
-      border-radius:999px;
-      background:rgba(255,255,255,0.06);
-      overflow:hidden;
-    }
-    .impact-bar-fill{
-      height:100%;
-      border-radius:999px;
-      background:linear-gradient(90deg,var(--accent-danger),var(--accent));
-      width:0;
-      transition:width 1.2s ease-out;
-    }
-
-    /* DEMO PHONE MOCKUP */
-    .mock-grid{
-      display:grid;
-      grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
-      gap:20px;
-      align-items:center;
-    }
-    .phone-frame{
-      width:100%;
-      max-width:260px;
-      margin:0 auto;
-      border-radius:32px;
-      padding:12px 10px;
-      background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(0,0,0,0.8));
-      border:1px solid rgba(255,255,255,0.25);
-      box-shadow:0 20px 40px rgba(0,0,0,0.8);
-      position:relative;
-    }
-    .phone-inner{
-      border-radius:26px;
-      padding:14px;
-      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.4),rgba(4,16,26,1));
-      min-height:360px;
+    .contact-form{
       display:flex;
       flex-direction:column;
       gap:10px;
     }
-    .phone-header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      font-size:11px;
-      color:rgba(215,245,240,0.85);
+    .field-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
     }
-    .phone-chip{
-      font-size:10px;
-      padding:4px 7px;
-      border-radius:999px;
-      border:1px solid rgba(0,209,178,0.6);
-      background:rgba(0,0,0,0.4);
+    @media(max-width:600px){
+      .field-row{grid-template-columns:1fr}
     }
-    .phone-card{
-      padding:10px;
-      border-radius:12px;
-      background:rgba(0,0,0,0.6);
-      border:1px solid rgba(255,255,255,0.18);
-      font-size:11px;
-    }
-    .phone-cta{
-      margin-top:auto;
-      padding:10px;
-      border-radius:14px;
-      background:linear-gradient(90deg,var(--accent-danger),var(--accent));
-      color:#021719;
-      font-size:12px;
-      text-align:center;
-      font-weight:700;
-    }
-
-    /* Founder card (bottom) */
-    .founder{display:flex;gap:18px;align-items:center}
-    .founder .photo{
-      width:110px;
-      height:110px;
-      border-radius:18px;
-      background:linear-gradient(180deg,#021f24,#052a2f);
-      border:2px solid rgba(0,209,178,0.18);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:700;
-      color:var(--accent);
-      font-size:38px;
-    }
-    .founder .bio{color:var(--tone)}
-
-    /* Contact form */
-    .contact-form{max-width:820px;margin:16px auto 0}
-    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .form-row.full{grid-template-columns:1fr}
     input,textarea{
       width:100%;
-      padding:12px;
-      border-radius:10px;
-      background:radial-gradient(circle at 0 0,rgba(0,0,0,0.7),rgba(7,24,39,0.9));
-      border:1px solid rgba(255,255,255,0.08);
+      padding:10px 11px;
+      border-radius:11px;
+      background:radial-gradient(circle at 0 0,rgba(0,0,0,0.8),rgba(7,24,39,0.9));
+      border:1px solid rgba(255,255,255,0.1);
       color:var(--tone);
-      font-size:15px;
+      font-size:13px;
       outline:none;
     }
-    textarea{min-height:120px;resize:vertical}
-    .submit{
-      display:inline-block;
-      padding:12px 20px;
-      border-radius:10px;
+    textarea{min-height:110px;resize:vertical;}
+    input::placeholder,textarea::placeholder{color:rgba(215,245,240,0.6);}
+    .btn-primary{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      padding:10px 16px;
+      border-radius:999px;
+      border:none;
       background:linear-gradient(90deg,var(--accent-danger),var(--accent));
       color:#021719;
-      border:none;
       font-weight:700;
+      font-size:13px;
       cursor:pointer;
-      box-shadow:0 10px 26px rgba(255,75,92,0.5);
+      box-shadow:0 10px 26px rgba(255,75,92,0.6);
+    }
+    .btn-ghost{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      padding:9px 15px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.28);
+      background:rgba(0,0,0,0.5);
+      color:var(--tone);
+      font-size:12px;
+      cursor:pointer;
     }
 
-    /* particles & glow canvas */
+    footer{
+      padding:18px 16px 28px;
+      text-align:center;
+      font-size:12px;
+      color:rgba(200,220,230,0.9);
+    }
+
+    /* ===== PARTICLES ===== */
     #particle-canvas{
       position:fixed;
       right:-10%;
@@ -604,554 +738,646 @@
       z-index:-1;
     }
 
-    /* fade-in animation */
-    .fade-up{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
-    .fade-up.visible{opacity:1;transform:none}
-
-    /* footer */
-    footer{
-      padding:26px 20px 30px;
+    /* ===== INTRO OVERLAY (10 sec, skippable) ===== */
+    .intro-overlay{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:radial-gradient(circle at 15% 0,rgba(255,75,92,0.3),rgba(0,0,0,0.96));
+      z-index:100;
+      overflow:hidden;
+    }
+    .intro-inner{
       text-align:center;
-      color:rgba(200,220,230,0.9);
+      padding:24px 16px;
+    }
+    .intro-logo{
+      width:120px;height:120px;border-radius:32px;
+      margin:0 auto 16px;
+      background:conic-gradient(from 200deg,var(--accent-danger),var(--accent),#00a8c6,var(--accent-danger));
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 24px 60px rgba(0,0,0,1);
+      position:relative;
+      animation:introSpin 7s linear infinite;
+    }
+    .intro-logo::after{
+      content:"";
+      position:absolute;
+      inset:18px;
+      border-radius:26px;
+      background:radial-gradient(circle at 0 0,rgba(255,255,255,0.9),rgba(0,209,178,0.4));
+      mix-blend-mode:screen;
+    }
+    .intro-logo span{
+      position:relative;
+      z-index:1;
+      font-size:40px;
+      font-weight:800;
+      color:#021719;
+    }
+    @keyframes introSpin{
+      0%{transform:rotate(0deg);}
+      100%{transform:rotate(360deg);}
+    }
+    .intro-title{
+      font-size:22px;
+      font-weight:700;
+      color:var(--accent-2);
+      margin-bottom:6px;
+    }
+    .intro-sub{
       font-size:13px;
+      color:rgba(215,245,240,0.85);
+      margin-bottom:14px;
+    }
+    .intro-tag{
+      font-size:11px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:rgba(215,245,240,0.7);
+      margin-bottom:16px;
+    }
+    .intro-progress{
+      width:180px;
+      height:4px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.06);
+      margin:0 auto 10px;
+      overflow:hidden;
+      position:relative;
+    }
+    .intro-progress-bar{
+      position:absolute;
+      left:0;top:0;bottom:0;
+      width:0%;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--accent-danger),var(--accent));
+      transition:width .2s linear;
+    }
+    .intro-skip{
+      margin-top:8px;
+      font-size:11px;
+      color:rgba(215,245,240,0.8);
+      cursor:pointer;
+      text-decoration:underline;
+    }
+    .intro-hidden{
+      animation:introFadeOut .5s forwards;
+    }
+    @keyframes introFadeOut{
+      to{opacity:0;visibility:hidden;}
     }
 
-    @media(max-width:900px){
-      .nav-links{display:none;}
-      header.hero{padding-top:110px;}
-      .mock-grid{grid-template-columns:1fr;}
-    }
-    @media(max-width:800px){
-      .founder{flex-direction:row}
-      .form-row{grid-template-columns:1fr}
+    @media(max-width:700px){
+      .app-header-inner{padding:8px 54px 8px 58px;}
+      .page-inner{padding:18px 14px 22px;}
     }
   </style>
 </head>
 <body>
 
-<!-- TOP NAVBAR -->
-<nav class="top-nav">
-  <div class="top-nav-left">
-    <div class="nav-logo">RQ</div>
-    <div>
-      <div class="nav-title">ResQ</div>
-      <div class="nav-sub">AI-first emergency response layer for India</div>
-    </div>
+<!-- INTRO OVERLAY -->
+<div class="intro-overlay" id="introOverlay">
+  <div class="intro-inner">
+    <div class="intro-logo"><span>RQ</span></div>
+    <div class="intro-tag">Launching Investor View</div>
+    <div class="intro-title">ResQ — India’s Emergency Response Layer</div>
+    <div class="intro-sub">AI-first platform unifying 108/102 + private responders into one live, accountable network.</div>
+    <div class="intro-progress"><div class="intro-progress-bar" id="introProgress"></div></div>
+    <div class="intro-skip" id="introSkip">Skip intro</div>
   </div>
-  <div class="top-nav-right">
-    <div class="nav-links">
-      <a href="#overview" class="nav-link">Overview</a>
-      <a href="#problem" class="nav-link">Problem</a>
-      <a href="#solution" class="nav-link">Solution</a>
-      <a href="#ai" class="nav-link">AI</a>
-      <a href="#how-it-works" class="nav-link">How it works</a>
-      <a href="#impact" class="nav-link">Impact</a>
-      <a href="#market" class="nav-link">Market</a>
-      <a href="#team" class="nav-link">Team</a>
-      <a href="#contact" class="nav-link">Contact</a>
-    </div>
-    <a href="ResQ.pdf" download class="nav-cta">⬇ Pitch PDF</a>
-  </div>
-</nav>
-
-<!-- SIDEBAR BUBBLE (NOT OPEN BY DEFAULT) -->
-<div class="sidebar-toggle" id="sidebarToggle">
-  <div class="sidebar-toggle-bubble">
-    <div class="sidebar-toggle-icon"></div>
-  </div>
-  <div class="sidebar-toggle-label">Menu / Jump</div>
 </div>
-<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-header">Quick Navigation</div>
-  <div class="sidebar-sub">Jump directly to key sections:</div>
-  <div class="sidebar-nav">
-    <div class="sidebar-link" data-target="overview">
-      <div class="sidebar-link-icon">📌</div>
-      <span><strong>Overview</strong> — what ResQ is</span>
-    </div>
-    <div class="sidebar-link" data-target="problem">
-      <div class="sidebar-link-icon">🚨</div>
-      <span><strong>Problem</strong> — why India needs this</span>
-    </div>
-    <div class="sidebar-link" data-target="how-it-works">
-      <div class="sidebar-link-icon">🛟</div>
-      <span><strong>How it works</strong> — user journey</span>
-    </div>
-    <div class="sidebar-link" data-target="impact">
-      <div class="sidebar-link-icon">📊</div>
-      <span><strong>Impact & Metrics</strong> — time saved</span>
-    </div>
-    <div class="sidebar-link" data-target="insights">
-      <div class="sidebar-link-icon">📈</div>
-      <span><strong>Insights</strong> — simple graphs</span>
-    </div>
-    <div class="sidebar-link" data-target="team">
-      <div class="sidebar-link-icon">🧑‍💻</div>
-      <span><strong>Founder</strong> & roles</span>
-    </div>
-    <div class="sidebar-link" data-target="contact">
-      <div class="sidebar-link-icon">✉️</div>
-      <span><strong>Contact</strong> — partner / invest</span>
-    </div>
-  </div>
-  <div class="sidebar-footer">
-    Built as a student-led, AI-powered mission to reduce preventable deaths in Indian cities.
-    <br/>Full deck:
-    <a href="ResQ.pdf" download>ResQ Pitch PDF</a>
-  </div>
-</aside>
+<!-- PARTICLES -->
+<canvas id="particle-canvas" aria-hidden="true"></canvas>
 
-<header class="hero" id="top">
-  <div class="hero-bg" aria-hidden></div>
-  <div class="logo-wrap">
-    <div class="logo" aria-hidden><span>RQ</span></div>
-  </div>
-  <h1>ResQ — India's Emergency Response Revolution</h1>
-  <p class="lead">AI-powered routing • Real-time tracking • Verified responders • Built from Hyderabad reality</p>
-  <div class="hero-chip">
-    <span>Emergency • HealthTech • GovTech</span>
-    <span>AI / ML + Mobile</span>
-    <span>Student founder • India-first</span>
+<!-- HEADER -->
+<header class="app-header">
+  <div class="app-header-inner">
+    <div class="logo-block">
+      <div class="logo-symbol"><span>RQ</span></div>
+      <div class="logo-text">
+        <div class="logo-text-main">ResQ • Investor Brief</div>
+        <div class="logo-text-sub">AI-powered emergency response for urban India</div>
+      </div>
+    </div>
+    <div class="header-pill">
+      <div class="header-dot"></div>
+      <span>Prototype • Early-stage • Student-led</span>
+    </div>
   </div>
 </header>
 
-<canvas id="particle-canvas" aria-hidden></canvas>
+<!-- APP SHELL -->
+<div class="app-shell">
 
-<main>
-  <!-- OVERVIEW -->
-  <section class="section fade-up" id="overview">
-    <h2 class="section-title">
-      Executive Summary
-      <span class="badge">Investor View</span>
-    </h2>
-    <p class="small">
-      ResQ is an AI-first emergency response aggregation layer for India that connects
-      government (108/102) and verified private ambulances on one real-time interface.
-      The goal: <strong>cut urban response times by 30–50%</strong>, make pricing transparent,
-      and give families and hospitals live visibility from “SOS” to “Admitted”.
-    </p>
-    <div class="grid" style="margin-top:14px">
-      <div class="card">
-        <strong>What ResQ does</strong>
-        <p class="small">
-          A single mobile app and backend that:
-          routes the nearest suitable ambulance, shows live ETA, notifies family,
-          and keeps hospital teams ready before arrival.
-        </p>
-      </div>
-      <div class="card">
-        <strong>Who it serves</strong>
-        <p class="small">
-          Citizens in urban India, hospitals, ambulance operators, and over time
-          government bodies that want data-driven response instead of manual dispatch.
-        </p>
-      </div>
-      <div class="card">
-        <strong>Why now</strong>
-        <p class="small">
-          Rising traffic, higher health awareness, and smartphones everywhere –
-          but emergency experience is still phone calls + guesswork. ResQ targets this gap.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROBLEM -->
-  <section class="section fade-up" id="problem">
-    <h2 class="section-title">Problem</h2>
-    <div class="grid">
-      <div class="card">
-        <strong>No real-time visibility</strong>
-        <p class="small">
-          Families and hospitals rarely get an accurate ETA. They rely on promises over calls,
-          not live GPS – increasing anxiety and risk.
-        </p>
-      </div>
-      <div class="card">
-        <strong>Manual & fragmented dispatch</strong>
-        <p class="small">
-          108/102 call centers and private operators mostly run manual allocation.
-          This leads to wrong assignments, delays, or no-show scenarios.
-        </p>
-      </div>
-      <div class="card">
-        <strong>Unclear pricing & trust deficit</strong>
-        <p class="small">
-          Private ambulances often don’t show pricing in advance.
-          Patients discover final costs only at the end, creating mistrust.
-        </p>
-      </div>
-      <div class="card">
-        <strong>Traffic + no optimisation</strong>
-        <p class="small">
-          Dense cities like Hyderabad lose critical minutes in traffic.
-          There is very little predictive routing or smart coverage planning.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SOLUTION -->
-  <section class="section fade-up" id="solution">
-    <h2 class="section-title">Solution</h2>
-    <p class="small">
-      ResQ offers a simple emergency journey:
-      <strong>SOS → nearest verified ambulance → live tracking → cashless / clear billing → digital record.</strong>
-      For operators and hospitals, it becomes a lightweight control center without heavy hardware.
-    </p>
-
-    <div class="grid" style="margin-top:14px">
-      <div class="card">
-        <h3 style="color:var(--accent-2);margin-top:0;">Core Features</h3>
-        <ul class="small">
-          <li>One-tap SOS with current location locked</li>
-          <li>Nearest suitable ambulance auto-assigned (Govt / Private tag shown)</li>
-          <li>Live GPS + ETA + ambulance and driver details</li>
-          <li>Transparent rate-card per hospital & vehicle type</li>
-          <li>Automatic SMS to emergency contact when ambulance is assigned</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3 style="color:var(--accent-2);margin-top:0;">Operational Modules</h3>
-        <ul class="small">
-          <li>User app (SOS, hospital selection, tracking)</li>
-          <li>Driver app (accept, navigate, update status)</li>
-          <li>Admin dashboard (fleet view, SLAs, analytics)</li>
-          <li>APIs for hospitals & government dashboards</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- AI DIFFERENTIATORS -->
-  <section class="section fade-up" id="ai">
-    <h2 class="section-title">AI Differentiators</h2>
-    <div class="ai-list">
-      <div class="ai-item card">
-        <div class="ai-icon">🤖</div>
-        <div class="ai-text">
-          <strong>Predictive Routing</strong>
-          <span class="small">
-            Uses live traffic + historical delay patterns by time of day and locality
-            to suggest fastest feasible path, not just shortest distance.
-          </span>
+  <!-- OVERVIEW PAGE -->
+  <section class="page active" id="page-overview" data-page="overview">
+    <div class="page-inner">
+      <div class="page-inner-content">
+        <div class="page-tag">Overview</div>
+        <div class="page-title">
+          ResQ: India’s AI Emergency Rail
+          <span class="badge-pill">Because every second matters</span>
         </div>
-      </div>
-      <div class="ai-item card">
-        <div class="ai-icon">⏱️</div>
-        <div class="ai-text">
-          <strong>ETA Optimisation</strong>
-          <span class="small">
-            ML models learn actual travel times from completed trips to correct future ETAs,
-            increasing reliability and trust for families and hospitals.
-          </span>
+        <div class="page-subtitle">
+          A single intelligent layer that routes every 108/102 and private ambulance with live visibility,
+          transparent pricing and accountable response. Built first for Hyderabad, extensible to every Indian city.
         </div>
-      </div>
-      <div class="ai-item card">
-        <div class="ai-icon">🩺</div>
-        <div class="ai-text">
-          <strong>Smart Triage Layer (Future)</strong>
-          <span class="small">
-            Short questionnaire to classify cases (cardiac, trauma, stroke, etc.)
-            and prioritise ICU-equipped ambulances for critical cases first.
-          </span>
-        </div>
-      </div>
-      <div class="ai-item card">
-        <div class="ai-icon">📊</div>
-        <div class="ai-text">
-          <strong>Demand Forecasting</strong>
-          <span class="small">
-            Identifies hotspots (junctions, accident-prone stretches, event zones)
-            and suggests pre-positioning ambulances to reduce average response times.
-          </span>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- HOW IT WORKS -->
-  <section class="section fade-up" id="how-it-works">
-    <h2 class="section-title">
-      How ResQ Works
-      <span class="badge">End-to-end flow</span>
-    </h2>
-    <div class="mock-grid">
-      <div>
-        <p class="small">
-          A typical ResQ journey for a family in Hyderabad during a medical emergency:
-        </p>
-        <div class="timeline">
-          <div class="timeline-step">
-            <div class="timeline-badge">1</div>
-            <div class="timeline-content">
-              <strong>SOS triggered</strong>
-              <p>Family opens the app, taps “Emergency”. Current GPS location is locked automatically.</p>
+        <div class="hero-metrics">
+          <div class="card">
+            <div class="metric-label">Target response window</div>
+            <div class="metric-main">8 min</div>
+            <div class="metric-sub">Median urban response time objective vs 18–25 minutes typical today.</div>
+          </div>
+          <div class="card">
+            <div class="metric-label">Initial focus</div>
+            <div class="metric-main">Hyderabad</div>
+            <div class="metric-sub">High-density, high-income mix with strong hospital ecosystem and 108 coverage.</div>
+          </div>
+          <div class="card">
+            <div class="metric-label">Platform model</div>
+            <div class="metric-main">Gov + Private</div>
+            <div class="metric-sub">Works with government fleets while making private operators transparent & accountable.</div>
+          </div>
+        </div>
+
+        <div class="how-it-works">
+          <div>
+            <div class="card-label">How ResQ feels to a citizen</div>
+            <div class="card-title">3-tap emergency journey</div>
+            <div class="flow-steps">
+              <div class="flow-step">
+                <div class="flow-badge">1</div>
+                <div>
+                  <strong>Open App / Press SOS</strong><br>
+                  Current location auto-detected, hospitals filtered by distance, capability and capacity.
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-badge">2</div>
+                <div>
+                  <strong>Answer 1–2 triage questions</strong><br>
+                  Conscious / unconscious, bleeding, trauma etc. to prioritise and match the right ambulance type.
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-badge">3</div>
+                <div>
+                  <strong>Ambulance assigned with live ETA</strong><br>
+                  Family & hospital get live tracking link + automated SMS updates until handover at destination.
+                </div>
+              </div>
             </div>
           </div>
-          <div class="timeline-step">
-            <div class="timeline-badge">2</div>
-            <div class="timeline-content">
-              <strong>Hospital choice</strong>
-              <p>App shows nearby hospitals with distance, specialisation (trauma / cardiac / multi), and indicative rates.</p>
+
+          <div class="demo-scene">
+            <div class="scene-road"></div>
+            <div class="scene-node user"></div>
+            <div class="scene-node hospital"></div>
+            <div class="scene-label user">Caller</div>
+            <div class="scene-label hospital">ResQ-Partner Hospital</div>
+            <div class="scene-ambulance">🚑</div>
+            <div class="scene-caption">
+              Prototype animation of our core loop:<br>
+              <strong>Caller → Triage → Routing → Handover</strong>
             </div>
           </div>
-          <div class="timeline-step">
-            <div class="timeline-badge">3</div>
-            <div class="timeline-content">
-              <strong>Nearest verified ambulance assigned</strong>
-              <p>ResQ pings the fleet. The fastest suitable ambulance accepts. Family sees driver, vehicle type and ETA immediately.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM PAGE -->
+  <section class="page" id="page-problem" data-page="problem">
+    <div class="page-inner">
+      <div class="page-inner-content">
+        <div class="page-tag">Problem</div>
+        <div class="page-title">
+          The Emergency Gap in Indian Cities
+        </div>
+        <div class="page-subtitle">
+          India has ambulances, hospitals and emergency numbers — but no unified, intelligent rail
+          that coordinates them in real time. The result: unpredictable response and invisible failures.
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <div class="card-title">Fragmented dispatch</div>
+            <div class="muted">
+              108 / 102, hospital-owned ambulances, and private operators all run their own routing.
+              No single “source of truth” for who is closest, who is free, and where traffic is blocked.
             </div>
           </div>
-          <div class="timeline-step">
-            <div class="timeline-badge">4</div>
-            <div class="timeline-content">
-              <strong>Live tracking & arrival</strong>
-              <p>Family and hospital track movement live. On completion, a summary and digital invoice (in future) is generated.</p>
+          <div class="card">
+            <div class="card-title">No visibility for families</div>
+            <div class="muted">
+              Once a call is placed, most families are blind. No live map, no verified ETA, and no way to know
+              if a better ambulance was available.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Trust & pricing issues</div>
+            <div class="muted">
+              Private ambulances are often negotiated on the road, with unverified operators and
+              inconsistent pricing — especially during high-stress cases.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Policy–technology gap</div>
+            <div class="muted">
+              Governments want data to improve response, but modern, neutral, tech-first rails are missing.
+              Existing pilots are often siloed, poorly designed, or non-scalable.
             </div>
           </div>
         </div>
       </div>
-      <div>
-        <!-- PHONE MOCKUP -->
-        <div class="phone-frame">
-          <div class="phone-inner">
-            <div class="phone-header">
-              <span>ResQ • SOS</span>
-              <span class="phone-chip">Hyderabad LIVE</span>
+    </div>
+  </section>
+
+  <!-- SOLUTION PAGE -->
+  <section class="page" id="page-solution" data-page="solution">
+    <div class="page-inner">
+      <div class="page-inner-content">
+        <div class="page-tag">Solution</div>
+        <div class="page-title">
+          ResQ: A Neutral, AI-First Emergency Rail
+        </div>
+        <div class="page-subtitle">
+          ResQ is a neutral coordination layer that routes government and private ambulances like packets on a network:
+          <strong>fastest, safest, verifiable.</strong>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <div class="card-label">Layer 1</div>
+            <div class="card-title">Citizen & family app</div>
+            <div class="muted">
+              SOS, hospital selection guidance, real-time tracking, live ETA, emergency contact notifications
+              and digital receipts after the trip.
             </div>
-            <div class="phone-card">
-              <strong style="font-size:12px;color:var(--accent-2);">Emergency Type</strong><br/>
-              <span>🚑 Medical • 🔥 Fire • 🆘 Rescue</span>
+          </div>
+          <div class="card">
+            <div class="card-label">Layer 2</div>
+            <div class="card-title">Driver / operator app</div>
+            <div class="muted">
+              Optimised pick-up and drop routes, single-tap status updates, integrated navigation and
+              trip history with SLA metrics.
             </div>
-            <div class="phone-card">
-              <strong style="font-size:12px;color:var(--accent-2);">Nearest Ambulance</strong><br/>
-              <span style="font-size:11px;">Private Basic — ETA 06:22 • ₹100/km<br/>Driver: Ramesh (⭐ 4.7)</span>
+          </div>
+          <div class="card">
+            <div class="card-label">Layer 3</div>
+            <div class="card-title">Control & analytics dashboard</div>
+            <div class="muted">
+              City heatmaps, bottleneck detection, fleet utilisation analytics and policy-friendly data exports
+              for health departments.
             </div>
-            <div class="phone-card">
-              <strong style="font-size:12px;color:var(--accent-2);">Hospital Selected</strong><br/>
-              <span style="font-size:11px;">KIMS Hospital — Trauma & ICU • 4.2 km</span>
+          </div>
+          <div class="card">
+            <div class="card-label">Layer 4</div>
+            <div class="card-title">AI decision engine</div>
+            <div class="muted">
+              Predictive routing, ETA correction, demand forecasting and triage-based prioritisation to
+              keep the platform learning from every trip.
             </div>
-            <div class="phone-card">
-              <strong style="font-size:12px;color:var(--accent-2);">Family Notified</strong><br/>
-              <span style="font-size:11px;">SMS sent to Emergency Contact with live tracking link.</span>
-            </div>
-            <div class="phone-cta">🚨 Live Tracking: En route to KIMS</div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- IMPACT & METRICS -->
-  <section class="section fade-up" id="impact">
-    <h2 class="section-title">
-      Impact & Metrics (Concept)
-      <span class="badge">Time saved = lives saved</span>
-    </h2>
-    <p class="small">
-      Even a <strong>5–8 minute improvement</strong> in ambulance arrival can be the difference
-      between life and death in cardiac, stroke and trauma cases.
-      ResQ’s model is designed around measurable improvements:
-    </p>
-
-    <div class="impact-grid">
-      <div class="card">
-        <strong>Response Time Improvement (Concept Pilot)</strong>
-        <div class="impact-bar">
-          <div class="impact-bar-label">Typical current average (manual calls)</div>
-          <div class="impact-bar-track">
-            <div class="impact-bar-fill" data-width="80"></div>
+        <div style="margin-top:18px" class="card">
+          <div class="card-label">Prototype status</div>
+          <div class="muted">
+            <ul style="padding-left:18px;margin-top:6px;">
+              <li>Investor web brief live at <strong>ResQ</strong> (this site).</li>
+              <li>Customer app wireframes and flows defined — registration, hospital choice, routing, tracking, summary.</li>
+              <li>Driver-side and operator flows drafted for pilot integration.</li>
+              <li>All flows are designed to be <strong>API-first</strong>, so governments and hospitals can integrate with minimal friction.</li>
+            </ul>
           </div>
         </div>
-        <div class="impact-bar">
-          <div class="impact-bar-label">Target with ResQ routing</div>
-          <div class="impact-bar-track">
-            <div class="impact-bar-fill" data-width="48"></div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKET PAGE -->
+  <section class="page" id="page-market" data-page="market">
+    <div class="page-inner">
+      <div class="page-inner-content">
+        <div class="page-tag">Market</div>
+        <div class="page-title">
+          Market Depth & Adoption Path
+        </div>
+        <div class="page-subtitle">
+          We start with a city-level emergency transport layer and gradually expand into broader
+          health logistics — while staying focused on life-critical events.
+        </div>
+
+        <div class="chart-row">
+          <div class="chart-card" id="chartBars">
+            <div class="chart-title">Emergency Calls Funnel (Illustrative)</div>
+            <div class="chart-sub">
+              Where ResQ plugs in: from triage to dispatch and live tracking, for each emergency call.
+            </div>
+            <div class="bar-chart">
+              <div class="bar">
+                <div class="bar-inner" data-h="95"></div>
+                <div class="bar-value">100%</div>
+                <div class="bar-label">Calls</div>
+              </div>
+              <div class="bar">
+                <div class="bar-inner" data-h="65"></div>
+                <div class="bar-value">~65%</div>
+                <div class="bar-label">Ambulance<br>needed</div>
+              </div>
+              <div class="bar">
+                <div class="bar-inner" data-h="40"></div>
+                <div class="bar-value">~40%</div>
+                <div class="bar-label">Arrive<br>&lt; 15 min</div>
+              </div>
+              <div class="bar">
+                <div class="bar-inner" data-h="85"></div>
+                <div class="bar-value">↑</div>
+                <div class="bar-label">ResQ target<br>&lt; 8 min</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card" id="chartDonut">
+            <div class="chart-title">Go-To-Market focus</div>
+            <div class="chart-sub">
+              Phased focus to reduce risk: depth in one city first, then lateral expansion.
+            </div>
+            <div class="donut">
+              <div class="donut-inner">
+                Phase 1<br>Hyderabad
+              </div>
+            </div>
+            <div class="legend">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:rgba(255,75,92,0.9)"></div>
+                <span>Hyderabad city emergency transport digitisation</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:rgba(0,209,178,0.9)"></div>
+                <span>Tier-1 & Tier-2 city rollout in Telangana / AP cluster</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:rgba(255,211,122,0.9)"></div>
+                <span>Adjacent health logistics (planned post product-market fit)</span>
+              </div>
+            </div>
           </div>
         </div>
-        <p class="small" style="margin-top:8px;">
-          Objective: bring city averages from ~20+ minutes closer to ~10–12 minutes
-          with smarter allocation and pre-positioning.
-        </p>
+
       </div>
-      <div class="card">
-        <strong>Fleet Utilisation & Visibility</strong>
-        <div class="impact-bar">
-          <div class="impact-bar-label">Current: tracked & digitised</div>
-          <div class="impact-bar-track">
-            <div class="impact-bar-fill" data-width="20"></div>
+    </div>
+  </section>
+
+  <!-- IMPACT PAGE -->
+  <section class="page" id="page-impact" data-page="impact">
+    <div class="page-inner">
+      <div class="page-inner-content">
+        <div class="page-tag">Impact</div>
+        <div class="page-title">Impact Lens: Lives, Trust, and Data</div>
+        <div class="page-subtitle">
+          ResQ isn’t just a convenience product — it is an impact rail. Every minute saved, every transparent
+          trip, every dataset generated feeds back into how a city saves lives.
+        </div>
+
+        <div class="impact-grid">
+          <div class="impact-tile">
+            <div class="impact-number" data-count="34">0%</div>
+            <div class="impact-unit">Expected reduction in response time (illustrative)</div>
+            <div class="impact-caption">
+              By smarter routing, avoiding duplicate dispatch, and choosing better positioned ambulances.
+            </div>
+          </div>
+          <div class="impact-tile">
+            <div class="impact-number" data-count="10000">0</div>
+            <div class="impact-unit">Trips / year at Hyderabad scale</div>
+            <div class="impact-caption">
+              Even partial coverage in one dense city yields meaningful trip volumes for learning and optimisation.
+            </div>
+          </div>
+          <div class="impact-tile">
+            <div class="impact-number" data-count="3">0</div>
+            <div class="impact-unit">Stakeholder groups</div>
+            <div class="impact-caption">
+              Citizens + families, operators (government & private), and policy makers — all see value and visibility.
+            </div>
           </div>
         </div>
-        <div class="impact-bar">
-          <div class="impact-bar-label">With ResQ: digitised fleet share</div>
-          <div class="impact-bar-track">
-            <div class="impact-bar-fill" data-width="65"></div>
+
+        <div style="margin-top:18px" class="card">
+          <div class="card-title">What success looks like for ResQ</div>
+          <div class="muted">
+            <ul style="padding-left:18px;margin-top:6px;">
+              <li>Citizens treat ResQ as instinctive as dialling 108 — but with live tracking and choice.</li>
+              <li>Operators see fewer idle minutes and better utilisation while being transparently rated.</li>
+              <li>City health departments gain a live dashboard of what is actually happening on the roads.</li>
+            </ul>
           </div>
         </div>
-        <p class="small" style="margin-top:8px;">
-          As more operators onboard, visibility and predictability of the emergency network improves.
-        </p>
+
       </div>
     </div>
   </section>
 
-  <!-- MARKET -->
-  <section class="section fade-up" id="market">
-    <h2 class="section-title">Market Opportunity</h2>
-    <p class="small">
-      India operates tens of thousands of ambulances, yet only a minority are fully digitised.
-      The immediate wedge for ResQ is urban emergency medical transport, starting with Hyderabad
-      and then other Tier-1 / Tier-2 cities.
-    </p>
-    <div class="grid" style="margin-top:14px">
-      <div class="card"><strong>TAM:</strong> National emergency & health mobility ecosystem (Govt 108/102 + private + corporate). </div>
-      <div class="card"><strong>SAM:</strong> Urban ambulance & dispatch market across metros and Tier-1 cities.</div>
-      <div class="card"><strong>SOM:</strong> Initial focus on Hyderabad & Telangana urban clusters with deep operator integration.</div>
-    </div>
-  </section>
+  <!-- RISK & LEARNINGS PAGE (instead of competition) -->
+  <section class="page" id="page-risk" data-page="risk">
+    <div class="page-inner">
+      <div class="page-inner-content">
+        <div class="page-tag">Risk & Learnings</div>
+        <div class="page-title">
+          Why Others Struggled — and What We Learn
+        </div>
+        <div class="page-subtitle">
+          ResQ is not positioned as “one more ambulance aggregator”. We treat failed and partial attempts in this
+          space as <strong>lessons</strong>, not direct competition.
+        </div>
 
-  <!-- COMPETITION -->
-  <section class="section fade-up" id="competition">
-    <h2 class="section-title">Competitive Landscape</h2>
-    <div class="card">
-      <table style="width:100%;border-collapse:collapse;color:var(--tone);font-size:13px;">
-        <thead style="text-align:left;color:var(--accent-2)">
-          <tr>
-            <th style="padding:6px 4px;">Competitor</th>
-            <th style="padding:6px 4px;">Approach</th>
-            <th style="padding:6px 4px;">Gap</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td style="padding:6px 4px;">AmbiPalm</td><td style="padding:6px 4px;">City-wide networks</td><td style="padding:6px 4px;">Trust & tech stability issues reported.</td></tr>
-          <tr><td style="padding:6px 4px;">StanPlus</td><td style="padding:6px 4px;">Premium B2B ambulances</td><td style="padding:6px 4px;">More hospital-focused than citizen app.</td></tr>
-          <tr><td style="padding:6px 4px;">Ziqitza</td><td style="padding:6px 4px;">Large-scale govt operations</td><td style="padding:6px 4px;">Limited consumer product & UX focus.</td></tr>
-          <tr><td style="padding:6px 4px;">LifeLine Now</td><td style="padding:6px 4px;">Tracking pilot</td><td style="padding:6px 4px;">Low adoption; UX and awareness issues.</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- INSIGHTS (extra graphs / insights) -->
-  <section class="section fade-up" id="insights">
-    <h2 class="section-title">
-      Insights & Data Direction
-      <span class="badge">Future dashboards</span>
-    </h2>
-    <div class="grid">
-      <div class="card">
-        <strong>City-level Insights (Future)</strong>
-        <p class="small">
-          ResQ can surface dashboards for cities:
-          hourly emergency demand, accident hotspots, ambulance coverage gaps, and average time-to-hospital.
-        </p>
-      </div>
-      <div class="card">
-        <strong>Hospital Readiness</strong>
-        <p class="small">
-          Hospitals get a queue of incoming emergencies with ETA and case type.
-          This helps them prepare ICU / OT faster and improve outcomes.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ROADMAP -->
-  <section class="section fade-up" id="roadmap">
-    <h2 class="section-title">12-Month Roadmap</h2>
-    <div class="grid">
-      <div class="card"><strong>0–3 months:</strong> Build core Android app, basic AI routing prototype, and onboard 30–50 operators for a closed pilot in Hyderabad.</div>
-      <div class="card"><strong>3–6 months:</strong> Run pilot, collect telemetry from real trips, refine ETA models, sign 1–2 hospital pilots, and lock SOPs for operations.</div>
-      <div class="card"><strong>6–12 months:</strong> Add digital payments & receipts, multilingual support, and scale to nearby cities; start govt / data-sharing conversations.</div>
-    </div>
-  </section>
-
-  <!-- TEAM -->
-  <section class="section fade-up" id="team">
-    <h2 class="section-title">Team & Roles</h2>
-    <div class="grid">
-      <div class="card">App Developer — mobile (Flutter / React Native).</div>
-      <div class="card">Backend & APIs — Node.js / Firebase / Realtime infra.</div>
-      <div class="card">AI / ML Engineer — routing, ETA prediction, triage.</div>
-      <div class="card">Operations Lead — ambulance onboarding, SLAs, support.</div>
-      <div class="card">Government / Legal — MoUs, compliance, data-sharing.</div>
-    </div>
-  </section>
-
-  <!-- TRACTION -->
-  <section class="section fade-up" id="traction">
-    <h2 class="section-title">Early Validation</h2>
-    <div class="grid">
-      <div class="card">30+ qualitative interviews with families & hospitals in Hyderabad about ambulance delays and trust issues.</div>
-      <div class="card">Conversations with private operators to explore onboarding for an initial ResQ pilot network.</div>
-      <div class="card">Draft operational flows: driver KYC, SOPs, and revenue-sharing structures for partners.</div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section class="section fade-up" id="contact">
-    <h2 class="section-title">Contact & Connect</h2>
-    <div class="card">
-      <p class="small">
-        For investor conversations, pilot partnerships, or data access discussions — feel free to reach out.
-      </p>
-      <div class="contact-form">
-        <form action="https://formsubmit.co/manmadareddy61@gmail.com" method="POST">
-          <input type="hidden" name="_subject" value="Investor inquiry — ResQ" />
-          <input type="hidden" name="_captcha" value="false" />
-          <div class="form-row">
-            <input name="name" placeholder="Your name" required />
-            <input name="email" type="email" placeholder="Your email" required />
+        <div class="grid">
+          <div class="card">
+            <div class="card-title">Lesson 1: Pure B2C without system integration struggles</div>
+            <div class="muted">
+              Many apps tried to be “Uber for ambulances” without integrating with hospitals, 108/102 or
+              local health authorities. ResQ is being designed as a <strong>system rail</strong>, not just an app.
+            </div>
           </div>
-          <div class="form-row full">
-            <input name="organization" placeholder="Organization / Role (optional)" />
+          <div class="card">
+            <div class="card-title">Lesson 2: Tech without operations fails</div>
+            <div class="muted">
+              Some players launched good apps but weak field operations and onboarding, leading to poor supply.
+              Our roadmap explicitly includes operations, SLAs and KYC for every partner.
+            </div>
           </div>
-          <div class="form-row full">
-            <textarea name="message" placeholder="Message — quick intro, interest, or specific ask" required></textarea>
+          <div class="card">
+            <div class="card-title">Lesson 3: Over-optimistic national launch</div>
+            <div class="muted">
+              Rapid multi-city expansion without depth has hurt previous attempts. ResQ’s plan is to
+              go deep in Hyderabad first and prove operational excellence before expansion.
+            </div>
           </div>
-          <div style="text-align:left;margin-top:10px">
-            <button type="submit" class="submit">Send message</button>
+          <div class="card">
+            <div class="card-title">Strategic position: Unique, but not naive</div>
+            <div class="muted">
+              We acknowledge that emergency rails are hard. Our advantage is starting focused, AI-first,
+              and <strong>co-designing with operators</strong> instead of treating them as an afterthought.
+            </div>
           </div>
-        </form>
-      </div>
-      <p style="margin-top:12px;color:rgba(215,245,240,0.7)">
-        Or download the full project brief:
-        <a href="ResQ.pdf" download style="color:var(--accent-2);text-decoration:underline;">ResQ Project Brief (PDF)</a>
-      </p>
-    </div>
-  </section>
+        </div>
 
-  <!-- FOUNDER -->
-  <section class="section fade-up" id="founder">
-    <h2 class="section-title">Founder</h2>
-    <div class="founder card">
-      <div class="photo">MR</div>
-      <div class="bio">
-        <p><strong>Manmada Reddy</strong></p>
-        <p class="small">
-          Previous B.Tech CSE (AI/ML) student at LPU. Transitioned to BBA at UCMH, JNTUH.
-          Time spent in Hyderabad, repeatedly witnessing ambulance delays, shaped ResQ’s mission:
-          bringing AI + product thinking to a deeply broken space.
-        </p>
-        <p class="small">
-          Contact:
-          <a href="mailto:manmadareddy61@gmail.com" style="color:var(--accent-2)">manmadareddy61@gmail.com</a>
-        </p>
+        <div style="margin-top:16px" class="card">
+          <span class="risk-badge">Risk Aware • Learning Driven</span>
+          <div class="muted" style="margin-top:6px;">
+            ResQ’s design, from first prototype, is built around these learnings — with clear checkpoints:
+            pilots, operator NPS, SLA adherence, and collaboration readiness with state health bodies.
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-</main>
+  <!-- TEAM PAGE -->
+  <section class="page" id="page-team" data-page="team">
+    <div class="page-inner">
+      <div class="page-inner-content">
+        <div class="page-tag">Team</div>
+        <div class="page-title">Team & Roles</div>
+        <div class="page-subtitle">
+          ResQ starts from a founder’s lived experience — noticing how ambulances struggled to reach in time in Hyderabad —
+          and grows into a cross-functional team combining product, AI, ops and policy.
+        </div>
+
+        <div class="team-grid">
+          <div class="team-card">
+            <div class="team-inner">
+              <div class="team-face">
+                <div class="avatar">MR</div>
+                <div class="card-title">Founder — <span style="color:var(--accent)">Manmada Reddy</span></div>
+                <div class="muted">
+                  B.Tech CSE (AI/ML) foundation at LPU, transitioning to BBA at UCMH, JNTUH.
+                  Obsessed with building systems that fix real-world bottlenecks, not just demo apps.
+                </div>
+                <div class="muted" style="margin-top:6px;font-size:11px;">
+                  <strong>Focus:</strong> Product, user flows, early partnerships, and investor communications.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-inner">
+              <div class="team-face">
+                <div class="card-label">Core roles to be filled</div>
+                <div class="card-title">Engineering & AI</div>
+                <div class="muted">
+                  <ul style="padding-left:18px;margin-top:4px;">
+                    <li><strong>Mobile engineer</strong> (Flutter / React Native) — customer + driver apps.</li>
+                    <li><strong>Backend engineer</strong> (Node.js / Firebase) — APIs, auth, trip logic.</li>
+                    <li><strong>AI / ML engineer</strong> — routing, ETA and triage models.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-inner">
+              <div class="team-face">
+                <div class="card-label">Field & policy</div>
+                <div class="card-title">Operations & Government liaison</div>
+                <div class="muted">
+                  <ul style="padding-left:18px;margin-top:4px;">
+                    <li>Operator onboarding and training with SLAs.</li>
+                    <li>Standard operating procedures for different emergency types.</li>
+                    <li>Structured engagement with health departments and city administration.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT PAGE -->
+  <section class="page" id="page-contact" data-page="contact">
+    <div class="page-inner">
+      <div class="page-inner-content">
+        <div class="page-tag">Contact</div>
+        <div class="page-title">Let’s Talk Pilots, Data & Support</div>
+        <div class="page-subtitle">
+          Open to conversations with <strong>early-stage investors</strong>, <strong>hospital networks</strong>,
+          <strong>municipal / state health bodies</strong>, and <strong>operators</strong> who want to co-create
+          the next generation of emergency rails.
+        </div>
+
+        <div class="contact-grid">
+          <div>
+            <form class="contact-form" action="https://formsubmit.co/manmadareddy61@gmail.com" method="POST">
+              <input type="hidden" name="_subject" value="Investor / Pilot inquiry — ResQ" />
+              <input type="hidden" name="_captcha" value="false" />
+              <div class="field-row">
+                <input name="name" placeholder="Your name" required />
+                <input name="email" type="email" placeholder="Your email" required />
+              </div>
+              <div class="field-row">
+                <input name="org" placeholder="Organization / Role" />
+                <input name="interest" placeholder="Investor / Hospital / Govt / Other" />
+              </div>
+              <textarea name="message" placeholder="Share your interest, context, or questions…" required></textarea>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">
+                <button type="submit" class="btn-primary">
+                  ✉️ Send message
+                </button>
+                <a class="btn-ghost" href="ResQ.pdf" download>
+                  📄 Download project brief (PDF)
+                </a>
+              </div>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Founder contact</div>
+            <div class="muted">
+              <p><strong>Manmada Reddy</strong></p>
+              <p style="margin-top:4px;">Email: <a href="mailto:manmadareddy61@gmail.com">manmadareddy61@gmail.com</a></p>
+              <p style="margin-top:8px;font-size:12px;">
+                Available for:<br>
+                • Deep dive on product & flows<br>
+                • Demo of customer-side prototype UI<br>
+                • Discussion on pilot structure for Hyderabad<br>
+              </p>
+              <p style="margin-top:10px;font-size:11px;color:rgba(215,245,240,0.75);">
+                This is an early, evolving blueprint — feedback from real operators,
+                paramedics and policymakers is deeply welcome.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
 
 <footer>
-  © 2025 ResQ • Presented by <strong>Manmada Reddy</strong> • “Every minute matters.”
+  © 2025 ResQ • Presented by <strong>Manmada Reddy</strong> • Built as a student-led prototype vision
 </footer>
 
 <script>
-// particles (simple floating blobs) for subtle AI glow
+/* ===== PARTICLES BACKGROUND ===== */
 const canvas = document.getElementById('particle-canvas');
 if(canvas){
   canvas.width = 600; canvas.height = 600;
@@ -1173,8 +1399,8 @@ if(canvas){
       p.y+=p.dy;
       if(p.x<-200) p.x=800;
       if(p.x>800) p.x=-200;
-      if(p.y<-200)p.y=800;
-      if(p.y>800)p.y=-200;
+      if(p.y<-200) p.y=800;
+      if(p.y>800) p.y=-200;
       const g=ctx.createRadialGradient(p.x,p.y,p.r*0.1,p.x,p.y,p.r);
       g.addColorStop(0,'rgba(0,209,178,0.18)');
       g.addColorStop(0.4,'rgba(0,160,210,0.09)');
@@ -1187,87 +1413,120 @@ if(canvas){
   draw();
 }
 
-// fade-in on scroll
-const observer = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('visible');
-    }
-  });
-},{threshold:0.12});
-document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+/* ===== PAGE NAVIGATION & HISTORY ===== */
+const pages = Array.from(document.querySelectorAll('.page'));
+const defaultPageId = 'overview';
+let currentPageId = defaultPageId;
 
-// smooth scroll for browsers that support it
-if('scrollBehavior' in document.documentElement.style){
-  document.documentElement.style.scrollBehavior='smooth';
-}
-
-// top nav active link handling
-const navLinks = Array.from(document.querySelectorAll('.nav-link'));
-function setActiveNav(){
-  const fromTop = window.scrollY + 120;
-  navLinks.forEach(link=>{
-    const hash = link.getAttribute('href');
-    if(!hash || !hash.startsWith('#')) return;
-    const section = document.querySelector(hash);
-    if(!section) return;
-    const top = section.offsetTop;
-    const bottom = top + section.offsetHeight;
-    if(fromTop >= top && fromTop < bottom){
-      navLinks.forEach(l=>l.classList.remove('active'));
-      link.classList.add('active');
-    }
-  });
-}
-window.addEventListener('scroll', setActiveNav);
-setActiveNav();
-
-// sidebar logic
-const sidebar = document.getElementById('sidebar');
-const sidebarToggle = document.getElementById('sidebarToggle');
-const sidebarBackdrop = document.getElementById('sidebarBackdrop');
-const sidebarLinks = Array.from(document.querySelectorAll('.sidebar-link'));
-
-function toggleSidebar(force){
-  const shouldOpen = typeof force === 'boolean' ? force : !sidebar.classList.contains('open');
-  if(shouldOpen){
-    sidebar.classList.add('open');
-    sidebarBackdrop.classList.add('open');
-    sidebarToggle.classList.add('open');
-  }else{
-    sidebar.classList.remove('open');
-    sidebarBackdrop.classList.remove('open');
-    sidebarToggle.classList.remove('open');
+function activateChartsFor(pageId){
+  // Simple trigger: when market page visible, animate graphs.
+  if(pageId === 'market'){
+    document.getElementById('chartBars')?.classList.add('active');
+    document.getElementById('chartDonut')?.classList.add('active');
+  }
+  // Impact counters
+  if(pageId === 'impact'){
+    document.querySelectorAll('.impact-number').forEach(el=>{
+      const target = parseInt(el.getAttribute('data-count') || '0',10);
+      let current = 0;
+      const steps = 40;
+      const increment = target/steps;
+      const interval = setInterval(()=>{
+        current += increment;
+        if(current >= target){
+          current = target;
+          clearInterval(interval);
+        }
+        if(target >= 1000){
+          el.textContent = Math.round(current).toLocaleString();
+        }else{
+          el.textContent = Math.round(current) + (target < 100 ? '%' : '');
+        }
+      },30);
+    });
   }
 }
 
-sidebarToggle.addEventListener('click',()=>toggleSidebar());
-sidebarBackdrop.addEventListener('click',()=>toggleSidebar(false));
+function showPage(pageId, pushState = true){
+  const pageEl = document.querySelector(`.page[data-page="${pageId}"]`);
+  if(!pageEl) return;
+  pages.forEach(p=>p.classList.remove('active'));
+  pageEl.classList.add('active');
+  currentPageId = pageId;
 
-sidebarLinks.forEach(link=>{
-  link.addEventListener('click',()=>{
-    const targetId = link.getAttribute('data-target');
-    const section = document.getElementById(targetId);
-    if(section){
-      section.scrollIntoView({behavior:'smooth',block:'start'});
-    }
-    toggleSidebar(false);
+  // Update nav chips
+  document.querySelectorAll('.nav-chip').forEach(chip=>{
+    const t = chip.getAttribute('data-target');
+    chip.classList.toggle('active', t === pageId);
+  });
+
+  if(pushState){
+    history.pushState({page:pageId}, '', pageId === defaultPageId ? './' : '#'+pageId);
+  }
+
+  activateChartsFor(pageId);
+}
+
+window.addEventListener('popstate', (event)=>{
+  const page = event.state?.page || (location.hash ? location.hash.replace('#','') : defaultPageId);
+  showPage(page, false);
+});
+
+window.addEventListener('load', ()=>{
+  const initial = location.hash ? location.hash.replace('#','') : defaultPageId;
+  showPage(initial, false);
+});
+
+/* ===== FLOATING NAV BUBBLE ===== */
+const navWrapper = document.querySelector('.nav-bubble-wrapper');
+const navBubbleMain = document.querySelector('.nav-bubble-main');
+
+if(navBubbleMain){
+  navBubbleMain.classList.add('show-hint');
+  setTimeout(()=>navBubbleMain.classList.remove('show-hint'),3500);
+
+  navBubbleMain.addEventListener('click', ()=>{
+    navWrapper.classList.toggle('open');
+  });
+}
+
+// Nav chips click
+document.querySelectorAll('.nav-chip').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    const target = chip.getAttribute('data-target');
+    showPage(target);
+    navWrapper.classList.remove('open');
   });
 });
 
-// animate impact bars when in view
-const barObserver = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      const bar = e.target;
-      const width = bar.getAttribute('data-width');
-      bar.style.width = width + '%';
-      barObserver.unobserve(bar);
+/* ===== INTRO OVERLAY (10s with skip) ===== */
+const introOverlay = document.getElementById('introOverlay');
+const introProgress = document.getElementById('introProgress');
+const introSkip = document.getElementById('introSkip');
+
+if(introOverlay && introProgress){
+  let elapsed = 0;
+  const total = 10000; // 10 seconds
+  const tick = 100;
+  const timer = setInterval(()=>{
+    elapsed += tick;
+    const pct = Math.min(100, (elapsed/total)*100);
+    introProgress.style.width = pct + '%';
+    if(elapsed >= total){
+      clearInterval(timer);
+      introOverlay.classList.add('intro-hidden');
+      setTimeout(()=>introOverlay.style.display='none',500);
     }
+  },tick);
+
+  introSkip.addEventListener('click', ()=>{
+    clearInterval(timer);
+    introOverlay.classList.add('intro-hidden');
+    setTimeout(()=>introOverlay.style.display='none',500);
   });
-},{threshold:0.4});
-document.querySelectorAll('.impact-bar-fill').forEach(bar=>barObserver.observe(bar));
+}
 </script>
 
 </body>
 </html>
+
