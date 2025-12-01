@@ -29,7 +29,25 @@
       overflow-x:hidden;
     }
 
-    /* === SLIDE-IN SIDEBAR === */
+    /* ===== LAYOUT ===== */
+    .layout{
+      display:flex;
+      min-height:100vh;
+    }
+    .content{
+      flex:1;
+      min-width:0;
+      margin-left:270px; /* reserved for sidebar on desktop */
+      transition:margin-left .3s ease;
+    }
+
+    @media(max-width:900px){
+      .content{
+        margin-left:0;
+      }
+    }
+
+    /* === SLIDE / FIXED SIDEBAR (DESKTOP FIXED, MOBILE DRAWER) === */
     .sidebar-toggle{
       position:fixed;
       top:18px;
@@ -41,7 +59,7 @@
       border:1px solid rgba(255,255,255,0.12);
       background:radial-gradient(circle at 10% 0%,rgba(255,75,92,0.8),rgba(4,16,26,0.85));
       box-shadow:0 10px 30px rgba(0,0,0,0.7);
-      display:flex;
+      display:none;
       align-items:center;
       justify-content:center;
       cursor:pointer;
@@ -102,19 +120,18 @@
       top:0;
       left:0;
       height:100vh;
-      width:290px;
+      width:270px;
       max-width:82%;
       z-index:1200;
       padding:18px 18px 20px;
       background:linear-gradient(145deg,rgba(4,16,26,0.98),rgba(19,5,10,0.96));
       border-right:1px solid rgba(255,255,255,0.08);
       box-shadow:0 24px 60px rgba(0,0,0,0.9);
-      transform:translateX(-105%);
-      transition:transform .35s cubic-bezier(.19,1,.22,1);
       display:flex;
       flex-direction:column;
+      transform:translateX(0);
+      transition:transform .35s cubic-bezier(.19,1,.22,1);
     }
-    .sidebar.open{transform:translateX(0);}
     .sidebar-header{
       display:flex;
       align-items:center;
@@ -243,9 +260,21 @@
       background:radial-gradient(circle at 0 0,rgba(255,75,92,0.25),rgba(4,16,26,0.9));
     }
 
+    @media(max-width:900px){
+      .sidebar{
+        transform:translateX(-105%);
+      }
+      .sidebar.open{
+        transform:translateX(0);
+      }
+      .sidebar-toggle{
+        display:flex;
+      }
+    }
+
     /* header */
     header.hero{
-      padding:72px 24px 56px;
+      padding:72px 24px 40px;
       text-align:center;
       position:relative;
       overflow:hidden;
@@ -287,10 +316,13 @@
       mix-blend-mode:screen;
       opacity:0.7;
     }
-    .logo span{position:relative;z-index:1;}
+    .logo span{
+      position:relative;
+      z-index:1;
+    }
     h1{
       margin:18px 0 6px;
-      font-size:34px;
+      font-size:32px;
       letter-spacing:0.2px;
       color:var(--accent-2);
       text-shadow:0 6px 30px rgba(0,0,0,0.8);
@@ -299,7 +331,7 @@
     }
     p.lead{
       margin:0;
-      font-size:16px;
+      font-size:15px;
       color:var(--tone);
       opacity:0.95;
       position:relative;
@@ -326,28 +358,21 @@
     }
 
     /* main container */
-    main{max-width:1200px;margin:10px auto 40px;padding:0 20px}
+    main{max-width:1200px;margin:0 auto 40px;padding:0 20px}
     .section{
       position:relative;
-      padding:28px;
+      padding:24px 24px 26px;
       border-radius:14px;
-      margin-bottom:26px;
+      margin-bottom:22px;
       background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.08));
       border:1px solid var(--muted);
       box-shadow:0 8px 30px rgba(2,8,12,0.6);
       overflow:visible;
     }
-    .section::after{
-      content:"";
-      position:absolute;
-      inset:1px;
-      border-radius:14px;
-      pointer-events:none;
-    }
     h2.section-title{
       margin:0 0 14px;
       color:var(--accent);
-      font-size:22px;
+      font-size:20px;
       display:flex;
       align-items:center;
       gap:8px;
@@ -365,10 +390,10 @@
     }
     p.small{color:rgba(215,245,240,0.86);font-size:14px;line-height:1.6}
 
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
     .card{
       background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      padding:18px;
+      padding:16px;
       border-radius:12px;
       border:1px solid rgba(255,255,255,0.03);
       transition:transform .28s,box-shadow .28s,border-color .28s;
@@ -379,12 +404,32 @@
       border-color:rgba(0,209,178,0.35);
     }
 
+    .card-link{
+      cursor:pointer;
+      display:block;
+      text-decoration:none;
+      color:inherit;
+    }
+    .card-title{
+      font-size:15px;
+      font-weight:600;
+      margin-bottom:4px;
+      color:var(--accent-2);
+    }
+    .card-tag{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:rgba(215,245,240,0.7);
+      margin-bottom:6px;
+    }
+
     /* AI icons */
     .ai-list{display:flex;flex-direction:column;gap:12px}
     .ai-item{display:flex;gap:12px;align-items:flex-start}
     .ai-icon{
-      width:52px;
-      height:52px;
+      width:48px;
+      height:48px;
       border-radius:10px;
       background:linear-gradient(135deg,#2b050b,#003b2f);
       display:flex;
@@ -396,107 +441,11 @@
     }
     .ai-text strong{display:block;color:var(--accent-2);margin-bottom:4px;font-size:14px}
 
-    /* stats + pills + illustration */
-    .stat-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-      gap:14px;
-      margin-top:10px;
-    }
-    .stat-card{
-      background:radial-gradient(circle at 0 0,rgba(255,75,92,0.22),rgba(4,16,26,0.9));
-      border-radius:12px;
-      padding:14px;
-      border:1px solid rgba(255,255,255,0.12);
-      font-size:13px;
-    }
-    .stat-card strong{display:block;font-size:18px;color:var(--accent-2);margin-bottom:4px;}
-    .pill-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      margin-top:8px;
-      font-size:11px;
-    }
-    .pill{
-      padding:4px 8px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.16);
-      background:rgba(0,0,0,0.4);
-      color:rgba(215,245,240,0.85);
-    }
-
-    .illustration{
-      border-radius:14px;
-      border:1px dashed rgba(255,255,255,0.28);
-      background:
-        radial-gradient(circle at 10% 0,rgba(255,75,92,0.25),transparent 55%),
-        radial-gradient(circle at 90% 90%,rgba(0,209,178,0.28),transparent 55%),
-        rgba(2,10,16,0.85);
-      padding:18px;
-      text-align:center;
-      font-size:12px;
-      color:rgba(215,245,240,0.82);
-    }
-    .illustration-title{
-      font-size:13px;
-      font-weight:600;
-      margin-bottom:6px;
-      color:var(--accent-2);
-    }
-
-    /* lifecycle timeline */
-    .timeline{
-      margin-top:10px;
-      border-left:2px solid rgba(255,255,255,0.16);
-      padding-left:14px;
-    }
-    .timeline-step{
-      margin-bottom:10px;
-      position:relative;
-      padding-left:8px;
-    }
-    .timeline-step::before{
-      content:"";
-      position:absolute;
-      left:-15px;
-      top:4px;
-      width:9px;
-      height:9px;
-      border-radius:999px;
-      background:var(--accent-danger);
-      box-shadow:0 0 12px rgba(255,75,92,0.7);
-    }
-    .timeline-step strong{display:block;font-size:13px;margin-bottom:2px;color:var(--accent-2);}
-
-    /* comparison table */
-    .table-wrapper{
-      overflow-x:auto;
-    }
-    table.data{
-      width:100%;
-      border-collapse:collapse;
-      font-size:13px;
-    }
-    table.data th,table.data td{
-      padding:8px 6px;
-      border-bottom:1px solid rgba(255,255,255,0.1);
-    }
-    table.data th{
-      color:var(--accent-2);
-      text-align:left;
-      font-weight:600;
-      background:rgba(0,0,0,0.4);
-    }
-    table.data tr:hover td{
-      background:rgba(0,0,0,0.35);
-    }
-
-    /* Founder card */
+    /* Founder card (bottom) */
     .founder{display:flex;gap:18px;align-items:center}
     .founder .photo{
-      width:110px;
-      height:110px;
+      width:100px;
+      height:100px;
       border-radius:18px;
       background:linear-gradient(180deg,#021f24,#052a2f);
       border:2px solid rgba(0,209,178,0.18);
@@ -505,9 +454,14 @@
       justify-content:center;
       font-weight:700;
       color:var(--accent);
-      font-size:38px;
+      font-size:32px;
+      flex-shrink:0;
     }
     .founder .bio{color:var(--tone)}
+
+    @media(max-width:600px){
+      .founder{flex-direction:row}
+    }
 
     /* Contact form */
     .contact-form{max-width:820px;margin:16px auto 0}
@@ -515,18 +469,18 @@
     .form-row.full{grid-template-columns:1fr}
     input,textarea{
       width:100%;
-      padding:12px;
+      padding:10px 11px;
       border-radius:10px;
       background:radial-gradient(circle at 0 0,rgba(0,0,0,0.7),rgba(7,24,39,0.9));
       border:1px solid rgba(255,255,255,0.08);
       color:var(--tone);
-      font-size:15px;
+      font-size:14px;
       outline:none;
     }
-    textarea{min-height:120px;resize:vertical}
+    textarea{min-height:110px;resize:vertical}
     .submit{
       display:inline-block;
-      padding:12px 20px;
+      padding:11px 18px;
       border-radius:10px;
       background:linear-gradient(90deg,var(--accent-danger),var(--accent));
       color:#021719;
@@ -553,768 +507,605 @@
     .fade-up{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
     .fade-up.visible{opacity:1;transform:none}
 
+    /* PAGE SYSTEM (HOME + DETAIL PAGES) */
+    .page{
+      display:none;
+      opacity:0;
+      transform:translateY(8px);
+      transition:opacity .25s ease,transform .25s ease;
+    }
+    .page-active{
+      display:block;
+      opacity:1;
+      transform:none;
+    }
+    .page-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .page-title{
+      font-size:18px;
+      font-weight:600;
+      color:var(--accent-2);
+    }
+    .page-subtitle{
+      font-size:13px;
+      color:rgba(215,245,240,0.78);
+    }
+    .back-main{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.2);
+      background:radial-gradient(circle at 0 0,rgba(0,209,178,0.2),rgba(4,16,26,0.9));
+      color:var(--tone);
+      font-size:11px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+    }
+
     /* footer */
     footer{
-      padding:30px 20px;
+      padding:24px 20px 30px;
       text-align:center;
       color:rgba(200,220,230,0.9);
-      font-size:14px;
+      font-size:13px;
     }
 
     @media(max-width:800px){
-      .founder{flex-direction:row}
-      .form-row{grid-template-columns:1fr}
-      header.hero{padding-top:88px}
+      header.hero{padding-top:96px}
     }
   </style>
 </head>
 <body>
 
-<!-- SIDEBAR TOGGLE BUTTON -->
 <div class="sidebar-toggle" id="sidebarToggle">
   <span></span>
 </div>
-
-<!-- SIDEBAR BACKDROP -->
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-<!-- SLIDE-IN SIDEBAR -->
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <div class="sidebar-logo">RQ</div>
-    <div>
-      <div class="sidebar-title">ResQ • Investor View</div>
-      <div class="sidebar-sub">AI-first emergency response for India</div>
-    </div>
-  </div>
-
-  <div class="sidebar-search">
-    <input
-      type="text"
-      id="navSearch"
-      placeholder="Search sections… (problem, AI, team, etc.)" />
-  </div>
-
-  <div class="sidebar-nav" id="sidebarNav">
-    <div class="sidebar-section-label">Overview</div>
-    <a class="sidebar-link" data-target="overview">
-      <div class="sidebar-link-icon">📌</div>
-      <span>Executive Summary</span>
-    </a>
-    <a class="sidebar-link" data-target="why-now">
-      <div class="sidebar-link-icon">⏰</div>
-      <span>Why Now</span>
-    </a>
-    <a class="sidebar-link" data-target="india-data">
-      <div class="sidebar-link-icon">📉</div>
-      <span>India Emergency Reality</span>
-    </a>
-
-    <div class="sidebar-section-label">Product & Tech</div>
-    <a class="sidebar-link" data-target="problem">
-      <div class="sidebar-link-icon">🚨</div>
-      <span>Problem</span>
-    </a>
-    <a class="sidebar-link" data-target="solution">
-      <div class="sidebar-link-icon">🛟</div>
-      <span>Solution & Experience</span>
-    </a>
-    <a class="sidebar-link" data-target="how-it-works">
-      <div class="sidebar-link-icon">📲</div>
-      <span>How ResQ Works</span>
-    </a>
-    <a class="sidebar-link" data-target="ai">
-      <div class="sidebar-link-icon">🤖</div>
-      <span>AI Differentiators</span>
-    </a>
-    <a class="sidebar-link" data-target="tech-architecture">
-      <div class="sidebar-link-icon">🧩</div>
-      <span>Tech Architecture</span>
-    </a>
-
-    <div class="sidebar-section-label">Market & Edge</div>
-    <a class="sidebar-link" data-target="market">
-      <div class="sidebar-link-icon">📊</div>
-      <span>Market Opportunity</span>
-    </a>
-    <a class="sidebar-link" data-target="competition">
-      <div class="sidebar-link-icon">⚔️</div>
-      <span>Competitive Landscape</span>
-    </a>
-    <a class="sidebar-link" data-target="usp">
-      <div class="sidebar-link-icon">⭐</div>
-      <span>ResQ Edge</span>
-    </a>
-    <a class="sidebar-link" data-target="partnerships">
-      <div class="sidebar-link-icon">🤝</div>
-      <span>Partnership Strategy</span>
-    </a>
-    <a class="sidebar-link" data-target="roadmap">
-      <div class="sidebar-link-icon">📍</div>
-      <span>12-Month Roadmap</span>
-    </a>
-
-    <div class="sidebar-section-label">Impact & Future</div>
-    <a class="sidebar-link" data-target="impact-scenarios">
-      <div class="sidebar-link-icon">💓</div>
-      <span>Real-Life Scenarios</span>
-    </a>
-    <a class="sidebar-link" data-target="safety">
-      <div class="sidebar-link-icon">🛡️</div>
-      <span>Safety & Trust Layer</span>
-    </a>
-    <a class="sidebar-link" data-target="future-vision">
-      <div class="sidebar-link-icon">🚀</div>
-      <span>Future Vision</span>
-    </a>
-
-    <div class="sidebar-section-label">Team & Contact</div>
-    <a class="sidebar-link" data-target="team">
-      <div class="sidebar-link-icon">👥</div>
-      <span>Team & Roles</span>
-    </a>
-    <a class="sidebar-link" data-target="traction">
-      <div class="sidebar-link-icon">✅</div>
-      <span>Early Validation</span>
-    </a>
-    <a class="sidebar-link" data-target="founder">
-      <div class="sidebar-link-icon">🧑‍💻</div>
-      <span>Founder — Manmada Reddy</span>
-    </a>
-    <a class="sidebar-link" data-target="contact">
-      <div class="sidebar-link-icon">✉️</div>
-      <span>Contact & Connect</span>
-    </a>
-  </div>
-
-  <div class="sidebar-footer">
-    <div><strong>ResQ</strong> — Because every second matters.</div>
-    <div style="margin-top:4px;">Student-built, India-first AI emergency layer unifying 108/102 & private fleet into one interface.</div>
-    <div class="sidebar-cta">
-      <a href="#contact">Invest / Partner</a>
-      <a href="ResQ.pdf" download>Download Brief</a>
-    </div>
-  </div>
-</aside>
-
-<header class="hero">
-  <div class="hero-bg" aria-hidden></div>
-  <div class="logo-wrap">
-    <div class="logo" aria-hidden><span>RQ</span></div>
-  </div>
-  <h1>ResQ — India's Emergency Response Revolution</h1>
-  <p class="lead">AI-powered routing • Real-time tracking • Verified responders</p>
-  <div class="hero-chip">
-    <span>Emergency • HealthTech • GovTech</span>
-    <span>AI routing • Live telemetry</span>
-    <span>Built from Hyderabad experience</span>
-  </div>
-</header>
-
-<canvas id="particle-canvas" aria-hidden></canvas>
-
-<main>
-  <!-- OVERVIEW -->
-  <section class="section fade-up" id="overview">
-    <h2 class="section-title">
-      Executive Summary
-      <span class="badge">Investor View</span>
-    </h2>
-    <p class="small">
-      ResQ is an AI-first emergency response aggregation platform that unifies government (108/102)
-      and private ambulance, fire and rescue units on a single real-time interface.
-      We focus on three non-negotiables: <strong>response time</strong>, <strong>transparency</strong> and
-      <strong>trust</strong>. The product combines a consumer app, driver app and command dashboard
-      to orchestrate the nearest verified vehicle with live tracking and automated family updates.
-    </p>
-    <div class="grid" style="margin-top:10px;">
-      <div class="card">
-        <strong style="color:var(--accent-2);font-size:14px;">What ResQ Actually Feels Like</strong>
-        <p class="small" style="margin-top:6px;">
-          “108 + Ola + Google Maps for emergencies” — one tap SOS, auto-detected location, AI-picked route,
-          and family members notified in parallel. No more guessing where the ambulance is or when it arrives.
-        </p>
-      </div>
-      <div class="card">
-        <strong style="color:var(--accent-2);font-size:14px;">Who We Serve First</strong>
-        <p class="small" style="margin-top:6px;">
-          Urban families, hospitals, and housing societies in cities like Hyderabad, where traffic and
-          fragmented fleets make 10–20 minute delays common. ResQ begins with high-density clusters, then
-          expands via hospital + operator partnerships.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHY NOW -->
-  <section class="section fade-up" id="why-now">
-    <h2 class="section-title">
-      Why Now
-      <span class="badge">Timing Advantage</span>
-    </h2>
-    <p class="small">
-      India is simultaneously witnessing rapid urbanisation, smartphone penetration and a growing tolerance
-      for app-based logistics — but emergency response still runs on phone calls, manual registers and
-      unstructured WhatsApp groups. The stack is ready, but the orchestration layer is missing.
-    </p>
-    <div class="stat-grid">
-      <div class="stat-card">
-        <strong>Urban chaos → Digital gap</strong>
-        <span>Hyper-growth traffic + metro expansion, yet most ambulances are not digitally discoverable or trackable by citizens.</span>
-      </div>
-      <div class="stat-card">
-        <strong>Behavioral shift</strong>
-        <span>People trust “book, track, rate” models for taxis and deliveries. ResQ extends this behaviour to life-saving emergencies.</span>
-      </div>
-      <div class="stat-card">
-        <strong>AI infra is ready</strong>
-        <span>Maps, telemetry, ML infra and cloud messaging exist. The opportunity is in packaging them into a specialised emergency layer.</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- INDIA EMERGENCY REALITY -->
-  <section class="section fade-up" id="india-data">
-    <h2 class="section-title">
-      India’s Emergency Reality
-      <span class="badge">Context</span>
-    </h2>
-    <p class="small">
-      Behind every delayed ambulance is a broken system — not just a slow driver. Families face information
-      blackouts in the most stressful 10–20 minutes of their lives. ResQ is built bottom-up from this lived pain.
-    </p>
-    <div class="grid" style="margin-top:10px;">
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">RQ</div>
       <div>
-        <div class="stat-grid">
-          <div class="stat-card">
-            <strong>Fragmented fleets</strong>
-            <span>Government, hospital-attached and private ambulances operate in silos, often unaware of each other’s availability.</span>
+        <div class="sidebar-title">ResQ • Investor View</div>
+        <div class="sidebar-sub">AI-first emergency response for India</div>
+      </div>
+    </div>
+
+    <div class="sidebar-search">
+      <input type="text" id="navSearch" placeholder="Search sections… (problem, AI, team, etc.)" />
+    </div>
+
+    <div class="sidebar-nav" id="sidebarNav">
+      <div class="sidebar-section-label">Main</div>
+      <a class="sidebar-link active" data-page-link="home">
+        <div class="sidebar-link-icon">🏠</div>
+        <span>Overview (Home)</span>
+      </a>
+
+      <div class="sidebar-section-label">Deep Dive</div>
+      <a class="sidebar-link" data-page-link="problem">
+        <div class="sidebar-link-icon">🚨</div>
+        <span>Problem & Reality</span>
+      </a>
+      <a class="sidebar-link" data-page-link="solution">
+        <div class="sidebar-link-icon">🛟</div>
+        <span>Solution & Experience</span>
+      </a>
+      <a class="sidebar-link" data-page-link="ai">
+        <div class="sidebar-link-icon">🤖</div>
+        <span>AI & Tech Architecture</span>
+      </a>
+      <a class="sidebar-link" data-page-link="market">
+        <div class="sidebar-link-icon">📊</div>
+        <span>Market & Why Now</span>
+      </a>
+      <a class="sidebar-link" data-page-link="team">
+        <div class="sidebar-link-icon">👥</div>
+        <span>Team & Execution</span>
+      </a>
+      <a class="sidebar-link" data-page-link="enhancements">
+        <div class="sidebar-link-icon">🚀</div>
+        <span>Next Enhancements Possible</span>
+      </a>
+      <a class="sidebar-link" data-page-link="contact">
+        <div class="sidebar-link-icon">✉️</div>
+        <span>Contact</span>
+      </a>
+    </div>
+
+    <div class="sidebar-footer">
+      <div><strong>ResQ</strong> — Because every second matters.</div>
+      <div style="margin-top:4px;">Single layer connecting citizens, 108/102 and private ambulances with AI-routing.</div>
+      <div class="sidebar-cta">
+        <a href="#contact" data-page-shortcut="contact">Invest / Pilot</a>
+        <a href="ResQ.pdf" download>Download Brief</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content">
+    <header class="hero">
+      <div class="hero-bg" aria-hidden></div>
+      <div class="logo-wrap">
+        <div class="logo" aria-hidden><span>RQ</span></div>
+      </div>
+      <h1>ResQ — India's Emergency Response Revolution</h1>
+      <p class="lead">AI-powered routing • Real-time tracking • Verified responders</p>
+      <div class="hero-chip">
+        <span>Emergency • HealthTech • GovTech</span>
+        <span>Student-led • AI-first</span>
+      </div>
+    </header>
+
+    <canvas id="particle-canvas" aria-hidden></canvas>
+
+    <main>
+      <!-- ========== PAGE: HOME (SUMMARY) ========== -->
+      <div class="page page-active" id="page-home">
+        <section class="section fade-up">
+          <h2 class="section-title">
+            Executive Summary
+            <span class="badge">Investor View</span>
+          </h2>
+          <p class="small">
+            ResQ is an AI-first emergency response aggregation platform that unifies government (108/102)
+            and private ambulance, fire and rescue units on a single real-time interface.
+            We prioritise <strong>speed</strong>, <strong>reliability</strong> and <strong>trust</strong> through
+            predictive routing, accurate ETAs, and a verified provider network — starting from Hyderabad
+            and then scaling across Indian cities.
+          </p>
+        </section>
+
+        <section class="section fade-up">
+          <h2 class="section-title">Key Investor Sections</h2>
+          <div class="grid">
+            <a class="card card-link" data-page-link="problem">
+              <div class="card-tag">01 • Problem</div>
+              <div class="card-title">Broken Emergency Response</div>
+              <p class="small">
+                Delayed ambulances, no ETA visibility, and unregulated private pricing — all in the most
+                critical 15 minutes of a person’s life.
+              </p>
+            </a>
+
+            <a class="card card-link" data-page-link="solution">
+              <div class="card-tag">02 • Solution</div>
+              <div class="card-title">Single App. Full Journey.</div>
+              <p class="small">
+                One interface for citizens, drivers, hospitals and government — request, route, track, notify,
+                and settle in one flow.
+              </p>
+            </a>
+
+            <a class="card card-link" data-page-link="ai">
+              <div class="card-tag">03 • AI & Tech</div>
+              <div class="card-title">AI That Reduces Minutes</div>
+              <p class="small">
+                Predictive routing, triage-based prioritisation and demand forecasting to move ambulances like
+                a real-time fleet, not isolated vehicles.
+              </p>
+            </a>
+
+            <a class="card card-link" data-page-link="market">
+              <div class="card-tag">04 • Market</div>
+              <div class="card-title">From Hyderabad to India</div>
+              <p class="small">
+                40,000+ ambulances nationwide, majority offline. ResQ digitises and orchestrates this supply
+                into a measurable, accountable network.
+              </p>
+            </a>
           </div>
-          <div class="stat-card">
-            <strong>No citizen ETA</strong>
-            <span>Families depend on phone calls like “bhaiya, where are you?” instead of transparent ETAs and live maps.</span>
+        </section>
+
+        <section class="section fade-up">
+          <h2 class="section-title">Snapshot: What ResQ Delivers</h2>
+          <div class="grid">
+            <div class="card">
+              <p class="card-tag">Impact</p>
+              <p class="small">
+                <strong>Goal:</strong> Reduce average emergency response time in pilot city
+                by <strong>30–50%</strong>, while giving families full visibility from “SOS pressed”
+                to “patient admitted”.
+              </p>
+            </div>
+            <div class="card">
+              <p class="card-tag">Who We Serve</p>
+              <p class="small">
+                <strong>Primary:</strong> Families & patients in urban India.<br>
+                <strong>Partners:</strong> Private ambulance operators, hospitals, NGOs, and,
+                over time, state health departments.
+              </p>
+            </div>
+            <div class="card">
+              <p class="card-tag">Initial Focus</p>
+              <p class="small">
+                Hyderabad & Telangana urban cluster with a mix of 108/102 visibility, private operators,
+                and select hospital networks to prove response-time reduction and operational reliability.
+              </p>
+            </div>
+            <div class="card">
+              <p class="card-tag">What We Want from Investors</p>
+              <p class="small">
+                Strategic guidance and pilot access — especially to hospitals, ambulance networks
+                and city-level administrators — to validate the model at scale.
+              </p>
+            </div>
           </div>
-          <div class="stat-card">
-            <strong>Trust deficit</strong>
-            <span>Stories of overcharging, unverified operators and poor communication reduce willingness to call private services early.</span>
+        </section>
+      </div>
+
+      <!-- ========== PAGE: PROBLEM ========== -->
+      <div class="page" id="page-problem">
+        <section class="section">
+          <div class="page-header">
+            <div>
+              <div class="page-title">Problem & Reality on the Ground</div>
+              <div class="page-subtitle">Why emergency response in Indian cities is still broken.</div>
+            </div>
+            <button class="back-main" data-page-link="home">← Back to Main</button>
           </div>
-        </div>
-      </div>
-      <div>
-        <div class="illustration">
-          <div class="illustration-title">Illustration Placeholder — “Emergency Gap Map”</div>
-          <div>
-            Concept visual: heat-map of a city with highlighted zones where ambulances are delayed,
-            overlaid with potential ResQ coverage bubbles filling the gaps.
+          <div class="grid">
+            <div class="card">
+              <h3 class="card-title">Fragmented Systems</h3>
+              <p class="small">
+                Families don’t know <strong>whom to call first</strong> — 108/102, hospital directly,
+                or private ambulance numbers from Google. Each operates separately, with no unified view
+                of availability, location or ETA.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card-title">Zero Real-Time Visibility</h3>
+              <p class="small">
+                Once an ambulance is called, most families rely only on voice calls:
+                <em>“Sir, where are you?” “How many minutes more?”</em>.
+                There is almost <strong>no verified, map-based live tracking</strong> in most Indian cities.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card-title">Manual Dispatch & Misallocation</h3>
+              <p class="small">
+                Government dispatch still runs heavily on manual decision-making.
+                No AI-based allocation, no automatic selection of the nearest suitable ambulance,
+                and limited data on which routes cause the most delay.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card-title">Unregulated Private Pricing</h3>
+              <p class="small">
+                Private ambulances often quote prices on the spot — with huge variations for the same routes.
+                Patients face <strong>bill shock at the worst possible moment</strong>, with no transparent
+                per-km pricing, breakdown or prior notice.
+              </p>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- PROBLEM -->
-  <section class="section fade-up" id="problem">
-    <h2 class="section-title">Problem</h2>
-    <div class="grid">
-      <div class="card">Urban ambulance response lacks real-time visibility — families and hospitals have no clear ETA.</div>
-      <div class="card">Manual dispatching in government systems leads to long delays and misallocation.</div>
-      <div class="card">Unregulated private pricing and poor operator verification reduce trust.</div>
-      <div class="card">Traffic and route inefficiencies cause critical time loss in dense cities like Hyderabad.</div>
-    </div>
-    <div class="pill-row">
-      <div class="pill">No unified view of floor-level reality</div>
-      <div class="pill">No citizen-first digital experience</div>
-      <div class="pill">No AI-based pre-positioning today</div>
-    </div>
-  </section>
-
-  <!-- SOLUTION -->
-  <section class="section fade-up" id="solution">
-    <h2 class="section-title">
-      Solution & Experience
-      <span class="badge">One Interface, All Emergencies</span>
-    </h2>
-    <p class="small">
-      ResQ is a single experience that handles emergency requests end-to-end: instant booking, AI-optimised routing,
-      live GPS tracking, automated family notifications, and a verified provider marketplace. Designed to be
-      government-compatible while unlocking private fleet efficiency.
-    </p>
-
-    <div class="grid" style="margin-top:14px">
-      <div class="card">
-        <h3 style="color:var(--accent-2)">For Families</h3>
-        <ul class="small">
-          <li>Tap SOS → auto-detected location, emergency type, patient condition.</li>
-          <li>See nearest government + private options transparently, with ETA and hospital match.</li>
-          <li>Track ambulance in real-time; auto-SMS/WhatsApp to family/emergency contact.</li>
-          <li>Post-trip summary and digital record for continuity of care.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3 style="color:var(--accent-2)">For Hospitals & Operators</h3>
-        <ul class="small">
-          <li>Command dashboard with live fleet view and incident map.</li>
-          <li>Route suggestions based on real traffic and hospital load patterns.</li>
-          <li>Driver SOPs, checklists and KYC verification integrated.</li>
-          <li>Analytics on response times, peak hours and geography hotspots.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section class="section fade-up" id="how-it-works">
-    <h2 class="section-title">
-      How ResQ Works
-      <span class="badge">End-to-End Flow</span>
-    </h2>
-    <div class="grid">
-      <div>
-        <div class="timeline">
-          <div class="timeline-step">
-            <strong>1. SOS Initiated</strong>
-            <span class="small">User taps SOS / emergency card. App auto-captures GPS, asks 2–3 triage questions (e.g., conscious / unconscious).</span>
+          <div class="grid" style="margin-top:16px">
+            <div class="card">
+              <h3 class="card-title">No Data, No Accountability</h3>
+              <p class="small">
+                Very few systems measure: actual response time, route taken, traffic delays, or handover time
+                at hospitals. Without data, it’s hard for governments and hospitals to fix bottlenecks.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card-title">Human Cost</h3>
+              <p class="small">
+                In accidents and cardiac events, a delay of even 5–10 minutes can be the difference
+                between life and death. Yet we still depend on manual phone calls, unstructured networks
+                and unverified operators.
+              </p>
+            </div>
           </div>
-          <div class="timeline-step">
-            <strong>2. Smart Matching</strong>
-            <span class="small">Algorithm checks nearest government and private vehicles, plus suitable hospitals based on case type.</span>
+        </section>
+      </div>
+
+      <!-- ========== PAGE: SOLUTION ========== -->
+      <div class="page" id="page-solution">
+        <section class="section">
+          <div class="page-header">
+            <div>
+              <div class="page-title">Solution & User Experience</div>
+              <div class="page-subtitle">One interface from “SOS” to “patient admitted”.</div>
+            </div>
+            <button class="back-main" data-page-link="home">← Back to Main</button>
           </div>
-          <div class="timeline-step">
-            <strong>3. Driver Accepts</strong>
-            <span class="small">Driver app surfaces high-priority requests first. Once accepted, route and timer start instantly.</span>
+
+          <p class="small">
+            ResQ is a <strong>single, unified app</strong> that connects citizens, drivers, hospital admin
+            and — over time — government control rooms, into one real-time emergency network.
+          </p>
+
+          <div class="grid" style="margin-top:16px">
+            <div class="card">
+              <h3 class="card-title">Citizen Experience Flow</h3>
+              <ul class="small">
+                <li>Open app → logo splash → tap <strong>“Emergency Now”</strong>.</li>
+                <li>Current location auto-detected, destination limited to <strong>nearby hospitals with ratings</strong>.</li>
+                <li>One key question: <em>“Is the patient conscious?”</em> → impacts priority and ambulance type.</li>
+                <li>Transparent viewing of estimated per-km rates before confirming booking.</li>
+                <li>Once booked, <strong>live tracking map</strong>, driver details, ETA and shareable link for family.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3 class="card-title">Driver / Operator Experience</h3>
+              <ul class="small">
+                <li>Dedicated driver app that shows nearest high-priority calls.</li>
+                <li>One-tap accept → navigation starts with AI-optimised route.</li>
+                <li>Driver status updates: en route, arrived, patient onboard, at hospital.</li>
+                <li>Standardised trip record: distance, time, hospital, and any notes.</li>
+              </ul>
+            </div>
           </div>
-          <div class="timeline-step">
-            <strong>4. Live Tracking & Alerts</strong>
-            <span class="small">Family sees ambulance on map. SMS/WhatsApp link is shared with emergency contact and hospital.</span>
+
+          <div class="grid" style="margin-top:16px">
+            <div class="card">
+              <h3 class="card-title">Hospital / Control Room View</h3>
+              <ul class="small">
+                <li>Dashboard showing all active cases heading towards their hospital.</li>
+                <li>ETA, type of ambulance (basic / ICU), patient condition flag.</li>
+                <li>Helps them pre-prepare triage, beds, and doctors before arrival.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3 class="card-title">Trust & Transparency Layer</h3>
+              <ul class="small">
+                <li>Verified driver and vehicle KYC, operating city and service class.</li>
+                <li>Standardised, pre-agreed pricing slabs for private operators.</li>
+                <li>Trip summary and invoice (digital) for any future auditing.</li>
+              </ul>
+            </div>
           </div>
-          <div class="timeline-step">
-            <strong>5. Arrival & Handover</strong>
-            <span class="small">On reaching hospital, trip is marked complete; a summary is logged in ResQ for quality measurement.</span>
+        </section>
+      </div>
+
+      <!-- ========== PAGE: AI & TECH ========== -->
+      <div class="page" id="page-ai">
+        <section class="section">
+          <div class="page-header">
+            <div>
+              <div class="page-title">AI & Tech Architecture</div>
+              <div class="page-subtitle">Where AI actually creates value, not just buzzwords.</div>
+            </div>
+            <button class="back-main" data-page-link="home">← Back to Main</button>
           </div>
-        </div>
-      </div>
-      <div>
-        <div class="illustration">
-          <div class="illustration-title">Illustration Placeholder — “App Journey Mockup”</div>
-          <div>
-            Concept visual: 3–4 phone screens side-by-side showing SOS screen, driver accepted, live map,
-            and hospital arrival confirmation. Designed to communicate product flow to investors at a glance.
+
+          <div class="ai-list">
+            <div class="ai-item card">
+              <div class="ai-icon">🗺️</div>
+              <div class="ai-text">
+                <strong>Predictive Routing</strong>
+                <span class="small">
+                  Use historical delay patterns, time-of-day and live traffic to choose routes that have
+                  the <strong>highest probability of being fastest</strong>, not just shortest distance.
+                </span>
+              </div>
+            </div>
+            <div class="ai-item card">
+              <div class="ai-icon">⏱️</div>
+              <div class="ai-text">
+                <strong>Continuous ETA Learning</strong>
+                <span class="small">
+                  Every trip generates ground-truth data: requested time, dispatch time, arrival time,
+                  distance and traffic. ETAs improve over time using regression models and feedback loops.
+                </span>
+              </div>
+            </div>
+            <div class="ai-item card">
+              <div class="ai-icon">🩺</div>
+              <div class="ai-text">
+                <strong>Smart Triage Prioritisation</strong>
+                <span class="small">
+                  Simple, quick NLP-powered questions (conscious? bleeding? chest pain?) give a
+                  <strong>priority score</strong>, which influences which ambulance is assigned first.
+                </span>
+              </div>
+            </div>
+            <div class="ai-item card">
+              <div class="ai-icon">📊</div>
+              <div class="ai-text">
+                <strong>Demand Forecasting & Prepositioning</strong>
+                <span class="small">
+                  Over time, ResQ learns where emergencies cluster — near junctions, highways, events —
+                  and helps operators <strong>pre-position ambulances</strong> before peak risk windows.
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
-  </section>
 
-  <!-- AI -->
-  <section class="section fade-up" id="ai">
-    <h2 class="section-title">
-      AI Differentiators
-      <span class="badge">Beyond Simple Booking</span>
-    </h2>
-    <div class="ai-list">
-      <div class="ai-item card">
-        <div class="ai-icon">🤖</div>
-        <div class="ai-text">
-          <strong>Predictive Routing</strong>
-          <span class="small">Dynamic pathing using live traffic + historical delay patterns in a city to minimise transit time.</span>
-        </div>
-      </div>
-      <div class="ai-item card">
-        <div class="ai-icon">⏱️</div>
-        <div class="ai-text">
-          <strong>ETA Optimisation</strong>
-          <span class="small">Continuous ML model updates using telemetry data to improve ETA accuracy and build trust over time.</span>
-        </div>
-      </div>
-      <div class="ai-item card">
-        <div class="ai-icon">🩺</div>
-        <div class="ai-text">
-          <strong>Automated Triage</strong>
-          <span class="small">Short NLP-driven triage to understand severity, choose the right vehicle (basic / ICU) and alert hospitals accordingly.</span>
-        </div>
-      </div>
-      <div class="ai-item card">
-        <div class="ai-icon">📊</div>
-        <div class="ai-text">
-          <strong>Demand Forecasting</strong>
-          <span class="small">Anticipate hotspots and preposition assets during peak hours, weekends, festival days and known accident corridors.</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TECH ARCHITECTURE -->
-  <section class="section fade-up" id="tech-architecture">
-    <h2 class="section-title">
-      Tech Architecture (Planned)
-      <span class="badge">Scalable & Modular</span>
-    </h2>
-    <div class="grid">
-      <div class="card">
-        <h3 style="color:var(--accent-2);font-size:15px;">Client Layer</h3>
-        <ul class="small">
-          <li><strong>User App:</strong> Android-first (Flutter), multilingual support, offline-safe requests.</li>
-          <li><strong>Driver App:</strong> Lightweight UI, navigation handoff to maps, status states (en-route, at-patient, at-hospital).</li>
-          <li><strong>Web Dashboard:</strong> For hospitals and operators to view live incidents and fleet on browser.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3 style="color:var(--accent-2);font-size:15px;">Backend & Data Layer</h3>
-        <ul class="small">
-          <li>Cloud-hosted APIs for booking, matching, and notifications.</li>
-          <li>Realtime database for location updates and status changes.</li>
-          <li>Event logging pipeline for training routing and ETA ML models.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3 style="color:var(--accent-2);font-size:15px;">Safety & Governance</h3>
-        <ul class="small">
-          <li>Driver KYC and vehicle documents stored securely.</li>
-          <li>Audit logs for each emergency trip to reconstruct events.</li>
-          <li>Role-based access control for hospitals, operators and support teams.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- MARKET -->
-  <section class="section fade-up" id="market">
-    <h2 class="section-title">Market Opportunity</h2>
-    <p class="small">
-      India operates 40,000+ ambulances, of which a minority are digitally managed.
-      The immediate opportunity is digitising urban emergency transport and partnering with
-      hospitals, municipal bodies and NGOs to modernise response systems. ResQ begins as a
-      city-level layer and can expand vertically into fire and disaster response.
-    </p>
-    <div class="grid" style="margin-top:14px">
-      <div class="card"><strong>TAM:</strong> National emergency + health mobility ecosystem across metros and tier-2 cities.</div>
-      <div class="card"><strong>SAM:</strong> Urban ambulance & emergency dispatch flows in high-density clusters.</div>
-      <div class="card"><strong>SOM:</strong> Initial focus: Hyderabad & Telangana urban areas with pilot-ready operators.</div>
-    </div>
-  </section>
-
-  <!-- COMPETITION -->
-  <section class="section fade-up" id="competition">
-    <h2 class="section-title">Competitive Landscape</h2>
-    <div class="card table-wrapper">
-      <table class="data">
-        <thead>
-          <tr>
-            <th>Competitor</th>
-            <th>Primary Approach</th>
-            <th>Gap</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>AmbiPalm</td><td>City-wide ambulance network</td><td>Poor trust, scattered tech adoption, inconsistent UX.</td></tr>
-          <tr><td>StanPlus</td><td>Premium B2B / hospital ambulances</td><td>Focused on enterprise; not a citizen-first super-app.</td></tr>
-          <tr><td>Ziqitza</td><td>Govt-level operations & 108 services</td><td>Strong infra, but no modern consumer app focus.</td></tr>
-          <tr><td>LifeLine Now</td><td>Tracking pilot & dispatch support</td><td>Limited adoption; experience not built for Gen-Z families.</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- USP / EDGE -->
-  <section class="section fade-up" id="usp">
-    <h2 class="section-title">
-      Why ResQ is Different
-      <span class="badge">Edge</span>
-    </h2>
-    <div class="grid">
-      <div class="card">
-        <strong style="color:var(--accent-2);font-size:14px;">Citizen-first, not just “operator software”</strong>
-        <p class="small" style="margin-top:6px;">
-          Most solutions optimise for the hospital or operator. ResQ is designed from the panic moment of a family
-          — clarity, communication and control. Operators benefit because the citizen experience is finally handled well.
-        </p>
-      </div>
-      <div class="card">
-        <strong style="color:var(--accent-2);font-size:14px;">Unifying 108/102 + Private Layer</strong>
-        <p class="small" style="margin-top:6px;">
-          Instead of competing with government services, ResQ intends to become a visibility + orchestration layer
-          where government and private fleets can coexist with clear labels and expectations.
-        </p>
-      </div>
-      <div class="card">
-        <strong style="color:var(--accent-2);font-size:14px;">Built from ground-level observation</strong>
-        <p class="small" style="margin-top:6px;">
-          The idea was shaped by watching actual delays in Hyderabad, speaking to families, student communities and
-          operators. Not just a “copy taxi app and change icon” clone — but a workflow tuned to emergency behaviour.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- PARTNERSHIPS -->
-  <section class="section fade-up" id="partnerships">
-    <h2 class="section-title">
-      Partnership Strategy
-      <span class="badge">Collaborative, Not Disruptive</span>
-    </h2>
-    <p class="small">
-      ResQ is designed to integrate into existing ecosystems instead of fighting them. The plan is to partner
-      with operators, hospitals and civic bodies at each phase of growth.
-    </p>
-    <div class="grid">
-      <div class="card">
-        <h3 style="color:var(--accent-2);font-size:15px;">Private Operators</h3>
-        <ul class="small">
-          <li>Onboarding fleets with transparent SLAs and verification.</li>
-          <li>Basic training for using the driver app and following trip SOP.</li>
-          <li>Incentive structures around response time and ratings (non-monetary framing possible).</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3 style="color:var(--accent-2);font-size:15px;">Hospitals</h3>
-        <ul class="small">
-          <li>Pilot partnerships with ER departments in Hyderabad.</li>
-          <li>Dashboard access to live inbound emergencies from ResQ users.</li>
-          <li>Feedback loop to refine triage questions and destination logic.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3 style="color:var(--accent-2);font-size:15px;">Government & NGOs</h3>
-        <ul class="small">
-          <li>Data-sharing discussions for anonymised response-time analytics.</li>
-          <li>Scope for future integration with 108 call flows where permitted.</li>
-          <li>Joint awareness campaigns in schools, colleges and housing communities.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- ROADMAP -->
-  <section class="section fade-up" id="roadmap">
-    <h2 class="section-title">12-Month Roadmap</h2>
-    <div class="grid">
-      <div class="card">
-        <strong>0–3 months:</strong>
-        <ul class="small" style="margin-top:6px;">
-          <li>Build core Android app (user + driver) with demo-quality flows.</li>
-          <li>Simulated routing and tracking with test data for investor demos.</li>
-          <li>Onboard 30–50 operators showing willingness to pilot.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <strong>3–6 months:</strong>
-        <ul class="small" style="margin-top:6px;">
-          <li>Pilot in limited Hyderabad zones with real families + operators.</li>
-          <li>Collect telemetry, refine ETA models and user experience.</li>
-          <li>Sign 1–2 hospital pilots to validate inbound flow and triage.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <strong>6–12 months:</strong>
-        <ul class="small" style="margin-top:6px;">
-          <li>Stabilise multilingual support (Telugu, Hindi, English).</li>
-          <li>Expand to adjacent cities in Telangana and nearby regions.</li>
-          <li>Begin structured discussions with government bodies for data-sharing.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- IMPACT SCENARIOS -->
-  <section class="section fade-up" id="impact-scenarios">
-    <h2 class="section-title">
-      Real-Life Impact Scenarios
-      <span class="badge">What Changes on the Ground</span>
-    </h2>
-    <div class="grid">
-      <div class="card">
-        <strong style="color:var(--accent-2);font-size:14px;">Case 1 — Late-night Accident</strong>
-        <p class="small" style="margin-top:6px;">
-          A college student meets with an accident at 1:30 AM. Today, friends call multiple numbers and
-          wait at the roadside. With ResQ, they tap SOS, share location, and track the nearest verified ambulance
-          while the family automatically receives the live link.
-        </p>
-      </div>
-      <div class="card">
-        <strong style="color:var(--accent-2);font-size:14px;">Case 2 — Elderly Parent at Home</strong>
-        <p class="small" style="margin-top:6px;">
-          A parent living alone feels chest pain. The child, studying in another city, has already set
-          the home as a saved location and added themselves as emergency contact. ResQ coordinates the ambulance
-          and keeps the child updated throughout the trip.
-        </p>
-      </div>
-      <div class="card">
-        <strong style="color:var(--accent-2);font-size:14px;">Case 3 — Mass Event / Crowd</strong>
-        <p class="small" style="margin-top:6px;">
-          During a festival or concert, multiple incidents can occur in a small time window. ResQ’s demand
-          forecasting can help pre-position vehicles around the venue, reducing chaos and confusion.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SAFETY & TRUST -->
-  <section class="section fade-up" id="safety">
-    <h2 class="section-title">
-      Safety & Trust Layer
-      <span class="badge">Non-Negotiable</span>
-    </h2>
-    <p class="small">
-      In emergency tech, trust is as important as speed. ResQ’s design includes safeguards to reduce misuse,
-      fraud and uncertainty.
-    </p>
-    <div class="grid">
-      <div class="card">
-        <h3 style="color:var(--accent-2);font-size:15px;">Verification & Identity</h3>
-        <ul class="small">
-          <li>Driver KYC and vehicle docs checked before activating on the network.</li>
-          <li>Visible driver profile, ambulance type and basic equipment in the consumer app.</li>
-          <li>Flags and internal review flows for suspicious patterns.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3 style="color:var(--accent-2);font-size:15px;">Communication & Transparency</h3>
-        <ul class="small">
-          <li>Clear indication when a vehicle is government-linked vs private.</li>
-          <li>Live tracking links shareable with family and hospital teams.</li>
-          <li>Post-trip record of approximate time, route taken and status updates.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3 style="color:var(--accent-2);font-size:15px;">Responsible Design</h3>
-        <ul class="small">
-          <li>Minimise unnecessary clicks in critical flows; only essential information is asked.</li>
-          <li>Fallback instructions (e.g., “if app fails, call this number”) embedded in UX.</li>
-          <li>Scope for future integration with official helplines where permitted.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- FUTURE VISION -->
-  <section class="section fade-up" id="future-vision">
-    <h2 class="section-title">
-      Future Vision
-      <span class="badge">Beyond Ambulances</span>
-    </h2>
-    <p class="small">
-      ResQ starts with urban ambulances but is intentionally designed as a broader emergency coordination layer.
-      The long-term vision is a single, intelligent fabric that interfaces citizens, responders and institutions.
-    </p>
-    <div class="grid">
-      <div class="card">
-        <strong style="color:var(--accent-2);font-size:14px;">ResQ for Fire & Disaster</strong>
-        <p class="small" style="margin-top:6px;">
-          Extend the same interface to fire services, disaster relief volunteers and municipal teams,
-          prioritising based on severity and locality.
-        </p>
-      </div>
-      <div class="card">
-        <strong style="color:var(--accent-2);font-size:14px;">ResQ for Campuses & Gated Communities</strong>
-        <p class="small" style="margin-top:6px;">
-          Plug into universities, tech parks and large communities where internal security teams can coordinate
-          with external ambulances through a single interface.
-        </p>
-      </div>
-      <div class="card">
-        <strong style="color:var(--accent-2);font-size:14px;">ResQ Intelligence Layer</strong>
-        <p class="small" style="margin-top:6px;">
-          Aggregated, anonymised insight on where and when emergencies occur — helping planners, hospitals and cities
-          prepare better infrastructure.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- TEAM -->
-  <section class="section fade-up" id="team">
-    <h2 class="section-title">Team & Roles</h2>
-    <p class="small">
-      ResQ starts as a student-led initiative and gradually layers in specialised contributors. The vision is
-      to assemble a small, execution-obsessed core team.
-    </p>
-    <div class="grid">
-      <div class="card">App Developer — mobile (Flutter / React Native)</div>
-      <div class="card">Backend & APIs — Node.js / Firebase or similar stack</div>
-      <div class="card">AI / ML Engineer — routing, ETA, triage logic</div>
-      <div class="card">Operations Lead — onboarding, field feedback, SOP enforcement</div>
-      <div class="card">Government Liaison / Legal — compliance & partnerships</div>
-      <div class="card">Design & UX — emergency-friendly interface flows</div>
-    </div>
-  </section>
-
-  <!-- TRACTION -->
-  <section class="section fade-up" id="traction">
-    <h2 class="section-title">Early Validation</h2>
-    <div class="grid">
-      <div class="card">30+ qualitative interviews with families & hospitals in Hyderabad.</div>
-      <div class="card">MOUs in progress with private ambulance operators for pilot onboarding.</div>
-      <div class="card">Operational SOPs, driver KYC checklist and partner collaboration draft prepared.</div>
-      <div class="card">
-        <strong style="color:var(--accent-2);font-size:14px;">Student-founder advantage</strong>
-        <p class="small" style="margin-top:6px;">
-          Close to the problem, extremely lean, and willing to iterate quickly with feedback from operators, doctors and mentors.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section class="section fade-up" id="contact">
-    <h2 class="section-title">Contact & Connect</h2>
-    <div class="card">
-      <p class="small">
-        For investor conversations, pilot partnerships, or data access discussions — reach out directly.
-        ResQ is currently at the early-build and validation stage and is actively seeking mentors, advisors
-        and collaborators who care about emergency infrastructure in India.
-      </p>
-      <div class="contact-form">
-        <form action="https://formsubmit.co/manmadareddy61@gmail.com" method="POST">
-          <input type="hidden" name="_subject" value="Investor / Partner inquiry — ResQ" />
-          <input type="hidden" name="_captcha" value="false" />
-          <div class="form-row">
-            <input name="name" placeholder="Your name" required />
-            <input name="email" type="email" placeholder="Your email" required />
+      <!-- ========== PAGE: MARKET ========== -->
+      <div class="page" id="page-market">
+        <section class="section">
+          <div class="page-header">
+            <div>
+              <div class="page-title">Market & Why Now</div>
+              <div class="page-subtitle">Digitising India’s emergency mobility layer.</div>
+            </div>
+            <button class="back-main" data-page-link="home">← Back to Main</button>
           </div>
-          <div class="form-row full">
-            <input name="organization" placeholder="Organization / Role (optional)" />
+
+          <p class="small">
+            India operates <strong>tens of thousands of ambulances</strong>, yet only a fraction are fully
+            digitised or connected into a smart dispatch system. At the same time, smartphone adoption,
+            UPI familiarity, and expectations of live tracking (taxi apps) have all become mainstream.
+          </p>
+
+          <div class="grid" style="margin-top:16px">
+            <div class="card">
+              <h3 class="card-title">Market Structure</h3>
+              <p class="small">
+                <strong>TAM:</strong> National emergency & health mobility ecosystem — all ambulance,
+                fire, rescue and inter-hospital patient transfer flows.<br><br>
+                <strong>SAM:</strong> Urban ambulance & emergency dispatch across Tier-1 & large Tier-2 cities.<br><br>
+                <strong>SOM:</strong> Hyderabad & Telangana cluster as initial proving ground, followed by
+                expansion to similar metro regions.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card-title">Why Now</h3>
+              <ul class="small">
+                <li>Citizens already expect live tracking (taxi, food delivery, e-commerce).</li>
+                <li>States are under pressure to improve healthcare infrastructure metrics.</li>
+                <li>Plenty of fragmented private operators who need a tech + demand layer.</li>
+                <li>Smartphone penetration and 4G/5G coverage enable real-time routing even in crowded areas.</li>
+              </ul>
+            </div>
           </div>
-          <div class="form-row full">
-            <textarea name="message" placeholder="Share a quick intro and how you’d like to engage with ResQ" required></textarea>
-          </div>
-          <div style="text-align:left;margin-top:10px">
-            <button type="submit" class="submit">Send message</button>
-          </div>
-        </form>
+        </section>
       </div>
-      <p style="margin-top:12px;color:rgba(215,245,240,0.7)">
-        Or download the full project brief:
-        <a href="ResQ.pdf" download style="color:var(--accent-2);text-decoration:underline;">ResQ Project Brief (PDF)</a>
-      </p>
-    </div>
-  </section>
 
-  <!-- FOUNDER -->
-  <section class="section fade-up" id="founder">
-    <h2 class="section-title">Founder</h2>
-    <div class="founder card">
-      <div class="photo">MR</div>
-      <div class="bio">
-        <p><strong>Manmada Reddy</strong></p>
-        <p class="small">
-          Previous B.Tech CSE (AI/ML) student at LPU. Transitioned studies to BBA at UCMH, JNTUH.
-          Lived experience in Hyderabad — watching ambulances stuck, delayed and misdirected — shaped ResQ’s
-          mission. Blending a technical foundation in AI/ML with a business lens to turn a student idea into
-          a city-scale emergency infrastructure product.
-        </p>
-        <p class="small">
-          Contact:
-          <a href="mailto:manmadareddy61@gmail.com" style="color:var(--accent-2)">manmadareddy61@gmail.com</a>
-        </p>
+      <!-- ========== PAGE: TEAM ========== -->
+      <div class="page" id="page-team">
+        <section class="section">
+          <div class="page-header">
+            <div>
+              <div class="page-title">Team & Execution Approach</div>
+              <div class="page-subtitle">How a small focused team can move fast in a critical space.</div>
+            </div>
+            <button class="back-main" data-page-link="home">← Back to Main</button>
+          </div>
+
+          <div class="grid">
+            <div class="card">
+              <h3 class="card-title">Core Roles Needed</h3>
+              <ul class="small">
+                <li><strong>App Developer</strong> — Android-first, Flutter / React Native.</li>
+                <li><strong>Backend & APIs</strong> — Node.js / Firebase / serverless stack.</li>
+                <li><strong>AI / ML Engineer</strong> — routing, ETA, triage.</li>
+                <li><strong>Ops Lead</strong> — onboarding private operators, SOPs, SLAs.</li>
+                <li><strong>Govt / Hospital Liaison</strong> — pilot agreements & compliance.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3 class="card-title">Founder</h3>
+              <div class="founder">
+                <div class="photo">MR</div>
+                <div class="bio">
+                  <p><strong>Manmada Reddy</strong></p>
+                  <p class="small">
+                    Previous B.Tech CSE (AI/ML) student at LPU, currently BBA at UCMH (JNTUH).
+                    Grew up in Hyderabad and directly observed critical ambulance delays in urban traffic.
+                    Bringing together technical grounding in AI/ML with an operator mindset focused on
+                    solving real city-scale problems, not just building apps.
+                  </p>
+                  <p class="small">
+                    Contact:
+                    <a href="mailto:manmadareddy61@gmail.com" style="color:var(--accent-2)">manmadareddy61@gmail.com</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
-    </div>
-  </section>
 
-</main>
+      <!-- ========== PAGE: ENHANCEMENTS ========== -->
+      <div class="page" id="page-enhancements">
+        <section class="section">
+          <div class="page-header">
+            <div>
+              <div class="page-title">Next Enhancements Possible</div>
+              <div class="page-subtitle">Clear roadmap of what can be added with the right support.</div>
+            </div>
+            <button class="back-main" data-page-link="home">← Back to Main</button>
+          </div>
 
-<footer>
-  © 2025 ResQ • Presented by <strong>Manmada Reddy</strong>
-</footer>
+          <div class="grid">
+            <div class="card">
+              <h3 class="card-title">Product & UX Enhancements</h3>
+              <ul class="small">
+                <li>Animated, guided SOS flow (like a step-by-step assistant) to reduce panic for first-time users.</li>
+                <li>In-app <strong>voice input</strong> for people who cannot type during emergencies.</li>
+                <li>Multi-language support for major Indian languages for both app and IVR fallback.</li>
+                <li>Contextual education screens (CPR basics, what to do while waiting for ambulance).</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3 class="card-title">Data & AI Enhancements</h3>
+              <ul class="small">
+                <li>Heatmaps of accidents and cardiac events (by time, area) to help city planners.</li>
+                <li>Better demand forecasting by combining weather, events, and historical spikes.</li>
+                <li>An anonymised “city health mobility report” for hospitals and governments.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3 class="card-title">Partnership Enhancements</h3>
+              <ul class="small">
+                <li>Integration with hospital HIS systems to fast-track admissions.</li>
+                <li>Data-sharing agreements with traffic police / smart city platforms.</li>
+                <li>NGO tie-ups for low-income cases to ensure no one is left behind due to cost.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3 class="card-title">Investor-Facing Enhancements</h3>
+              <ul class="small">
+                <li>Dedicated live dashboard for pilot investors showing anonymised KPIs:
+                    average response time, number of cases, repeat usage.</li>
+                <li>Simulation of “what-if” scenarios (e.g., adding 10 more ambulances to corridor X).</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ========== PAGE: CONTACT (also main contact section) ========== -->
+      <div class="page" id="page-contact">
+        <section class="section">
+          <div class="page-header">
+            <div>
+              <div class="page-title">Contact & Connect</div>
+              <div class="page-subtitle">For investors, pilots, and collaborators.</div>
+            </div>
+            <button class="back-main" data-page-link="home">← Back to Main</button>
+          </div>
+          <div class="card">
+            <p class="small">
+              For investor conversations, pilot partnerships, or data access requests — reach out directly.
+            </p>
+            <div class="contact-form">
+              <form action="https://formsubmit.co/manmadareddy61@gmail.com" method="POST">
+                <input type="hidden" name="_subject" value="Investor inquiry — ResQ" />
+                <input type="hidden" name="_captcha" value="false" />
+                <div class="form-row">
+                  <input name="name" placeholder="Your name" required />
+                  <input name="email" type="email" placeholder="Your email" required />
+                </div>
+                <div class="form-row full">
+                  <input name="organization" placeholder="Organization / Role (optional)" />
+                </div>
+                <div class="form-row full">
+                  <textarea name="message" placeholder="Message — intro, interest, or pilot idea" required></textarea>
+                </div>
+                <div style="text-align:left;margin-top:10px">
+                  <button type="submit" class="submit">Send message</button>
+                </div>
+              </form>
+            </div>
+            <p style="margin-top:12px;color:rgba(215,245,240,0.7)">
+              Or download the full project brief:
+              <a href="ResQ.pdf" download style="color:var(--accent-2);text-decoration:underline;">ResQ Project Brief (PDF)</a>
+            </p>
+          </div>
+        </section>
+      </div>
+
+    </main>
+
+    <footer>
+      © 2025 ResQ • Presented by <strong>Manmada Reddy</strong>
+    </footer>
+  </div>
+</div>
 
 <script>
 // particles (simple floating blobs) for subtle AI glow
@@ -1353,7 +1144,7 @@ if(canvas){
   draw();
 }
 
-// fade-in on scroll
+// fade-in on scroll (for sections that stay in home page)
 const observer = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
@@ -1363,44 +1154,87 @@ const observer = new IntersectionObserver((entries)=>{
 },{threshold:0.12});
 document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
 
-// smooth scroll
-if('scrollBehavior' in document.documentElement.style){
-  document.documentElement.style.scrollBehavior='smooth';
-}
-
 // sidebar logic
 const sidebar = document.getElementById('sidebar');
 const sidebarToggle = document.getElementById('sidebarToggle');
 const sidebarBackdrop = document.getElementById('sidebarBackdrop');
 const navSearch = document.getElementById('navSearch');
 const navLinks = Array.from(document.querySelectorAll('.sidebar-link'));
+const pageLinks = Array.from(document.querySelectorAll('[data-page-link]'));
+const shortcutLinks = Array.from(document.querySelectorAll('[data-page-shortcut]'));
 
-function toggleSidebar(force){
-  const shouldOpen = typeof force === 'boolean' ? force : !sidebar.classList.contains('open');
-  if(shouldOpen){
-    sidebar.classList.add('open');
-    sidebarBackdrop.classList.add('open');
-    sidebarToggle.classList.add('open');
-  }else{
-    sidebar.classList.remove('open');
-    sidebarBackdrop.classList.remove('open');
-    sidebarToggle.classList.remove('open');
-  }
+function openSidebar(){
+  sidebar.classList.add('open');
+  sidebarBackdrop.classList.add('open');
+  sidebarToggle.classList.add('open');
+}
+function closeSidebar(){
+  sidebar.classList.remove('open');
+  sidebarBackdrop.classList.remove('open');
+  sidebarToggle.classList.remove('open');
+}
+function toggleSidebar(){
+  if(sidebar.classList.contains('open')) closeSidebar();
+  else openSidebar();
 }
 
-sidebarToggle.addEventListener('click',()=>toggleSidebar());
-sidebarBackdrop.addEventListener('click',()=>toggleSidebar(false));
+sidebarToggle.addEventListener('click',toggleSidebar);
+sidebarBackdrop.addEventListener('click',closeSidebar);
 
-// nav click -> scroll to section
+// PAGE SWITCHING
+const pages = Array.from(document.querySelectorAll('.page'));
+function showPage(id){
+  pages.forEach(p=>{
+    if(p.id === 'page-'+id){
+      p.classList.add('page-active');
+    }else{
+      p.classList.remove('page-active');
+    }
+  });
+  navLinks.forEach(link=>{
+    if(link.getAttribute('data-page-link') === id){
+      link.classList.add('active');
+    }else if(id === 'home' && link.getAttribute('data-page-link') === 'home'){
+      link.classList.add('active');
+    }else{
+      if(link.getAttribute('data-page-link') !== id){
+        link.classList.remove('active');
+      }
+    }
+  });
+  // close sidebar on mobile when navigating
+  if(window.innerWidth <= 900){
+    closeSidebar();
+  }
+  // scroll to top of content
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// sidebar nav click
 navLinks.forEach(link=>{
   link.addEventListener('click',()=>{
-    const targetId = link.getAttribute('data-target');
-    const section = document.getElementById(targetId);
-    if(section){
-      section.scrollIntoView({behavior:'smooth',block:'start'});
-      toggleSidebar(false);
-      navLinks.forEach(l=>l.classList.remove('active'));
-      link.classList.add('active');
+    const pageId = link.getAttribute('data-page-link');
+    if(pageId){
+      showPage(pageId);
+    }
+  });
+});
+
+// cards & back buttons also use data-page-link
+pageLinks.forEach(el=>{
+  el.addEventListener('click',()=>{
+    const pageId = el.getAttribute('data-page-link');
+    if(pageId){
+      showPage(pageId);
+    }
+  });
+});
+shortcutLinks.forEach(el=>{
+  el.addEventListener('click',(e)=>{
+    e.preventDefault();
+    const pageId = el.getAttribute('data-page-shortcut');
+    if(pageId){
+      showPage(pageId);
     }
   });
 });
@@ -1419,3 +1253,4 @@ if(navSearch){
 
 </body>
 </html>
+
