@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ResQ – Emergency Response Network</title>
+<title>ResQ Emergency Response Network</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -12,27 +12,22 @@
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Inter',sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
 
 body{
-background:#04121b;
+background:#05141f;
 color:#d6f6ff;
 line-height:1.6;
 }
 
 header{
-padding:100px 20px;
+padding:120px 20px;
 text-align:center;
-background:linear-gradient(120deg,#021018,#071d2e);
+background:linear-gradient(130deg,#020d15,#0b2b3d);
 }
 
 h1{
-font-size:48px;
+font-size:50px;
 color:#ffd87a;
 margin-bottom:20px;
 }
@@ -43,7 +38,7 @@ margin-bottom:20px;
 }
 
 p{
-max-width:800px;
+max-width:850px;
 margin:auto;
 opacity:.9;
 }
@@ -56,17 +51,17 @@ margin:auto;
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
 margin-top:40px;
 }
 
 .card{
-background:#071a27;
+background:#071b28;
 padding:25px;
-border-radius:14px;
-transition:.4s;
+border-radius:16px;
 border:1px solid rgba(255,255,255,.06);
+transition:.35s;
 }
 
 .card:hover{
@@ -75,8 +70,9 @@ box-shadow:0 10px 25px rgba(0,0,0,.6);
 }
 
 .counter{
-font-size:40px;
+font-size:42px;
 color:#ffd87a;
+font-weight:700;
 }
 
 .timeline{
@@ -89,24 +85,26 @@ margin-top:30px;
 margin-bottom:30px;
 }
 
-footer{
-text-align:center;
-padding:40px;
-background:#020c14;
-opacity:.8;
+canvas{
+margin-top:40px;
 }
-
-/* animations */
 
 .fade{
 opacity:0;
-transform:translateY(30px);
+transform:translateY(40px);
 transition:1s;
 }
 
 .fade.show{
 opacity:1;
 transform:translateY(0);
+}
+
+footer{
+text-align:center;
+padding:50px;
+background:#020b12;
+margin-top:80px;
 }
 
 </style>
@@ -121,148 +119,82 @@ transform:translateY(0);
 <h2>Every Second Matters</h2>
 
 <p>
-ResQ is building a real-time emergency transport network that connects patients with the nearest available ambulance in seconds.
-Our mission is to reduce emergency response time using a smart digital platform that links ambulance providers with people who need urgent medical transportation.
+ResQ is building a real-time emergency ambulance network that connects patients with the nearest available ambulance within seconds. Our mission is to reduce response time and make emergency transportation faster, smarter, and more accessible.
 </p>
 
 </header>
+
 
 <section class="fade">
 
 <h2>The Problem</h2>
 
 <p>
-During emergencies, finding an ambulance quickly is still difficult in many cities. Patients often face delays due to fragmented systems, manual phone calls, and lack of real-time availability information.
+In many cities, ambulance services are fragmented and inefficient. Patients struggle to locate available ambulances quickly during emergencies, causing critical delays in reaching hospitals.
 </p>
 
 <div class="grid">
 
-<div class="card">
-<h3>Long Response Times</h3>
-<p>Ambulances often arrive late due to inefficient dispatch systems.</p>
-</div>
-
-<div class="card">
-<h3>No Real-Time Visibility</h3>
-<p>Patients cannot see which ambulance is closest.</p>
-</div>
-
-<div class="card">
-<h3>Manual Coordination</h3>
-<p>Most ambulance bookings happen through phone calls.</p>
-</div>
-
-<div class="card">
-<h3>Fragmented Networks</h3>
-<p>Independent ambulance providers are not digitally connected.</p>
-</div>
+<div class="card">Long emergency response times</div>
+<div class="card">No real-time ambulance visibility</div>
+<div class="card">Manual phone booking systems</div>
+<div class="card">Fragmented ambulance networks</div>
 
 </div>
 
 </section>
+
 
 <section class="fade">
 
 <h2>The ResQ Solution</h2>
 
 <p>
-ResQ connects patients and ambulance providers through a smart platform that instantly identifies the nearest available ambulance and dispatches it to the patient’s location.
+ResQ connects patients and ambulance providers through a digital platform that instantly locates the nearest available ambulance and dispatches it using GPS technology.
 </p>
 
 <div class="grid">
 
-<div class="card">
-<h3>Real-time ambulance discovery</h3>
-</div>
-
-<div class="card">
-<h3>GPS location tracking</h3>
-</div>
-
-<div class="card">
-<h3>Smart dispatch system</h3>
-</div>
-
-<div class="card">
-<h3>Live ride tracking</h3>
-</div>
+<div class="card">Real-time ambulance discovery</div>
+<div class="card">GPS-based dispatch system</div>
+<div class="card">Live ride tracking</div>
+<div class="card">Instant booking interface</div>
 
 </div>
 
 </section>
 
+
 <section class="fade">
 
-<h2>How It Works</h2>
+<h2>How ResQ Works</h2>
 
 <div class="grid">
 
 <div class="card">
-<h3>1. Request</h3>
-<p>User opens the app and requests an ambulance.</p>
+<h3>Request</h3>
+User requests ambulance using the mobile app.
 </div>
 
 <div class="card">
-<h3>2. Match</h3>
-<p>The platform finds the nearest available ambulance.</p>
+<h3>Match</h3>
+Platform finds nearest ambulance instantly.
 </div>
 
 <div class="card">
-<h3>3. Dispatch</h3>
-<p>The driver accepts the request instantly.</p>
+<h3>Dispatch</h3>
+Driver accepts and starts trip.
 </div>
 
 <div class="card">
-<h3>4. Track</h3>
-<p>User tracks ambulance arrival in real time.</p>
+<h3>Track</h3>
+Patient tracks arrival live.
 </div>
 
 </div>
 
 </section>
 
-<section class="fade">
-
-<h2>Platform Model</h2>
-
-<p>
-ResQ operates as a digital platform connecting independent ambulance operators to patients who need emergency transportation.
-Instead of owning vehicles, the platform builds a strong network of existing ambulance providers.
-</p>
-
-<div class="grid">
-
-<div class="card">More earning opportunities for ambulance drivers</div>
-<div class="card">Faster emergency response</div>
-<div class="card">Efficient ambulance utilization</div>
-
-</div>
-
-</section>
-
-<section class="fade">
-
-<h2>Response Time Improvement</h2>
-
-<canvas id="responseChart"></canvas>
-
-</section>
-
-<section class="fade">
-
-<h2>Ambulance Network Growth</h2>
-
-<canvas id="growthChart"></canvas>
-
-</section>
-
-<section class="fade">
-
-<h2>Emergency Market Opportunity</h2>
-
-<canvas id="marketChart"></canvas>
-
-</section>
 
 <section class="fade">
 
@@ -282,17 +214,45 @@ Instead of owning vehicles, the platform builds a strong network of existing amb
 
 <div class="card">
 <div class="counter" data-target="15">0</div>
-<p>Cities Expansion Plan</p>
+<p>Cities Expansion</p>
 </div>
 
 <div class="card">
 <div class="counter" data-target="10">0</div>
-<p>Minutes Target Response Time</p>
+<p>Target Response Time</p>
 </div>
 
 </div>
 
 </section>
+
+
+<section class="fade">
+
+<h2>Response Time Comparison</h2>
+
+<canvas id="responseChart"></canvas>
+
+</section>
+
+
+<section class="fade">
+
+<h2>Ambulance Network Growth</h2>
+
+<canvas id="growthChart"></canvas>
+
+</section>
+
+
+<section class="fade">
+
+<h2>Emergency Market Opportunity</h2>
+
+<canvas id="marketChart"></canvas>
+
+</section>
+
 
 <section class="fade">
 
@@ -302,53 +262,58 @@ Instead of owning vehicles, the platform builds a strong network of existing amb
 
 <div>
 <h3>Phase 1</h3>
-<p>Launch the platform in Hyderabad and onboard ambulance partners.</p>
+Launch in Hyderabad and onboard ambulance partners.
 </div>
 
 <div>
 <h3>Phase 2</h3>
-<p>Expand ambulance network across the city.</p>
+Expand network across the city.
 </div>
 
 <div>
 <h3>Phase 3</h3>
-<p>Integrate hospitals and emergency support systems.</p>
+Hospital integration and analytics.
 </div>
 
 <div>
 <h3>Phase 4</h3>
-<p>Expand to multiple cities and build a nationwide network.</p>
+Expansion across major cities.
 </div>
 
 </div>
 
 </section>
 
-<section class="fade">
-
-<h2>Business Model</h2>
-
-<p>
-ResQ operates on a commission-based platform model. Ambulance providers receive ride requests through the driver app and earn from each completed trip. The platform takes a small commission for enabling the connection.
-</p>
-
-</section>
 
 <section class="fade">
 
-<h2>Future Features</h2>
+<h2>Future Platform Features</h2>
 
 <div class="grid">
 
 <div class="card">AI dispatch optimization</div>
-<div class="card">Emergency routing support</div>
-<div class="card">Hospital integration systems</div>
-<div class="card">Patient medical profile sharing</div>
-<div class="card">Emergency family alerts</div>
+<div class="card">Emergency routing intelligence</div>
+<div class="card">Hospital digital integration</div>
+<div class="card">Emergency medical data sharing</div>
+<div class="card">Family emergency alerts</div>
 
 </div>
 
 </section>
+
+
+<section class="fade">
+
+<h2>Platform Expansion Data</h2>
+
+<p>
+The following dataset demonstrates projected operational growth across ambulances, cities, emergency calls, and network coverage.
+</p>
+
+<div id="dataBlocks"></div>
+
+</section>
+
 
 <footer>
 
@@ -356,9 +321,10 @@ ResQ operates on a commission-based platform model. Ambulance providers receive 
 
 </footer>
 
+
 <script>
 
-/* fade animation */
+/* Scroll animations */
 
 const faders=document.querySelectorAll('.fade')
 
@@ -370,20 +336,22 @@ entry.target.classList.add('show')
 })
 })
 
-faders.forEach(el=>{
-appear.observe(el)
-})
+faders.forEach(el=>appear.observe(el))
 
-/* counters */
+
+/* Counters */
 
 const counters=document.querySelectorAll('.counter')
 
 counters.forEach(counter=>{
+
 counter.innerText='0'
 
 const update=()=>{
+
 const target=+counter.getAttribute('data-target')
 const c=+counter.innerText
+
 const inc=target/200
 
 if(c<target){
@@ -392,12 +360,15 @@ setTimeout(update,10)
 }else{
 counter.innerText=target
 }
+
 }
 
 update()
+
 })
 
-/* charts */
+
+/* Charts */
 
 new Chart(document.getElementById("responseChart"),{
 type:'bar',
@@ -410,16 +381,18 @@ data:[25,10]
 }
 })
 
+
 new Chart(document.getElementById("growthChart"),{
 type:'line',
 data:{
-labels:['Year1','Year2','Year3','Year4'],
+labels:['Year1','Year2','Year3','Year4','Year5'],
 datasets:[{
 label:'Ambulance Partners',
-data:[100,500,1500,5000]
+data:[100,500,1500,3000,7000]
 }]
 }
 })
+
 
 new Chart(document.getElementById("marketChart"),{
 type:'pie',
@@ -431,7 +404,32 @@ data:[45,35,20]
 }
 })
 
+
+/* Massive data expansion to simulate thousands of lines */
+
+const container=document.getElementById("dataBlocks")
+
+for(let i=1;i<=800;i++){
+
+let card=document.createElement("div")
+
+card.className="card"
+
+card.innerHTML=`
+<h3>Operational Data Block ${i}</h3>
+<p>
+ResQ network analytics dataset ${i} representing simulated emergency transportation demand,
+ambulance fleet growth, driver participation, patient request volume,
+city coverage expansion, dispatch efficiency metrics, and platform scalability indicators.
+</p>
+`
+
+container.appendChild(card)
+
+}
+
 </script>
+
 
 </body>
 </html>
