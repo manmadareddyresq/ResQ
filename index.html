@@ -1,247 +1,112 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ResQ | Emergency Response Platform</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
-                    colors: {
-                        brand: {
-                            red: '#FF3B30',
-                            dark: '#050505',
-                            card: '#111111',
-                            accent: '#007AFF'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        body { background-color: #050505; color: #ffffff; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .hero-gradient { background: radial-gradient(circle at 50% 50%, rgba(255, 59, 48, 0.15) 0%, transparent 50%); }
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        
-        /* Custom Loading Spinner */
-        .loader {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #FF3B30;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 8px;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ResQ – Emergency Response Platform</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body {scroll-behavior:smooth;}
+.glow {box-shadow:0 0 40px rgba(255,0,0,0.4);}
+.fade {opacity:0; transform:translateY(30px); transition:all 1s;}
+.fade.show {opacity:1; transform:translateY(0);}
+</style>
 </head>
-<body class="antialiased">
 
-    <nav class="fixed w-full z-50 glass border-b border-white/10 py-4 px-6">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <div class="w-10 h-10 bg-brand-red rounded-xl flex items-center justify-center font-bold text-white shadow-lg shadow-brand-red/20">R</div>
-                <span class="text-2xl font-extrabold tracking-tighter">Res<span class="text-brand-red">Q</span></span>
-            </div>
-            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
-                <a href="#vision" class="hover:text-white transition">Vision</a>
-                <a href="#solution" class="hover:text-white transition">Solution</a>
-                <a href="#contact" class="hover:text-white transition">Contact</a>
-            </div>
-            <div class="flex gap-4">
-                <a href="tel:8978257449" class="p-2 bg-white/5 hover:bg-white/10 rounded-full transition">
-                    <i class="fa-solid fa-phone text-brand-red"></i>
-                </a>
-            </div>
-        </div>
-    </nav>
+<body class="bg-black text-white font-sans">
 
-    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden hero-gradient">
-        <div class="max-w-5xl mx-auto px-6 text-center z-10">
-            <div class="inline-block px-4 py-1.5 mb-6 glass rounded-full text-xs font-bold tracking-widest uppercase text-brand-red animate-pulse">
-                Zero-Stage Opportunity
-            </div>
-            <h1 class="text-5xl md:text-8xl font-extrabold mb-8 tracking-tighter">
-                Emergency Response, <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">Reimagined.</span>
-            </h1>
-            <p class="text-lg md:text-2xl text-gray-400 max-w-2xl mx-auto mb-12">
-                When every second matters, access to the right ambulance should be instant. We are building the city's fastest emergency coordination network.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#contact" class="bg-brand-red hover:bg-red-600 text-white px-10 py-4 rounded-2xl font-bold text-lg transition shadow-xl shadow-brand-red/20">
-                    Connect with Founder
-                </a>
-                <a href="https://wa.me/918978257449" target="_blank" class="glass hover:bg-white/10 text-white px-10 py-4 rounded-2xl font-bold text-lg transition flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-whatsapp text-green-500"></i> WhatsApp
-                </a>
-            </div>
-        </div>
-    </section>
+<!-- HERO -->
+<section class="min-h-screen flex flex-col justify-center items-center text-center px-6 bg-gradient-to-br from-black via-gray-900 to-red-900">
+<h1 class="text-4xl md:text-6xl font-bold mb-4 animate-pulse">ResQ – Emergency Response, Reimagined</h1>
+<p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl">When every second matters, access to the right ambulance should be instant.</p>
+<a href="#contact" class="px-6 py-3 bg-red-600 rounded-full hover:scale-105 transition glow">Connect with Founder</a>
+</section>
 
-    <section id="solution" class="py-24 px-6 bg-[#080808]">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
-            <div class="reveal glass p-10 rounded-[2.5rem]">
-                <h3 class="text-brand-red font-bold uppercase tracking-widest text-sm mb-4">The Challenge</h3>
-                <h2 class="text-3xl font-bold mb-6 italic text-gray-300">"Finding an ambulance today is slow, fragmented, and stressful."</h2>
-                <ul class="space-y-4 text-gray-400">
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-xmark text-brand-red mt-1"></i> No real-time visibility of ambulance status.</li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-xmark text-brand-red mt-1"></i> Manual phone calls cause critical delays.</li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-xmark text-brand-red mt-1"></i> High friction in coordination between patients and hospitals.</li>
-                </ul>
-            </div>
-            <div class="reveal glass p-10 rounded-[2.5rem]" style="transition-delay: 200ms;">
-                <h3 class="text-brand-accent font-bold uppercase tracking-widest text-sm mb-4">The ResQ Solution</h3>
-                <h2 class="text-3xl font-bold mb-6">A centralized, high-speed emergency network.</h2>
-                <ul class="space-y-4 text-gray-400">
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check text-brand-accent mt-1"></i> Instant discovery of nearest ambulances.</li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check text-brand-accent mt-1"></i> Real-time GPS-based coordination.</li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check text-brand-accent mt-1"></i> Operational efficiency for hospitals.</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+<!-- PROBLEM -->
+<section class="fade p-8 md:p-16 text-center">
+<h2 class="text-3xl font-bold mb-6">The Problem</h2>
+<p class="text-gray-300 max-w-2xl mx-auto">
+Finding an ambulance in emergencies is slow, confusing, and stressful. There is no visibility into availability, and critical delays often cost lives.
+</p>
+</section>
 
-    <section id="contact" class="py-24 px-6 relative">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid lg:grid-cols-5 gap-16">
-                
-                <div class="lg:col-span-2 reveal">
-                    <h2 class="text-4xl md:text-5xl font-extrabold mb-8">Let's build the <span class="text-brand-red">future</span> of MedTech.</h2>
-                    <p class="text-gray-400 mb-10 text-lg">ResQ is at the ideation stage. I am looking for visionary investors and partners who believe in fixing healthcare logistics through execution.</p>
-                    
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-6">
-                            <div class="w-12 h-12 glass rounded-2xl flex items-center justify-center text-brand-red"><i class="fa-solid fa-user"></i></div>
-                            <div><p class="text-xs text-gray-500 uppercase font-bold">Founder</p><p class="font-bold">Manmada Reddy</p></div>
-                        </div>
-                        <div class="flex items-center gap-6">
-                            <div class="w-12 h-12 glass rounded-2xl flex items-center justify-center text-brand-red"><i class="fa-solid fa-envelope"></i></div>
-                            <div><p class="text-xs text-gray-500 uppercase font-bold">Email</p><p class="font-bold">manmadareddy61@gmail.com</p></div>
-                        </div>
-                        <div class="flex items-center gap-6">
-                            <div class="w-12 h-12 glass rounded-2xl flex items-center justify-center text-brand-red"><i class="fa-solid fa-location-dot"></i></div>
-                            <div><p class="text-xs text-gray-500 uppercase font-bold">Location</p><p class="font-bold">Hyderabad, India</p></div>
-                        </div>
-                    </div>
+<!-- SOLUTION -->
+<section class="fade p-8 md:p-16 bg-gray-900 text-center">
+<h2 class="text-3xl font-bold mb-6">The Solution</h2>
+<p class="text-gray-300 max-w-2xl mx-auto">
+ResQ connects people instantly with nearby hospitals and available ambulances, enabling faster decisions and quicker emergency response.
+</p>
+</section>
 
-                    <div class="mt-12 flex gap-4">
-                        <a href="tel:8978257449" class="bg-white text-black px-6 py-3 rounded-xl font-bold hover:bg-brand-red hover:text-white transition">Call Now</a>
-                        <a href="https://wa.me/918978257449" target="_blank" class="glass px-6 py-3 rounded-xl font-bold hover:bg-green-600 transition">WhatsApp</a>
-                    </div>
-                </div>
+<!-- HOW IT WORKS -->
+<section class="fade p-8 md:p-16 text-center">
+<h2 class="text-3xl font-bold mb-8">How It Works</h2>
+<div class="grid md:grid-cols-4 gap-6">
+<div class="bg-gray-800 p-6 rounded-xl hover:scale-105 transition">Request Ambulance</div>
+<div class="bg-gray-800 p-6 rounded-xl hover:scale-105 transition">Hospitals Respond</div>
+<div class="bg-gray-800 p-6 rounded-xl hover:scale-105 transition">Best Option Selected</div>
+<div class="bg-gray-800 p-6 rounded-xl hover:scale-105 transition">Ambulance Arrives</div>
+</div>
+</section>
 
-                <div class="lg:col-span-3 reveal" style="transition-delay: 200ms;">
-                    <div class="glass p-8 md:p-12 rounded-[3rem]">
-                        <form id="resq-contact-form" class="space-y-6">
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-400 mb-2">Name</label>
-                                    <input type="text" name="user_name" id="name" required class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-brand-red transition-all" placeholder="Your Name">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-400 mb-2">Email</label>
-                                    <input type="email" name="user_email" id="email" required class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-brand-red transition-all" placeholder="your@email.com">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-bold text-gray-400 mb-2">Message</label>
-                                <textarea name="message" id="message" required rows="5" class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-brand-red transition-all" placeholder="How can we collaborate?"></textarea>
-                            </div>
-                            
-                            <button type="submit" id="submit-btn" class="w-full bg-brand-red hover:bg-red-600 text-white font-bold py-5 rounded-2xl transition-all flex items-center justify-center">
-                                Send Message
-                            </button>
+<!-- VISION -->
+<section class="fade p-8 md:p-16 bg-gray-900 text-center">
+<h2 class="text-3xl font-bold mb-6">Vision</h2>
+<p class="text-gray-300 max-w-2xl mx-auto">
+To build a connected emergency response network across cities, improving response systems step-by-step and making critical care more accessible.
+</p>
+</section>
 
-                            <div id="status-msg" class="hidden text-center font-bold p-4 rounded-2xl"></div>
-                        </form>
-                    </div>
-                </div>
+<!-- FOUNDER -->
+<section class="fade p-8 md:p-16 text-center">
+<h2 class="text-3xl font-bold mb-6">Founder</h2>
+<p class="text-xl">Manmada Reddy</p>
+<p class="text-gray-400">Focused on solving real-world emergency challenges with practical solutions.</p>
+</section>
 
-            </div>
-        </div>
-    </section>
+<!-- CONTACT -->
+<section id="contact" class="fade p-8 md:p-16 bg-gray-900 text-center">
+<h2 class="text-3xl font-bold mb-6">Contact</h2>
 
-    <footer class="py-12 border-t border-white/5 text-center text-gray-500 text-sm">
-        <p>&copy; 2024 ResQ Technologies. Built for speed, designed for life.</p>
-    </footer>
+<div class="flex flex-col md:flex-row justify-center gap-4 mb-6">
+<a href="tel:8978257449" class="bg-green-600 px-5 py-3 rounded-lg hover:scale-105 transition">Call Now</a>
+<a href="https://wa.me/918978257449" class="bg-green-500 px-5 py-3 rounded-lg hover:scale-105 transition">WhatsApp</a>
+<a href="mailto:manmadareddy61@gmail.com" class="bg-blue-600 px-5 py-3 rounded-lg hover:scale-105 transition">Send Email</a>
+</div>
 
-    <script type="text/javascript">
-        // 1. INITIALIZE EMAILJS
-        // Replace "YOUR_PUBLIC_KEY" with your actual EmailJS Public Key
-        (function() {
-            emailjs.init("YOUR_PUBLIC_KEY");
-        })();
+<!-- FORM -->
+<form onsubmit="sendMail(event)" class="max-w-xl mx-auto space-y-4">
+<input id="name" type="text" placeholder="Name" required class="w-full p-3 rounded bg-gray-800">
+<input id="email" type="email" placeholder="Email" required class="w-full p-3 rounded bg-gray-800">
+<textarea id="message" placeholder="Message" required class="w-full p-3 rounded bg-gray-800"></textarea>
+<button class="w-full bg-red-600 py-3 rounded-lg hover:scale-105 transition">Send Message</button>
+</form>
 
-        // 2. FORM SUBMISSION LOGIC
-        const contactForm = document.getElementById('resq-contact-form');
-        const submitBtn = document.getElementById('submit-btn');
-        const statusMsg = document.getElementById('status-msg');
+</section>
 
-        contactForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            // UI States
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="loader"></span> Sending...';
-            statusMsg.classList.add('hidden');
+<script>
+// animation on scroll
+const faders = document.querySelectorAll('.fade');
+window.addEventListener('scroll', () => {
+  faders.forEach(el => {
+    const top = el.getBoundingClientRect().top;
+    if(top < window.innerHeight - 50){
+      el.classList.add('show');
+    }
+  });
+});
 
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
+// mailto form
+function sendMail(e){
+  e.preventDefault();
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const message = document.getElementById("message").value;
 
-            // 3. SEND EMAIL DATA
-            // Replace "YOUR_SERVICE_ID" and "YOUR_TEMPLATE_ID" with yours
-            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-                from_name: name,
-                from_email: email,
-                message: message,
-                to_email: 'manmadareddy61@gmail.com'
-            })
-            .then(function() {
-                // Success
-                statusMsg.textContent = "Message sent successfully";
-                statusMsg.className = "block text-center font-bold p-4 rounded-2xl text-green-500 bg-green-500/10";
-                contactForm.reset();
-            }, function(error) {
-                // Error
-                console.log("FAILED...", error);
-                statusMsg.textContent = "Error sending message. Please try again.";
-                statusMsg.className = "block text-center font-bold p-4 rounded-2xl text-red-500 bg-red-500/10";
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Send Message';
-            });
-        });
-
-        // 4. SCROLL REVEAL ANIMATION
-        function reveal() {
-            const reveals = document.querySelectorAll(".reveal");
-            reveals.forEach(el => {
-                const windowHeight = window.innerHeight;
-                const elementTop = el.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 100) {
-                    el.classList.add("active");
-                }
-            });
-        }
-        window.addEventListener("scroll", reveal);
-        reveal();
-    </script>
+  const mail = `mailto:manmadareddy61@gmail.com?subject=New Inquiry from ${name}&body=Name: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
+  window.location.href = mail;
+}
+</script>
 
 </body>
 </html>
